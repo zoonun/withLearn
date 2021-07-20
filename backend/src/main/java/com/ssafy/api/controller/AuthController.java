@@ -38,8 +38,8 @@ public class AuthController {
    @Autowired
    PasswordEncoder passwordEncoder;
 
-   @PostMapping("/login")
-   @ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
+    @PostMapping("/login")
+    @ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
         @ApiResponse(code = 401, message = "잘못된 비밀번호입니다.", response = BaseResponseBody.class),
