@@ -25,10 +25,9 @@
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
-  @import './main.css';
-  @import '../../common/css/common.css';
-  @import '../../common/css/element-plus.css';
-
+  @import '../../assets/css/main.css';
+  @import '../../assets/css/common.css';
+  @import '../../assets/css/element-plus.css';
 </style>
 <script>
 import LoginDialog from './components/login-dialog'
