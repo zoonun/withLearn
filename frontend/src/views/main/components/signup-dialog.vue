@@ -144,7 +144,7 @@ export default {
         if (valid) {
           store.commit('root/startSpinner')
           store.dispatch('root/requestSignup', { id: state.form.id, password: state.form.password, name: state.form.name, department: state.form.department, position: state.form.position })
-          .then(function (result) {
+          .then(function () {
             alert('회원가입 되었습니다.')
             emit('closeSignupDialog')
             document.location.reload()
@@ -161,7 +161,7 @@ export default {
 
     const checkDuplicate = function () {
       store.dispatch('root/checkDuplicate', state.form.id)
-      .then(function (res) {
+      .then(function () {
         if (state.isAvailableId) {
           alert('사용가능한 아이디입니다.')
         }

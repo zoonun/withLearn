@@ -17,7 +17,10 @@ export function requestSignup ({ state }, payload) {
 
 export function requestLogout ({ commit }) {
   console.log('requestLogout')
-  commit('setLogout')
+  localStorage.removeItem('user')
+  alert('로그아웃 되었습니다.')
+  document.location.reload()
+  return commit('setLogout')
 }
 
 export function saveJWT({ state }, user) {
@@ -26,12 +29,12 @@ export function saveJWT({ state }, user) {
 }
 
 export function checkDuplicate({ commit }, id) {
-  const url = `/users/${id}/duplication`
+  const url = `/users/${id}`
   return $axios.get(url)
-  .then((res) => {
+  .then(() => {
     commit('availableId')
   })
-  .catch((err) => {
+  .catch(() => {
     commit('unAvailableId')
   })
 }

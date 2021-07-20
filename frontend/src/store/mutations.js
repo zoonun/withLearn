@@ -15,9 +15,6 @@ export function setMenuActiveMenuName (state, menuName) {
 // User management Mutations
 export function setLogout (state) {
   state.isLoggedIn = false
-  localStorage.removeItem('user')
-  alert('로그아웃 되었습니다.')
-  document.location.reload()
 }
 
 // Spinner Mutations
