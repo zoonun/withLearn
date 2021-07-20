@@ -2,18 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
-// import { useStore } from 'vuex'
-import store from './store'
+import store from '@/store'
+import fullMenu from '@/views/main/menu.json'
 
-const fullMenu = require('@/views/main/menu.json')
+// const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
   let routes = Object.keys(fullMenu).map((key) => {
     if (key === 'home') {
       return { path: fullMenu[key].path, name: key, component: Home  }
     } else if (key === 'history') {
       return { path: fullMenu[key].path, name: key, component: History }
-    } else { // menu.json 에 들어있는 로그아웃 메뉴
-      // 로그아웃 할 경우 Home으로 이동
+    } else if (key === 'logout'){
       return { path: fullMenu[key].path, name: key, component: Home }
     }
   })
@@ -52,12 +51,12 @@ router.beforeEach((to, from, next) => {
     store.commit('root/startSpinner')
     setTimeout(() => {
       next()
-    }, 1000)
-    console.log("routing success : '" + to.path + "'")
+    }, 100)
+    console.log('routing success : \'' + to.path + '\'')
   }
 })
 
-router.afterEach( async(to, from) => {
+router.afterEach(() => {
   store.commit('root/endSpinner')
 })
 
