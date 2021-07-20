@@ -1,12 +1,11 @@
 import { createApp, h } from 'vue'
-import store from './common/lib/store'
-import ElementPlus from './common/lib/element-plus'
 import App from './App.vue'
-import VueAxios from './common/lib/axios'
-import axios from './common/lib/axios'
-import i18n from './common/lib/i18n'
-import router from './common/lib/vue-router'
-
+import ElementPlus from './api/element-plus'
+import store from './api/store'
+import axios from './api/axios'
+import VueAxios from './api/axios'
+import i18n from './api/i18n'
+import router from './router/vue-router'
 import 'element-plus/packages/theme-chalk/src/base.scss'
 
 // Element UI Components [시작]
