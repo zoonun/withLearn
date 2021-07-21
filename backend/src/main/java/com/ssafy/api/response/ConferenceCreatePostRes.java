@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("ConferenceCreatePostRes")
 public class ConferenceCreatePostRes extends BaseResponseBody{
-	@ApiModelProperty(name="JWT 인증 토큰", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN...")
+	@ApiModelProperty(name="방 생성")
 	long conferenceId;
 	
 	public static ConferenceCreatePostRes of(Integer statusCode, String message, Conference conference) {

@@ -1,26 +1,28 @@
 package com.ssafy.db.repository;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.db.entity.QUser;
-import com.ssafy.db.entity.Conference;
+import com.ssafy.db.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
- * 유저 모델 관련 디비 쿼리 생성을 위한 구현 정의.
+ * 방 모델 관련 디비 쿼리 생성을 위한 구현 정의.
  */
 @Repository
 public class ConferenceRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
-    QUser qUser = QUser.user;
+    QConference qConference = QConference.conference;
+    QConferenceCategory qConferenceCategory = QConferenceCategory.conferenceCategory;
 
-//    public Optional<Conference> findUserByUserId(String userId) {
-//        Conference user = jpaQueryFactory.select(qUser).from(qUser)
-//                .where(qUser.userId.eq(userId)).fetchOne();
-//        if(user == null) return Optional.empty();
-//        return Optional.ofNullable(user);
-//    }
+    public Optional<QueryResults<ConferenceCategory>> findCategories() {
+        QueryResults<ConferenceCategory> categoryList = jpaQueryFactory.select(qConferenceCategory).from(qConferenceCategory).fetchResults();
+        System.out.println(categoryList);
+        if(categoryList == null) return Optional.empty();
+        return Optional.ofNullable(categoryList);
+    }
 }

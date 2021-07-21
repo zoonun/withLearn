@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.querydsl.core.QueryResults;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.Conference;
@@ -38,5 +39,11 @@ public class ConferenceServiceImpl implements ConferenceService {
 		conferenceCategory.setId(conferenceCreaterInfo.getConferenceCategoryId());
 		conference.setConferenceCategory(conferenceCategory);
 		return conferenceRepository.save(conference);
+	}
+
+	@Override
+	public Optional<QueryResults<ConferenceCategory>> getCategories() {
+		Optional<QueryResults<ConferenceCategory>> categories = conferenceRepositorySupport.findCategories();
+		return categories;
 	}
 }
