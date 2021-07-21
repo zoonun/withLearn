@@ -32,6 +32,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 
 	@Override
 	public Conference createConference(ConferenceCreaterPostReq conferenceCreaterInfo) {
+		conference.setIs_active(true);
 		conference.setDescription(conferenceCreaterInfo.getDescription());
 		conference.setTitle(conferenceCreaterInfo.getTitle());
 		conferenceCategory.setId(conferenceCreaterInfo.getConferenceCategoryId());

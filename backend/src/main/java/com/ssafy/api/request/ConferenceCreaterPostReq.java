@@ -18,6 +18,4 @@ public class ConferenceCreaterPostReq {
 	String title;
 	@ApiModelProperty(name="description", example="방 설명")
 	String description;
-//	@ApiModelProperty(name="conferenceCategoryName", example="방 카테고리")
-//	String conferenceCategoryName;
 }
