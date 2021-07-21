@@ -13,4 +13,5 @@ import java.util.Optional;
 @Repository
 public interface ConferenceRepository extends JpaRepository<Conference, Long> {
     Optional<Conference> findByUserId(String userId);
+
 }

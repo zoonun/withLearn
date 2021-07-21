@@ -11,6 +11,7 @@ import com.ssafy.db.repository.ConferenceRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,8 +43,8 @@ public class ConferenceServiceImpl implements ConferenceService {
 	}
 
 	@Override
-	public Optional<QueryResults<ConferenceCategory>> getCategories() {
-		Optional<QueryResults<ConferenceCategory>> categories = conferenceRepositorySupport.findCategories();
+	public Optional<List<ConferenceCategory>> getCategories() {
+		Optional<List<ConferenceCategory>> categories = conferenceRepositorySupport.findCategories();
 		return categories;
 	}
 }

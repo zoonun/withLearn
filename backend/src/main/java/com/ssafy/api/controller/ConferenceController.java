@@ -49,10 +49,9 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
-    public ResponseEntity<ConferenceCategoryRes> getCategories( ConferenceCreaterPostReq createrInfo) {
-        Optional<QueryResults<ConferenceCategory>> categories= conferenceService.getCategories();
-//        List<ConferenceCategory> categories= conferenceService.fi
-
+    public ResponseEntity<ConferenceCategoryRes> getCategories() {
+        Optional<List<ConferenceCategory>> categories= conferenceService.getCategories();
+//        Optional<QueryResults<ConferenceCategory>> categories= conferenceService.getCategories();
         return ResponseEntity.status(201).body(ConferenceCategoryRes.of(categories));
     }
 }

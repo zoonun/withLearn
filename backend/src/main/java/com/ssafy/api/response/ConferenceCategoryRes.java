@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,9 +19,9 @@ import java.util.Optional;
 @ApiModel("ConferenceCategoryRes")
 public class ConferenceCategoryRes {
 	@ApiModelProperty(name="User ID")
-	Optional<QueryResults<ConferenceCategory>> categoryList;
+	Optional<List<ConferenceCategory>> categoryList;
 	
-	public static ConferenceCategoryRes of(Optional<QueryResults<ConferenceCategory>> categories) {
+	public static ConferenceCategoryRes of(Optional<List<ConferenceCategory>> categories) {
 		ConferenceCategoryRes res = new ConferenceCategoryRes();
 		res.setCategoryList(categories);
 		return res;

@@ -19,10 +19,8 @@ public class ConferenceRepositorySupport {
     QConference qConference = QConference.conference;
     QConferenceCategory qConferenceCategory = QConferenceCategory.conferenceCategory;
 
-    public Optional<QueryResults<ConferenceCategory>> findCategories() {
-        QueryResults<ConferenceCategory> categoryList = jpaQueryFactory.select(qConferenceCategory).from(qConferenceCategory).fetchResults();
-        System.out.println(categoryList);
-        if(categoryList == null) return Optional.empty();
+    public Optional<List<ConferenceCategory>> findCategories() {
+        List<ConferenceCategory> categoryList = jpaQueryFactory.select(qConferenceCategory).from(qConferenceCategory).fetchResults().getResults();
         return Optional.ofNullable(categoryList);
     }
 }
