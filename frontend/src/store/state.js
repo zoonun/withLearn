@@ -48,5 +48,6 @@ export default {
   menus: menuData,
   isLoggedIn: IsLoggedIn,
   loadingStatus: false,
-  isAvailable: false
+  isAvailable: false,
+  profile: null,
 }

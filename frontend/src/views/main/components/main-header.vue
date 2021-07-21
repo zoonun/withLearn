@@ -19,7 +19,7 @@
           <el-button type="primary" @click="clickLogin">로그인</el-button>
         </div>
         <div class="button-wrapper" v-else>
-          <el-button>
+          <el-button @click="clickProfile">
             <i :class="['ic', 'el-icon-user-solid']"/>
             <span>프로필</span>
           </el-button>
@@ -39,7 +39,7 @@
           </div>
           <div class="mobile-sidebar-tool-wrapper" v-else>
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button>
+            <el-button @click="clickProfile">
               <i :class="['ic', 'el-icon-user-solid']"/>
               <span>프로필</span>
             </el-button>
@@ -133,6 +133,7 @@ export default {
 
     const clickProfile = () => {
       emit('openProfileDialog')
+      store.dispatch('root/requestProfile')
     }
 
     const changeCollapse = () => {

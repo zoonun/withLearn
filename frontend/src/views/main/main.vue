@@ -3,7 +3,8 @@
     <main-header
       :height="`70px`"
       @openLoginDialog="onOpenLoginDialog()"
-      @openSignupDialog="onOpenSignupDialog()"/>
+      @openSignupDialog="onOpenSignupDialog()"
+      @openProfileDialog="onOpenProflieDialog()"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
@@ -22,6 +23,9 @@
   <signup-dialog
     :open="state.signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog()"/>
+  <profile-dialog
+    :open="state.profileDialogOpen"
+    @closeProfileDialog="onCloseProfileDialog()"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -38,6 +42,7 @@ import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import ProfileDialog from './components/profile-dialog'
 
 export default {
   name: 'Main',
@@ -47,7 +52,8 @@ export default {
     MainFooter,
     LoginDialog,
     SignupDialog,
-    Spinner
+    ProfileDialog,
+    Spinner,
   },
   setup() {
     const store = useStore()
@@ -55,6 +61,7 @@ export default {
     const state = reactive({
       loginDialogOpen: false,
       signupDialogOpen: false,
+      profileDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
@@ -70,8 +77,14 @@ export default {
     const onCloseSignupDialog = () => {
       state.signupDialogOpen = false
     }
+    const onOpenProflieDialog = () => {
+      state.profileDialogOpen = true
+    }
+    const onCloseProfileDialog = () => {
+      state.profileDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog}
   }
 }
 </script>

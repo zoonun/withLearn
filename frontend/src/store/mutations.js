@@ -37,3 +37,7 @@ export function availableId (state) {
 export function unAvailableId (state) {
   state.isAvailable = false
 }
+
+export function setProfile (state, profileItem) {
+  state.profile = profileItem
+}

@@ -26,7 +26,7 @@ export function saveJWT({ state }, user) {
 }
 
 export function checkDuplicate({ commit }, id) {
-  const url = `/users/${id}/duplication`
+  const url = `/users/${id}`
   return $axios.get(url)
   .then((res) => {
     commit('availableId')
@@ -34,4 +34,21 @@ export function checkDuplicate({ commit }, id) {
   .catch((err) => {
     commit('unAvailableId')
   })
+}
+
+export function requestProfile( { commit }) {
+  console.log('requestProfile')
+  const url = 'users/me'
+  return $axios.get(url)
+  .then((res) => {
+    console.log('requestProfile', res.data)
+    commit('setProfile', res.data)
+  })
+}
+
+export function reqeustUpdate({ state }, id, payload) {
+  console.log('requestUpdate', state)
+  const url = `/users/${id}`
+  let body = payload
+  return $axios.post(url, body)
 }
