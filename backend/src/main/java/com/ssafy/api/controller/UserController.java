@@ -88,45 +88,35 @@ public class UserController {
 	})
 	public ResponseEntity<BaseResponseBody> checkIdDuplicate(@PathVariable String userId){
 		boolean check = userService.getUserIdByUserId(userId);
-		if(check)
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
-		else
-			return ResponseEntity.status(409).body(BaseResponseBody.of(409,"이미 존재하는 아이디입니다."));
+		if(check) return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
+		else return ResponseEntity.status(409).body(BaseResponseBody.of(409,"이미 존재하는 아이디입니다."));
 	}
 
 	@PatchMapping(value = {"/{userId}"})
 	@ApiOperation(value = "회원 본인 정보 수정", notes = "회원 본인의 정보를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "수정 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
+//			@ApiResponse(code = 401, message = "수정 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> patchUser(
 			@RequestBody @ApiParam(value = "회원 수정 정보", required = true) UserRegisterPostReq registerInfo) {
 		String userId = registerInfo.getId();
-		try {
-			userService.patchUser(registerInfo, userId);
-			return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
-		}catch (Exception e){
-			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Fail"));
-		}
+		userService.patchUser(registerInfo, userId);
+		return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
 	}
 
 	@DeleteMapping(value = {"/{userId}"})
 	@ApiOperation(value = "회원 삭제", notes = "로그인한 회원 아이디를 삭제한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "삭제 성공"),
-			@ApiResponse(code = 401, message = "삭제 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
+//			@ApiResponse(code = 401, message = "삭제 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<BaseResponseBody> deleteUserInfo(@ApiIgnore Authentication authentication, @PathVariable String userId) {
-		try {
-			userService.deleteUserByUserId(userId);
-			return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
-		}catch (Exception e){
-			return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Fail"));
-		}
+		userService.deleteUserByUserId(userId);
+		return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
 	}
 }
