@@ -15,11 +15,21 @@
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
-          <el-button @click="clickSignup">회원가입</el-button>
-          <el-button type="primary" @click="clickLogin">로그인</el-button>
+          <el-button @click="clickSignup">
+            <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+            <span>회원 가입</span>
+          </el-button>
+          <el-button type="primary" @click="clickLogin">
+            <i :class="['ic', 'el-icon-key']"/>
+            <span>로그인</span>
+          </el-button>
         </div>
         <div class="button-wrapper" v-else>
           <el-button>내 정보</el-button>
+          <el-button type="primary" @click="clickConference">
+            <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+            <span>컨퍼런스 생성</span>
+          </el-button>
         </div>
       </div>
     </div>
@@ -29,10 +39,22 @@
       <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
+          <div class="logo-wrapper"><div class="ic ic-logo"/></div>
           <div class="mobile-sidebar-tool-wrapper" v-if="!state.isLogin">
-            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
-            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
+            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">
+              <i :class="['ic', 'el-icon-key']"/>
+              <span>로그인</span>
+            </el-button>
+            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">
+              <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+              <span>회원 가입</span>
+            </el-button>
+          </div>
+          <div class="mobile-sidebar-tool-wrapper" v-else>
+            <el-button type="primary" class="mobile-sidebar-btn" @click="clickConference">
+              <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+              <span>컨퍼런스 생성</span>
+          </el-button>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -121,11 +143,15 @@ export default {
       emit('openSignupDialog')
     }
 
+    const clickConference = () => {
+      emit('openConferenceDialog')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, clickConference, changeCollapse }
   }
 }
 </script>
