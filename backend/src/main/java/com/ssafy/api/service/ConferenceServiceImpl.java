@@ -47,4 +47,10 @@ public class ConferenceServiceImpl implements ConferenceService {
 		Optional<List<ConferenceCategory>> categories = conferenceRepositorySupport.findCategories();
 		return categories;
 	}
+
+	@Override
+	public Conference getConferenceByConferenceId(Long conferenceId) {
+		Conference conference = conferenceRepositorySupport.findConferenceByConferenceId(conferenceId).get();
+		return conference;
+	}
 }

@@ -23,4 +23,11 @@ public class ConferenceRepositorySupport {
         List<ConferenceCategory> categoryList = jpaQueryFactory.select(qConferenceCategory).from(qConferenceCategory).fetchResults().getResults();
         return Optional.ofNullable(categoryList);
     }
+
+    public Optional<Conference> findConferenceByConferenceId(Long conferenceId) {
+        Conference conference = jpaQueryFactory.select(qConference).from(qConference)
+                .where(qConference.id.eq(conferenceId)).fetchOne();
+        if(conference == null) return Optional.empty();
+        return Optional.ofNullable(conference);
+    }
 }

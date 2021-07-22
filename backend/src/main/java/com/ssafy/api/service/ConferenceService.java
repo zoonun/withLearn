@@ -1,6 +1,5 @@
 package com.ssafy.api.service;
 
-import com.querydsl.core.QueryResults;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
@@ -14,6 +13,7 @@ import java.util.Optional;
 public interface ConferenceService {
 	Conference createConference(ConferenceCreaterPostReq conferenceCreaterInfo);
 	Optional<List<ConferenceCategory>> getCategories();
+	Conference getConferenceByConferenceId(Long conferenceId);
 //	void deleteConferenceByUserId(String userId);
 //	void patchUser(UserRegisterPostReq registerInfo, String userId);
 //  Boolean getConferenceCategories(String userId);
