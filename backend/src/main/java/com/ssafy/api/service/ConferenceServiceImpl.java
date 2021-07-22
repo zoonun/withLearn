@@ -53,4 +53,14 @@ public class ConferenceServiceImpl implements ConferenceService {
 		Conference conference = conferenceRepositorySupport.findConferenceByConferenceId(conferenceId).get();
 		return conference;
 	}
+
+	@Override
+	public void patchConferenceInfo(ConferenceCreaterPostReq patcherInfo, Long conference_id) {
+		conference = getConferenceByConferenceId(conference_id);
+		conference.setTitle(patcherInfo.getTitle());
+		conference.setDescription(patcherInfo.getDescription());
+		conferenceCategory.setId(patcherInfo.getConferenceCategoryId());
+		conference.setConferenceCategory(conferenceCategory);
+		conferenceRepository.save(conference);
+	}
 }

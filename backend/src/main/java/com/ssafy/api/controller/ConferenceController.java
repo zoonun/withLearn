@@ -62,5 +62,14 @@ public class ConferenceController {
         return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference));
     }
 
-
+    @PatchMapping(value = "conferences/{conference_id}")
+    @ApiOperation(value = "방 정보 수정", notes = "방 ID를 가지고 정보를 수정한다")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(@PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq patcherInfo) {
+        Conference conference= conferenceService.getConferenceByConferenceId(conference_id);
+        conferenceService.patchConferenceInfo(patcherInfo, conference_id);
+        return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
+    }
 }

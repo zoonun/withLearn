@@ -14,6 +14,7 @@ public interface ConferenceService {
 	Conference createConference(ConferenceCreaterPostReq conferenceCreaterInfo);
 	Optional<List<ConferenceCategory>> getCategories();
 	Conference getConferenceByConferenceId(Long conferenceId);
+    void patchConferenceInfo(ConferenceCreaterPostReq patcherInfo, Long conference_id);
 //	void deleteConferenceByUserId(String userId);
 //	void patchUser(UserRegisterPostReq registerInfo, String userId);
 //  Boolean getConferenceCategories(String userId);
