@@ -38,7 +38,7 @@ export function checkDuplicate({ commit }, id) {
 
 export function requestProfile( { commit }) {
   console.log('requestProfile')
-  const url = 'users/me'
+  const url = '/users/me'
   return $axios.get(url)
   .then((res) => {
     console.log('requestProfile', res.data)
@@ -46,9 +46,14 @@ export function requestProfile( { commit }) {
   })
 }
 
-export function reqeustUpdate({ state }, id, payload) {
-  console.log('requestUpdate', state)
+export function requestUpdate({ commit }, payload) {
+  const id = payload.id
   const url = `/users/${id}`
   let body = payload
-  return $axios.post(url, body)
+  console.log('requestUpdate')
+  return $axios.patch(url, body)
+  .then((res) =>{
+    console.log('requestUpdate', res.status)
+    commit('setUpdate', body)
+  })
 }

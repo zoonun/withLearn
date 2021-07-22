@@ -2,7 +2,7 @@
   <el-dialog custom-class="profile-dialog" title="프로필" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="profileForm" :label-position="state.form.align">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
-        <span> {{ state.form.id }}</span>
+        <span> {{ state.form.userId }}</span>
       </el-form-item>
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.name" autocomplete="off"></el-input>
@@ -80,17 +80,24 @@ export default {
     //     }
     //     return result
     //     })
+    // const profileItem = store.getters['root/getProfile']
 
     const state = reactive({
-
-      form: {
-        name: computed(() => store.getters['root/getProfile'].name),
-        department: computed(() => store.getters['root/getProfile'].department),
-        position: computed(() => store.getters['root/getProfile'].position),
-        id: computed(() => store.getters['root/getProfile'].userId),
-        align: 'left'
-      },
-
+      // form: {
+      //   name: profileItem.name,
+      //   department: profileItem.department,
+      //   position: profileItem.position,
+      //   id: profileItem.userId,
+      //   align: 'left'
+      // },
+      // form: {
+      //   name: '',
+      //   department: '',
+      //   position: '',
+      //   id: computed(() => store.getters['root/getProfile']),
+      //   align: 'left'
+      // },
+      form:computed(() => store.getters['root/getProfile']),
       rules: {
         name: [
           { required: true, validator: validateName, trigger: 'blur' },
@@ -113,7 +120,7 @@ export default {
       profileForm.value.validate((valid) => {
         if (valid) {
           store.commit('root/startSpinner')
-          store.dispatch('root/requestUpdate', state.form.id, { name: state.form.name, department: state.form.department, position: state.form.position })
+          store.dispatch('root/requestUpdate', {id:state.form.userId, department:state.form.department, name:state.form.name, position:state.form.position})
           .then(function () {
             alert('프로필 수정이 완료되었습니다.')
             emit('closeProfileDialog')
@@ -130,10 +137,6 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.id = ''
-      state.form.name = ''
-      state.form.department = ''
-      state.form.position = ''
       emit('closeProfileDialog')
     }
 

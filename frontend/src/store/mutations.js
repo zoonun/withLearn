@@ -41,3 +41,7 @@ export function unAvailableId (state) {
 export function setProfile (state, profileItem) {
   state.profile = profileItem
 }
+
+export function setUpdate (state, profileItem) {
+  state.profile = profileItem
+}
