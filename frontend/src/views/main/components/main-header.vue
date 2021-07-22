@@ -15,6 +15,9 @@
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
+          <el-button class="search-button" @click="clickSearch" style= width:10%;>
+            <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
           <el-button @click="clickSignup">회원가입</el-button>
           <el-button type="primary" @click="clickLogin">로그인</el-button>
         </div>
@@ -125,7 +128,12 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
+    const clickSearch = () => {
+      console.log('clickSearch')
+      store.dispatch('root/requestSearch', state.searchValue)
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch }
   }
 }
 </script>
@@ -222,15 +230,15 @@ export default {
     background-image: url('../../../assets/images/ssafy-logo.png');
   }
   .main-header .hide-on-small .tool-wrapper {
-    width: 50%;
+    width: 65%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
-    width: 45%;
+    width: 55%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 45%;
+    width: 30%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;
