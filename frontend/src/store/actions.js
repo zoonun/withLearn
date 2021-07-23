@@ -38,3 +38,11 @@ export function checkDuplicate({ commit }, id) {
     commit('unAvailableId')
   })
 }
+
+export function requestConference( payload ) {
+  console.log(payload)
+  const url = '/conferences'
+  let body = payload
+  // response: statuscode, message, conferenceId
+  return $axios.post(url, body)
+}

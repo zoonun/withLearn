@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="login-dialog" title="로그인" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
+    <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align" @keyup.enter="clickLogin">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
       </el-form-item>
@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <span class="dialog-footer">
+      <span class="dialog-footer" @keyup.enter="clickLogin">
         <el-button type="primary" @click="clickLogin">로그인</el-button>
       </span>
     </template>
@@ -124,6 +124,7 @@ export default {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
         if (valid) {
+          store.commit('root/startSpinner')
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             store.dispatch('root/saveJWT', result.data)
@@ -134,6 +135,7 @@ export default {
           .catch(function (err) {
             alert(err.response.data.message)
           })
+          .finally(store.commit('root/endSpinner'))
         } else {
           alert('잘못된 입력입니다.')
         }

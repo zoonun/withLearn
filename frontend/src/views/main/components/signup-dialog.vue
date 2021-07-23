@@ -1,10 +1,10 @@
 <template>
   <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
+    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align" @keyup.enter="clickSignup">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item prop="id-check">
+      <el-form-item>
         <el-button @click="checkDuplicate">중복확인</el-button>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
@@ -47,9 +47,7 @@ export default {
 
   setup(props, { emit }) {
     const store = useStore()
-
     const signupForm = ref(null)
-
     /*
       // Signup Validator
     */

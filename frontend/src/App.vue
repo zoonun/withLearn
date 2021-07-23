@@ -1,5 +1,4 @@
 <template>
-  <!-- main 으로 시작 -->
   <Main/>
 </template>
 
@@ -13,8 +12,8 @@ export default {
     Main,
   },
 
-  data: () => ({
-    //
-  }),
+  setup() {
+
+  }
 }
 </script>
