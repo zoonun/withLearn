@@ -41,10 +41,6 @@ export default {
 
     const profileForm = ref(null)
 
-    /*
-      // Profile Validator
-    */
-
     const validateName = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
@@ -54,50 +50,9 @@ export default {
         callback()
       }
     }
-    // const profileItem= computed(() => {
-    //     let result = {}
-    //     const profileArray =  store.getters['root/getProfile']
-    //     console.log('profileArray', profileArray)
-    //     if (profileArray.userId) {
-    //       result.userId = profileArray.userId
-    //     }else{
-    //       result.userId = ''
-    //     }
-    //     if (profileArray.name) {
-    //       result.name = profileArray.name
-    //     }else{
-    //       result.name = ''
-    //     }
-    //     if (profileArray.department) {
-    //       result.department = profileArray.department
-    //     }else {
-    //       result.department = ''
-    //     }
-    //     if (profileArray.position) {
-    //       result.position = profileArray.position
-    //     }else {
-    //       result.position = ''
-    //     }
-    //     return result
-    //     })
-    // const profileItem = store.getters['root/getProfile']
 
     const state = reactive({
-      // form: {
-      //   name: profileItem.name,
-      //   department: profileItem.department,
-      //   position: profileItem.position,
-      //   id: profileItem.userId,
-      //   align: 'left'
-      // },
-      // form: {
-      //   name: '',
-      //   department: '',
-      //   position: '',
-      //   id: computed(() => store.getters['root/getProfile']),
-      //   align: 'left'
-      // },
-      form:computed(() => store.getters['root/getProfile']),
+      form: computed(() => store.getters['root/getProfile']),
       rules: {
         name: [
           { required: true, validator: validateName, trigger: 'blur' },
