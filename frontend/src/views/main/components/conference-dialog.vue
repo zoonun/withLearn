@@ -23,33 +23,11 @@
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8 }" v-model="state.form.description" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="thumbnail" label="썸네일" :label-width="state.formLabelWidth">
-        <el-input type="file" @change="fileSelect(this, 'thumbnailPreview')" accept=".jpg, .jpeg, .png, .gif" v-model="state.form.thumbnail"/>
-        <!-- <el-upload
-          class="upload-demo"
-          ref="upload"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :file-list="fileList"
-          list-type="picture"
-          accept=".jpg, .jpeg, .png, .gif">
-          <template #trigger>
-            <el-button size="small" type="primary">찾아보기</el-button>
-          </template>
-          <el-button
-            style="margin-left: 10px;"
-            size="small"
-            type="success"
-            @click="uploadThumbnail"
-            >업로드
-          </el-button>
-          <template #tip>
-            <div class="el-upload__tip">
-              png/jpg/jpeg/gif 파일만 업로드 가능합니다.
-            </div>
-          </template>
-        </el-upload> -->
+        <input
+          type="file"
+          @change="fileSelect()"
+          accept=".jpg, .jpeg, .png, .gif"/>
       </el-form-item>
-      <img src="about:black" name="thumbnailPreview" alt="">
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -60,7 +38,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed, onMounted } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Spinner from './spinner'
@@ -87,6 +65,8 @@ export default {
     const validateThumbnail = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
+      } else {
+        console.log('thumb', value.type)
       }
     }
 
@@ -96,7 +76,7 @@ export default {
         usage: '',
         conferenceId: '',
         description: '',
-        thumbnail: null,
+        thumbnail: '',
         align: 'left'
       },
       rules: {
@@ -130,17 +110,26 @@ export default {
       ]
     })
 
-    onMounted(() => {
-
-    })
-
     const clickConference = function () {
       conferenceForm.value.validate((valid) => {
         if (valid) {
-          state.isSpinning = true
-          store.dispatch('root/requestConference', state.form)
+          store.commit('root/startSpinner')
+
+          const formData = new FormData()
+          formData.append('title', state.form.title)
+          formData.append('conferenceId', state.form.conferenceId)
+          formData.append('description', state.form.description)
+          formData.append('thumbnail', state.form.thumbnail)
+
+          // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
+          // FormData를 로깅하려면 FormData.entries()를 이용하여 key : value 쌍을 뽑아야 한다.
+          for (let key of formData.entries()) {
+            console.log(`${key}`)
+          }
+
+          store.dispatch('root/requestConference', formData)
           .then(function (res) {
-            console.log(res)
+            console.log('컨퍼런스 생성 결과 : ', res)
             emit('closeConferenceDialog')
             router.push({
               name: 'conference-detail',
@@ -152,19 +141,16 @@ export default {
           .catch(function (err) {
             alert(err.response.data.message)
           })
-          .finally(state.isSpinning = false)
+          .finally(store.commit('root/endSpinner'))
         } else {
           alert('잘못된 입력입니다.')
         }
       })
     }
 
-    const fileSelect = function () {
-      console.log(conferenceForm.value.model.thumbnail)
-      const render = new FileReader()
-      render.onload = function (e) {
-        $('#' + )
-      }
+    const fileSelect = function (e) {
+      state.form.thumbnail =
+      console.log(e)
     }
 
     const handleClose = function () {
