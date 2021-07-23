@@ -2,6 +2,7 @@
   <el-container class="main-wrapper">
     <main-header
       :height="`70px`"
+      @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"/>
     <el-container class="main-container">
@@ -22,6 +23,9 @@
   <signup-dialog
     :open="state.signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog()"/>
+  <search-dialog
+    :open="state.searchDialogOpen"
+    @closeSearchDialog="onCloseSearchDialog()"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -36,6 +40,7 @@ import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
+import SearchDialog from './components/search-dialog'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -47,7 +52,8 @@ export default {
     MainFooter,
     LoginDialog,
     SignupDialog,
-    Spinner
+    Spinner,
+    SearchDialog
   },
   setup() {
     const store = useStore()
@@ -55,6 +61,7 @@ export default {
     const state = reactive({
       loginDialogOpen: false,
       signupDialogOpen: false,
+      searchDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
@@ -70,8 +77,14 @@ export default {
     const onCloseSignupDialog = () => {
       state.signupDialogOpen = false
     }
+    const onOpenSearchDialog = () => {
+      state.searchDialogOpen = true
+    }
+    const onCloseSearchDialog = () => {
+      state.searchDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenSearchDialog, onCloseSearchDialog}
   }
 }
 </script>

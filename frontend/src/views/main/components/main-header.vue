@@ -29,7 +29,7 @@
     <div class="hide-on-big">
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
+      <div class="menu-icon-wrapper" @click="clickMobileSearch"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
           <div class="mobile-sidebar-tool-wrapper" v-if="!state.isLogin">
@@ -143,7 +143,11 @@ export default {
       store.dispatch('root/requestSearchTitle', payload)
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch }
+    const clickMobileSearch = () => {
+      emit('openSearchDialog')
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch }
   }
 }
 </script>
