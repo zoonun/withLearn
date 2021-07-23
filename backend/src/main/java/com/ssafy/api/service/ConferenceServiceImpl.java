@@ -1,11 +1,10 @@
 package com.ssafy.api.service;
 
-import com.querydsl.core.QueryResults;
+import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
-import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.repository.ConferenceCategoryRepository;
 import com.ssafy.db.repository.ConferenceRepository;
 import com.ssafy.db.repository.ConferenceRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 
 	@Autowired
 	ConferenceService conferenceService;
+
+	@Autowired
+	ConferenceCategoryRepository conferenceCategoryRepository;
 
 	@Autowired
 	ConferenceRepositorySupport conferenceRepositorySupport;
@@ -71,5 +73,22 @@ public class ConferenceServiceImpl implements ConferenceService {
 		return conference;
 	}
 
+	@Override
+	public void createConferenceCategory(ConferenceCategoryPostReq categoryInfo) {
+		ConferenceCategory conferenceCategory = new ConferenceCategory();
+		System.out.println("serviceImpl"+ categoryInfo.getName());
+		conferenceCategory.setName(categoryInfo.getName());
+		conferenceCategoryRepository.save(conferenceCategory);
+	}
 
+	@Override
+	public Optional<ConferenceCategory> getConferenceCategoryByName(String name) {
+		Optional<ConferenceCategory> conferenceCategories = conferenceRepositorySupport.findCategoriesByName(name);
+		return conferenceCategories;
+	}
+
+	@Override
+	public void deleteConferenceCategory(long categoryId) {
+		conferenceCategoryRepository.deleteById(categoryId);
+	}
 }

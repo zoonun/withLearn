@@ -31,7 +31,6 @@ public class ConferenceDetailRes {
 	String description;
 	boolean is_active;
 	List<User> users = new ArrayList<>(); //
-
 	
 	public static ConferenceDetailRes of(Conference conference) {
 		ConferenceDetailRes res = new ConferenceDetailRes();

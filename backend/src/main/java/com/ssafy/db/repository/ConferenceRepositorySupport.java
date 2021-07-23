@@ -57,4 +57,11 @@ public class ConferenceRepositorySupport {
         if(conferences == null) return Optional.empty();
         return Optional.ofNullable(conferences.fetch());
     }
+
+    public Optional<ConferenceCategory> findCategoriesByName(String name) {
+        ConferenceCategory conferenceCategory = jpaQueryFactory.select(qConferenceCategory).from(qConferenceCategory)
+                .where(qConferenceCategory.name.eq(name)).fetchOne();
+        if(conferenceCategory == null) return Optional.empty();
+        return Optional.ofNullable(conferenceCategory);
+    }
 }

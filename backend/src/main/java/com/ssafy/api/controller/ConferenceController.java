@@ -1,23 +1,17 @@
 package com.ssafy.api.controller;
 
-import com.querydsl.core.QueryResults;
+import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
 import com.ssafy.api.response.*;
-import com.ssafy.api.service.ConferenceService;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
-import com.ssafy.db.entity.QConference;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -38,7 +32,6 @@ public class ConferenceController {
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) {
         Conference conference = conferenceService.createConference(createrInfo);
-
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201,"success.",conference));
     }
 
@@ -84,5 +77,39 @@ public class ConferenceController {
             @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
         Optional<List<Conference>> conferences= conferenceService.getAllConference(title,sort,size,conferenceCategory);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
+    }
+
+    @PostMapping(value = "conference-categories")
+    @ApiOperation(value = "방 카테고리 생성", notes = "방 카테고리를 생성한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 409, message = "카테고리 중복"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> createConferenceCategory(
+            @RequestBody @ApiParam(value = "카테고리 정보", required = true) ConferenceCategoryPostReq categoryInfo) {
+        Optional<ConferenceCategory> conferenceCategory = conferenceService.getConferenceCategoryByName(categoryInfo.getName());
+        if(conferenceCategory.isPresent()){
+            return ResponseEntity.status(409).body(BaseResponseBody.of(409, "duplicate category"));
+        }else{
+            conferenceService.createConferenceCategory(categoryInfo);
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        }
+    }
+
+    @DeleteMapping(value = "conference-categories")
+    @ApiOperation(value = "방 카테고리 삭제", notes = "방 카테고리를 삭제한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> deleteConferenceCategory(
+            @RequestBody @ApiParam(value = "카테고리 정보", required = true) ConferenceCategoryPostReq categoryInfo) {
+        Optional<ConferenceCategory> conferenceCategory = conferenceService.getConferenceCategoryByName(categoryInfo.getName());
+        if(conferenceCategory.isPresent()){
+            conferenceService.deleteConferenceCategory(conferenceCategory.get().getId());
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        }else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "non-existent category"));
+        }
     }
 }
