@@ -43,6 +43,9 @@ export function requestConference( payload ) {
   console.log(payload)
   const url = '/conferences'
   let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
   // response: statuscode, message, conferenceId
-  return $axios.post(url, body)
+  return $axios.post(url, body, config)
 }
