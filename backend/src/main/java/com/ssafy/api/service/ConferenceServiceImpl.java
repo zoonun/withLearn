@@ -11,9 +11,7 @@ import com.ssafy.db.repository.ConferenceRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 /**
  *	방 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -29,11 +27,12 @@ public class ConferenceServiceImpl implements ConferenceService {
 	@Autowired
 	ConferenceRepositorySupport conferenceRepositorySupport;
 
-	Conference conference = new Conference();
-	ConferenceCategory conferenceCategory = new ConferenceCategory();
+
 
 	@Override
 	public Conference createConference(ConferenceCreaterPostReq conferenceCreaterInfo) {
+		Conference conference = new Conference();
+		ConferenceCategory conferenceCategory = new ConferenceCategory();
 		conference.setIs_active(true);
 		conference.setDescription(conferenceCreaterInfo.getDescription());
 		conference.setTitle(conferenceCreaterInfo.getTitle());
@@ -56,6 +55,8 @@ public class ConferenceServiceImpl implements ConferenceService {
 
 	@Override
 	public void patchConferenceInfo(ConferenceCreaterPostReq patcherInfo, Long conference_id) {
+		Conference conference = new Conference();
+		ConferenceCategory conferenceCategory = new ConferenceCategory();
 		conference = getConferenceByConferenceId(conference_id);
 		conference.setTitle(patcherInfo.getTitle());
 		conference.setDescription(patcherInfo.getDescription());
@@ -63,4 +64,12 @@ public class ConferenceServiceImpl implements ConferenceService {
 		conference.setConferenceCategory(conferenceCategory);
 		conferenceRepository.save(conference);
 	}
+
+	@Override
+	public Optional<List<Conference>> getAllConference(String title, String sort, Integer size, Long conferenceCategory) {
+		Optional<List<Conference>> conference = conferenceRepositorySupport.findAllConference(title, sort, size, conferenceCategory);
+		return conference;
+	}
+
+
 }

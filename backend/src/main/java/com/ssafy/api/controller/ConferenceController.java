@@ -57,7 +57,8 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
-    public ResponseEntity<ConferenceDetailRes> getConferenceDetail(@PathVariable Long conference_id) {
+    public ResponseEntity<ConferenceDetailRes> getConferenceDetail(
+            @PathVariable Long conference_id) {
         Conference conference= conferenceService.getConferenceByConferenceId(conference_id);
         return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference));
     }
@@ -67,9 +68,21 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
-    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(@PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq patcherInfo) {
-        Conference conference= conferenceService.getConferenceByConferenceId(conference_id);
+    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(
+            @PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq patcherInfo) {
         conferenceService.patchConferenceInfo(patcherInfo, conference_id);
-        return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @GetMapping(value = "conferences")
+    @ApiOperation(value = "방 목록 조회", notes = "방 목록 리스트를 검색한다")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<ConferenceListPostRes> getConferenceList(
+            @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort,
+            @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
+        Optional<List<Conference>> conferences= conferenceService.getAllConference(title,sort,size,conferenceCategory);
+        return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
     }
 }

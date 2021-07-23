@@ -39,6 +39,7 @@ public class ConferenceDetailRes {
 		res.setCallstartTime(conference.getCallStartTime());
 		res.setDescription(conference.getDescription());
 		res.setId(conference.getId());
+		res.setConference_category(conference.getConferenceCategory().getName());
 		res.setThumbnail_url(conference.getThumbnail());
 		res.setTitle(conference.getTitle());
 		return res;
