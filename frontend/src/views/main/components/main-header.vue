@@ -71,6 +71,8 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
+      sort:null,
+      conference_category:null,
       searchValue: null,
       isCollapse: true,
       menuItems: computed(() => {
@@ -130,7 +132,15 @@ export default {
 
     const clickSearch = () => {
       console.log('clickSearch')
-      store.dispatch('root/requestSearch', state.searchValue)
+      const payload = {
+        title: state.searchValue,
+        sort: state.sort,
+        page: null,
+        size: 10,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
     }
 
     return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch }
