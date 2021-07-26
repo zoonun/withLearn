@@ -29,3 +29,7 @@ export function getTitleSortIndex (state) {
   console.log('getTitleSortIndex')
   return state.titleSortIndex
 }
+
+export function getConference (state) {
+  return state.conferenceData
+}

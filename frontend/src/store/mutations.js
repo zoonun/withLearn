@@ -39,3 +39,8 @@ export function setTitleSortIndex (state) {
   console.log('setTitleSortIndex')
   state.titleSortIndex = (state.titleSortIndex + 1) % 2
 }
+
+export function setConferenceData (state, conferenceData){
+  state.conferenceData = conferenceData
+}
+

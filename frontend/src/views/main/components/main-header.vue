@@ -15,18 +15,23 @@
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
+          <el-button class="search-button" @click="clickSearch" style= width:10%;>
+            <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
           <el-button @click="clickSignup">회원가입</el-button>
           <el-button type="primary" @click="clickLogin">로그인</el-button>
         </div>
         <div class="button-wrapper" v-else>
-          <el-button>내 정보</el-button>
+          <el-button class="search-button" @click="clickSearch" style= width:10%;>
+            <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
         </div>
       </div>
     </div>
     <div class="hide-on-big">
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
+      <div class="menu-icon-wrapper" @click="clickMobileSearch"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
           <div class="mobile-sidebar-tool-wrapper" v-if="!state.isLogin">
@@ -68,6 +73,8 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
+      sort:'asc',
+      conference_category:null,
       searchValue: null,
       isCollapse: true,
       menuItems: computed(() => {
@@ -125,8 +132,24 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
+    const clickSearch = () => {
+      console.log('clickSearch')
+      const payload = {
+        title: state.searchValue,
+        sort: state.sort,
+        page: null,
+        size: 10,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
+    }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
+    const clickMobileSearch = () => {
+      emit('openSearchDialog')
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch }
   }
 }
 </script>
@@ -223,15 +246,15 @@ export default {
     background-image: url('../../../assets/images/ssafy-logo.png');
   }
   .main-header .hide-on-small .tool-wrapper {
-    width: 50%;
+    width: 65%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
-    width: 45%;
+    width: 55%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 45%;
+    width: 30%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;

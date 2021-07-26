@@ -50,4 +50,5 @@ export default {
   loadingStatus: false,
   isAvailable: false,
   titleSortIndex:0,
+  conferenceData: null,
 }

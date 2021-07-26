@@ -1,14 +1,12 @@
 <template>
   <el-dropdown>
     <el-button type="primary" @click="clickDropdown">
-      {{ state.dropDowntext }}<i class="el-icon-arrow-down el-icon--right"></i>
+      {{ state.currentText }}<i class="el-icon-arrow-down el-icon--right"></i>
     </el-button>
-    <el-dropdown-menu slot="dropdown" v-if="state.dropDowncollapse">
-      <el-dropdown-item>Action 1</el-dropdown-item>
-      <el-dropdown-item>Action 2</el-dropdown-item>
-      <el-dropdown-item>Action 3</el-dropdown-item>
-      <el-dropdown-item>Action 4</el-dropdown-item>
-      <el-dropdown-item>Action 5</el-dropdown-item>
+    <el-dropdown-menu slot="dropdown" v-if="state.dropDownCollapse">
+      <el-dropdown-item v-for="(item, index) in state.dropDownArray" :key="index" :index="index.toString()" @click="clickDropdownItem(index)">
+        {{ item }}
+      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
   <el-button @click="clickTitleSort">
@@ -64,8 +62,9 @@ export default {
 
     const state = reactive({
       count: 12,
-      dropDowntext:'제목순',
-      dropDowncollapse:false,
+      currentText:'제목순',
+      dropDownArray: ['제목순', '추천순'],
+      dropDownCollapse:false,
       activeSortIndex: computed(() => store.getters['root/getTitleSortIndex']),
       sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
       sortItem: computed(() => {
@@ -92,10 +91,15 @@ export default {
   }
 
     const clickDropdown = () => {
-      state.dropDowncollapse = !state.dropDowncollapse
+      state.dropDownCollapse = !state.dropDownCollapse
     }
 
-    return { state, load, clickConference, clickTitleSort, clickDropdown }
+    const clickDropdownItem = (index) => {
+      state.currentText = state.dropDownArray[index]
+      state.dropDownCollapse=false
+    }
+
+    return { state, load, clickConference, clickTitleSort, clickDropdown, clickDropdownItem }
   }
 }
 </script>
