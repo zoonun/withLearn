@@ -32,6 +32,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) {
+        System.out.println(1);
         Conference conference = conferenceService.createConference(createrInfo);
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201,"success.",conference));
     }
