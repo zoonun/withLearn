@@ -1,4 +1,19 @@
 <template>
+  <el-dropdown>
+    <el-button type="primary" @click="clickDropdown">
+      {{ state.dropDowntext }}<i class="el-icon-arrow-down el-icon--right"></i>
+    </el-button>
+    <el-dropdown-menu slot="dropdown" v-if="state.dropDowncollapse">
+      <el-dropdown-item>Action 1</el-dropdown-item>
+      <el-dropdown-item>Action 2</el-dropdown-item>
+      <el-dropdown-item>Action 3</el-dropdown-item>
+      <el-dropdown-item>Action 4</el-dropdown-item>
+      <el-dropdown-item>Action 5</el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+  <el-button @click="clickTitleSort">
+    <i :class="['ic', state.sortItem]"/>
+  </el-button>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
       <conference />
@@ -32,8 +47,9 @@
 </style>
 <script>
 import Conference from './components/conference'
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Home',
@@ -43,10 +59,18 @@ export default {
   },
 
   setup () {
+    const store = useStore()
     const router = useRouter()
 
     const state = reactive({
-      count: 12
+      count: 12,
+      dropDowntext:'제목순',
+      dropDowncollapse:false,
+      activeSortIndex: computed(() => store.getters['root/getTitleSortIndex']),
+      sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
+      sortItem: computed(() => {
+        return state.sortItems[state.activeSortIndex]
+      })
     })
 
     const load = function () {
@@ -62,8 +86,16 @@ export default {
         }
       })
     }
+    const clickTitleSort = () => {
+      console.log(state.activeSortIndex)
+      store.commit('root/setTitleSortIndex')
+  }
 
-    return { state, load, clickConference }
+    const clickDropdown = () => {
+      state.dropDowncollapse = !state.dropDowncollapse
+    }
+
+    return { state, load, clickConference, clickTitleSort, clickDropdown }
   }
 }
 </script>

@@ -37,5 +37,5 @@ export function unAvailableId (state) {
 
 export function setTitleSortIndex (state) {
   console.log('setTitleSortIndex')
-  state.titleSortIndex = (state.titleSortIndex + 1) % 3
+  state.titleSortIndex = (state.titleSortIndex + 1) % 2
 }
