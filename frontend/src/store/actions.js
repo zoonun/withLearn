@@ -39,10 +39,10 @@ export function checkDuplicate({ commit }, id) {
   })
 }
 
-export function requestConference( payload ) {
-  console.log(payload)
+export function requestConference( { state }, payload ) {
   const url = '/conferences'
   let body = payload
+
   let config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
