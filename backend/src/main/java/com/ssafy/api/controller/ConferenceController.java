@@ -12,6 +12,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +33,8 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
-            @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) {
+            @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) throws IOException {
+        System.out.println("test thumbnail_back");
         System.out.println(1);
         Conference conference = conferenceService.createConference(createrInfo);
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201,"success.",conference));
@@ -43,6 +46,7 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<ConferenceCategoryRes> getCategories() {
+        System.out.println("test thumbnail_back");
         Optional<List<ConferenceCategory>> categories= conferenceService.getCategories();
         return ResponseEntity.status(201).body(ConferenceCategoryRes.of(categories));
     }
