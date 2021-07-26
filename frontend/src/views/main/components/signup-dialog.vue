@@ -5,7 +5,7 @@
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="checkDuplicate">중복확인</el-button>
+        <el-button @click="checkAbailableId">중복확인</el-button>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
@@ -133,14 +133,10 @@ export default {
       isAvailableId: computed(() => store.getters['root/getIsAvailableId'])
     })
 
-    onMounted(() => {
-
-    })
-
     const clickSignup = function () {
       signupForm.value.validate((valid) => {
         if (valid) {
-          store.commit('root/startSpinner')
+          store.commit('root/setSpinnerStart')
           store.dispatch('root/requestSignup', { id: state.form.id, password: state.form.password, name: state.form.name, department: state.form.department, position: state.form.position })
           .then(function () {
             alert('회원가입 되었습니다.')
@@ -150,15 +146,15 @@ export default {
           .catch(function (err) {
             alert(err.response.data.message)
           })
-          .finally(store.commit('root/endSpinner'))
+          .finally(store.commit('root/setSpinnerEnd'))
         } else {
           alert('잘못된 입력입니다.')
         }
       })
     }
 
-    const checkDuplicate = function () {
-      store.dispatch('root/checkDuplicate', state.form.id)
+    const checkAbailableId = function () {
+      store.dispatch('root/requestAbailableId', state.form.id)
       .then(function () {
         if (state.isAvailableId) {
           alert('사용가능한 아이디입니다.')
@@ -176,7 +172,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, checkDuplicate }
+    return { signupForm, state, clickSignup, handleClose, checkAbailableId }
   }
 }
 </script>

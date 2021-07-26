@@ -1,6 +1,5 @@
 <template>
   <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
-    <Spinner :loading="state.isSpinning"/>
     <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
       <el-form-item prop="usage" label="용도" :label-width="state.formLabelWidth">
         <!-- ConferenceId API 통신으로 select 메뉴 구성 -->
@@ -133,7 +132,7 @@ export default {
             // for (let key of formData.entries()) {
             //   console.log(`${key}`)
             // }
-            store.dispatch('root/requestConference', formData)
+            store.dispatch('root/requestConferenceCreate', formData)
             .then(function (res) {
               console.log('컨퍼런스 생성 결과 : ', res)
               emit('closeConferenceDialog')

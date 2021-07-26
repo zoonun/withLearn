@@ -23,26 +23,25 @@ export function requestLogout ({ commit }) {
   return commit('setLogout')
 }
 
-export function saveJWT({ state }, user) {
-  console.log('saveJWT', state, user)
+export function requestSaveJWT({ state }, user) {
+  console.log('requestSaveJWT', state, user)
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
-export function checkDuplicate({ commit }, id) {
+export function requestAbailableId({ commit }, id) {
   const url = `/users/${id}`
   return $axios.get(url)
   .then(() => {
-    commit('availableId')
+    commit('setIsAbailableId')
   })
   .catch(() => {
-    commit('unAvailableId')
+    commit('setIsUnabailableId')
   })
 }
 
-export function requestConference( { state }, payload ) {
+export function requestConferenceCreate( { state }, payload ) {
   const url = '/conferences'
   let body = payload
-
   let config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
