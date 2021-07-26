@@ -33,7 +33,7 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
-            @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) throws IOException {
+            @ModelAttribute @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) throws IOException {
         System.out.println("test thumbnail_back");
         System.out.println(1);
         Conference conference = conferenceService.createConference(createrInfo);
