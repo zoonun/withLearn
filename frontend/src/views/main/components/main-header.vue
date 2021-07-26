@@ -12,6 +12,10 @@
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
           </el-input>
+          <el-button @click="clickTitleSort">
+            <span>정렬</span>
+            <i :class="['ic', state.sortItem]"/>
+          </el-button>
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
@@ -83,7 +87,12 @@ export default {
         return menuArray
       }),
       activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
-      isLogin: computed(() => store.getters['root/getIsLoggedIn'])
+      isLogin: computed(() => store.getters['root/getIsLoggedIn']),
+      activeSortIndex: computed(() => store.getters['root/getTitleSortIndex']),
+      sortItems:['el-icon-sort', 'el-icon-sort-up', 'el-icon-sort-down'],
+      sortItem: computed(() => {
+        return state.sortItems[state.activeSortIndex]
+      })
     })
 
     if (state.activeIndex === -1) {
@@ -125,7 +134,12 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
+    const clickTitleSort = () => {
+      console.log(state.activeSortIndex)
+      store.commit('root/setTitleSortIndex')
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickTitleSort }
   }
 }
 </script>
