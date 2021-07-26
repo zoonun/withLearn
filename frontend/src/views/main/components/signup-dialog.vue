@@ -5,7 +5,7 @@
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="checkAbailableId">중복확인</el-button>
+        <el-button @click="checkAvailableId">중복확인</el-button>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed, onMounted } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -54,7 +54,6 @@ export default {
     const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*\(\)]).{9,}$/
 
     const validateId = (rule, value, callback) => {
-      store.dispatch('root/checkDuplicate', value)
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
       } else if (value.length > 16) {
@@ -153,8 +152,8 @@ export default {
       })
     }
 
-    const checkAbailableId = function () {
-      store.dispatch('root/requestAbailableId', state.form.id)
+    const checkAvailableId = function () {
+      store.dispatch('root/requestAvailableId', state.form.id)
       .then(function () {
         if (state.isAvailableId) {
           alert('사용가능한 아이디입니다.')
@@ -172,7 +171,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, checkAbailableId }
+    return { signupForm, state, clickSignup, handleClose, checkAvailableId }
   }
 }
 </script>

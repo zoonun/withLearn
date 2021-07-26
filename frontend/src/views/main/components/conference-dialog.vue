@@ -17,10 +17,10 @@
       <el-form-item prop="title" label="제목" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="설명" :label-width="state.formLabelWidth">
+      <el-form-item prop="description" label="설명" :label-width="state.formLabelWidth">
         <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8 }" v-model="state.form.description" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item prop="thumbnail" label="썸네일" :label-width="state.formLabelWidth">
+      <el-form-item label="썸네일" :label-width="state.formLabelWidth">
         <input
           type="file"
           @change="fileSelect"/>
@@ -38,13 +38,9 @@
 import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import Spinner from './spinner'
 
 export default {
   name: 'conference-dialog',
-  components: {
-    Spinner
-  },
   props: {
     open: {
       type: Boolean,
@@ -120,7 +116,7 @@ export default {
       conferenceForm.value.validate((valid) => {
         if (valid) {
           if (thumbnailValidate(state.form.thumbnail)) {
-            store.commit('root/startSpinner')
+            store.commit('root/setSpinnerStart')
 
             const formData = new FormData()
             formData.append('title', state.form.title)
@@ -146,7 +142,7 @@ export default {
             .catch(function (err) {
               alert(err.response.data.message)
             })
-            .finally(store.commit('root/endSpinner'))
+            .finally(store.commit('root/setSpinnerEnd'))
           }
         } else {
           alert('잘못된 입력입니다.')

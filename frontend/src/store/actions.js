@@ -28,14 +28,14 @@ export function requestSaveJWT({ state }, user) {
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
-export function requestAbailableId({ commit }, id) {
+export function requestAvailableId({ commit }, id) {
   const url = `/users/${id}`
   return $axios.get(url)
   .then(() => {
-    commit('setIsAbailableId')
+    commit('setIsAvailableId')
   })
   .catch(() => {
-    commit('setIsUnabailableId')
+    commit('setIsUnavailableId')
   })
 }
 

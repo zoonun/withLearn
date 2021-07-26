@@ -27,10 +27,10 @@ export function setSpinnerEnd (state) {
 }
 
 // Id Dupication Check
-export function setIsAbailableId (state) {
+export function setIsAvailableId (state) {
   state.isAvailableId = true
 }
 
-export function setIsUnabailableId (state) {
+export function setIsUnavailableId (state) {
   state.isAvailableId = false
 }
