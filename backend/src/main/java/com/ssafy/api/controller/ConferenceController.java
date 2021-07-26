@@ -7,6 +7,7 @@ import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
+import com.ssafy.db.entity.UserConference;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,8 @@ public class ConferenceController {
     public ResponseEntity<ConferenceDetailRes> getConferenceDetail(
             @PathVariable Long conference_id) {
         Conference conference= conferenceService.getConferenceByConferenceId(conference_id);
-        return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference));
+        Optional<List<UserConference>> userConference = conferenceService.getUserConferenceByConferenceId(conference_id);
+        return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference, userConference));
     }
 
     @PatchMapping(value = "conferences/{conference_id}")

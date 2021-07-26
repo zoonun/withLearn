@@ -3,10 +3,12 @@ package com.ssafy.api.response;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.UserConference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.convert.ThreeTenBackPortConverters;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,9 +32,10 @@ public class ConferenceDetailRes {
 	String title;
 	String description;
 	boolean is_active;
-	List<User> users = new ArrayList<>(); //
+	List<DetailUser> users = new ArrayList<>();
 	
-	public static ConferenceDetailRes of(Conference conference) {
+	public static ConferenceDetailRes of(Conference conference, Optional<List<UserConference>> userConference) {
+		List<DetailUser> userDetail = getUser(userConference);
 		ConferenceDetailRes res = new ConferenceDetailRes();
 		res.set_active(conference.getIs_active());
 		res.setCallstartTime(conference.getCallStartTime());
@@ -41,6 +44,26 @@ public class ConferenceDetailRes {
 		res.setConference_category(conference.getConferenceCategory().getName());
 		res.setThumbnail_url(conference.getThumbnail());
 		res.setTitle(conference.getTitle());
+		res.setUsers(userDetail);
 		return res;
 	}
+
+	private static List<DetailUser> getUser(Optional<List<UserConference>> userConference) {
+		List<DetailUser> users = new ArrayList<>();
+
+		for(int i=0; i<userConference.get().size(); i++){
+			DetailUser user = new DetailUser();
+			user.setUserId(userConference.get().get(i).getUser().getId());
+			user.setUserName(userConference.get().get(i).getUser().getName());
+			users.add(user);
+		}
+		return users;
+	}
+}
+
+@Getter
+@Setter
+class DetailUser{
+	Long userId;
+	String userName;
 }

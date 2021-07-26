@@ -17,6 +17,7 @@ public class ConferenceRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QConference qConference = QConference.conference;
+    QUserConference qUserConference = QUserConference.userConference;
     QConferenceCategory qConferenceCategory = QConferenceCategory.conferenceCategory;
 
     public Optional<List<ConferenceCategory>> findCategories() {
@@ -63,5 +64,12 @@ public class ConferenceRepositorySupport {
                 .where(qConferenceCategory.name.eq(name)).fetchOne();
         if(conferenceCategory == null) return Optional.empty();
         return Optional.ofNullable(conferenceCategory);
+    }
+
+    public Optional<List<UserConference>> findUserConferenceByConferenceId(Long conference_id) {
+        List<UserConference> userConferences = jpaQueryFactory.select(qUserConference).from(qUserConference)
+                .where(qUserConference.conference.id.eq(conference_id)).fetch();
+        if(userConferences == null) return Optional.empty();
+        return Optional.ofNullable(userConferences);
     }
 }

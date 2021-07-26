@@ -4,6 +4,7 @@ import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
+import com.ssafy.db.entity.UserConference;
 import com.ssafy.db.repository.ConferenceCategoryRepository;
 import com.ssafy.db.repository.ConferenceRepository;
 import com.ssafy.db.repository.ConferenceRepositorySupport;
@@ -90,5 +91,11 @@ public class ConferenceServiceImpl implements ConferenceService {
 	@Override
 	public void deleteConferenceCategory(long categoryId) {
 		conferenceCategoryRepository.deleteById(categoryId);
+	}
+
+	@Override
+	public Optional<List<UserConference>> getUserConferenceByConferenceId(Long conference_id) {
+		Optional<List<UserConference>> userConferences = conferenceRepositorySupport.findUserConferenceByConferenceId(conference_id);
+		return userConferences;
 	}
 }

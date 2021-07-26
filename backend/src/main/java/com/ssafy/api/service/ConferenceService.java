@@ -4,6 +4,7 @@ import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.request.ConferenceCreaterPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
+import com.ssafy.db.entity.UserConference;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,8 @@ public interface ConferenceService {
     void patchConferenceInfo(ConferenceCreaterPostReq patcherInfo, Long conference_id);
 	Optional<List<Conference>> getAllConference(String title, String sort, Integer size, Long conferenceCategory);
 	void createConferenceCategory(ConferenceCategoryPostReq categoryInfo);
-
 	Optional<ConferenceCategory> getConferenceCategoryByName(String name);
-
 	void deleteConferenceCategory(long categoryId);
+	Optional<List<UserConference>> getUserConferenceByConferenceId(Long conference_id);
+
 }
