@@ -39,6 +39,7 @@ export function requestAvailableId({ commit }, id) {
   })
 }
 
+// 컨퍼런스 액션
 export function requestConferenceCreate( { state }, payload ) {
   const url = '/conferences'
   let body = payload
@@ -47,4 +48,13 @@ export function requestConferenceCreate( { state }, payload ) {
   }
   // response: statuscode, message, conferenceId
   return $axios.post(url, body, config)
+}
+
+export function requestConferenceId({ commit }) {
+  const url = '/conference-categories'
+  return $axios.get(url)
+  .then((res) => {
+    commit('setConferenceId', res.data.categoryList)
+  })
+  .catch(err => console.log(err))
 }

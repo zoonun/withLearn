@@ -2,15 +2,14 @@
   <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
       <el-form-item prop="usage" label="용도" :label-width="state.formLabelWidth">
-        <!-- ConferenceId API 통신으로 select 메뉴 구성 -->
         <el-select
-          v-model="state.form.usage"
+          v-model="state.form.conferenceId"
           placeholder="선택">
           <el-option
-            v-for="item in state.conferenceOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in state.conferenceIds"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -35,7 +34,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -56,38 +55,27 @@ export default {
     const state = reactive({
       form: {
         title: '',
-          usage: '',
-          conferenceId: '',
-          description: '',
-          thumbnail: null,
-          align: 'left'
-        },
-        rules: {
-          usage: [
-            { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
-          ],
-          title: [
-            { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-            { max: 30, message: '최대 30글자를 입력해야 합니다.', trigger: 'blur' }
-          ],
-          description: [
-            { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
-          ]
-        },
-        dialogVisible: computed(() => props.open),
-        formLabelWidth: '120px',
-        isSpinning: false,
-        // conference API 통신으로 받아야 함
-        conferenceOptions: [
-          {
-            value: 'option1',
-            label: 'label1'
-          },
-          {
-            value: 'option2',
-            label: 'label2'
-          }
+        conferenceId: '',
+        description: '',
+        thumbnail: null,
+        align: 'left'
+      },
+      rules: {
+        conferenceId: [
+          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
+        ],
+        title: [
+          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
+          { max: 30, message: '최대 30글자를 입력해야 합니다.', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
         ]
+      },
+      dialogVisible: computed(() => props.open),
+      formLabelWidth: '120px',
+      isSpinning: false,
+      conferenceIds: computed(() => store.getters['root/getConferenceId'])
     })
 
     const thumbnailRegExp = /.*\.(jpg|jpeg|png|gif)$/
@@ -112,6 +100,10 @@ export default {
       }
     }
 
+    onMounted(() => {
+      store.dispatch('root/requestConferenceId')
+    })
+
     const clickConference = function () {
       conferenceForm.value.validate((valid) => {
         if (valid) {
@@ -125,9 +117,9 @@ export default {
             formData.append('thumbnail', state.form.thumbnail)
             // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
             // FormData를 로깅하려면 FormData.entries()를 이용하여 key : value 쌍을 뽑아야 한다.
-            // for (let key of formData.entries()) {
-            //   console.log(`${key}`)
-            // }
+            for (let key of formData.entries()) {
+              console.log(`${key}`)
+            }
             store.dispatch('root/requestConferenceCreate', formData)
             .then(function (res) {
               console.log('컨퍼런스 생성 결과 : ', res)

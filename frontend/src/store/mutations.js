@@ -34,3 +34,7 @@ export function setIsAvailableId (state) {
 export function setIsUnavailableId (state) {
   state.isAvailableId = false
 }
+
+export function setConferenceId (state, ids) {
+  state.conferenceId = ids
+}

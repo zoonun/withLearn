@@ -24,3 +24,7 @@ export function getIsSpinning (state) {
 export function getIsAvailableId (state) {
   return state.isAvailableId
 }
+
+export function getConferenceId (state) {
+  return state.conferenceId
+}
