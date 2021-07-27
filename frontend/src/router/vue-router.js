@@ -3,6 +3,7 @@ import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
 import store from '@/api/store'
+import Groupcall from '@/views/conferences/groupcall'
 import fullMenu from '@/views/main/menu.json'
 
 // const fullMenu = require('@/views/main/menu.json')
@@ -14,6 +15,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: History }
     } else if (key === 'logout'){
       return { path: fullMenu[key].path, name: key, component: Home }
+    } else if (key === 'groupcall'){
+      return { path: fullMenu[key].path, name: key, component: Groupcall }
     }
   })
   // 로그아웃 파싱한 부분 제거

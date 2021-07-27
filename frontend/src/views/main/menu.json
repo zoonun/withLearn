@@ -19,5 +19,12 @@
     "path" : "/",
     "icon" : "el-icon-switch-button",
     "children" : []
+  },
+  "groupcall" : {
+    "name" : "그룹콜",
+    "hidden" : false,
+    "path" : "/groupcall",
+    "icon" : "el-icon-switch-button",
+    "children" : []
   }
 }
