@@ -23,24 +23,24 @@ export function requestLogout ({ commit }) {
   return commit('setLogout')
 }
 
-export function saveJWT({ state }, user) {
-  console.log('saveJWT', state, user)
+export function requestSaveJWT({ state }, user) {
+  console.log('requestSaveJWT', state, user)
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
-export function checkDuplicate({ commit }, id) {
+export function requestAvailableId({ commit }, id) {
   const url = `/users/${id}`
   return $axios.get(url)
   .then(() => {
-    commit('availableId')
+    commit('setIsAvailableId')
   })
   .catch(() => {
-    commit('unAvailableId')
+    commit('setIsUnavailableId')
   })
 }
 
 export function requestSearchTitle({ commit }, payload) {
-  const url = '/conference'
+  const url = '/conferences'
   const body = payload
   commit('setSearchValue', body.title)
   return $axios.get(url, body)
@@ -49,6 +49,37 @@ export function requestSearchTitle({ commit }, payload) {
     console.log('request setConferenceData')
     commit('setConferenceData', res.data.content)
   })
+}
+// 컨퍼런스 액션
+export function requestConferenceCreate({ state }, payload) {
+  const url = '/conferences'
+  let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
+}
+
+export function requestConferenceId({ commit }) {
+  const url = '/conference-categories'
+  return $axios.get(url)
+  .then((res) => {
+    commit('setConferenceId', res.data.categoryList)
+  })
+  .catch(err => console.log(err))
+}
+
+export function requestConferenceIdCreate({ state }, payload) {
+  const url = '/conference-categories'
+  let body = payload
+  return $axios.post(url, body)
+}
+
+export function requestConferenceIdDelete({ state }, payload) {
+  const url = '/conference-categories'
+  let body = payload
+  console.log(body)
+  return $axios.delete(url, {data: body})
 }
 
 export function requestProfile( { commit }) {

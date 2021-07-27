@@ -18,12 +18,23 @@
           <el-button class="search-button" @click="clickSearch" style= width:10%;>
             <i :class="['ic', 'el-icon-search']"/>
           </el-button>
-          <el-button @click="clickSignup">회원가입</el-button>
-          <el-button type="primary" @click="clickLogin">로그인</el-button>
+          <el-button @click="clickSignup">
+            <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+            <span>회원 가입</span>
+          </el-button>
+          <el-button type="primary" @click="clickLogin">
+            <i :class="['ic', 'el-icon-key']"/>
+            <span>로그인</span>
+          </el-button>
+
         </div>
         <div class="button-wrapper" v-else>
           <el-button class="search-button" @click="clickSearch" style= width:10%;>
             <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
+          <el-button type="primary" @click="clickConference">
+            <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+            <span>컨퍼런스 생성</span>
           </el-button>
           <el-button @click="clickProfile">
             <i :class="['ic', 'el-icon-user-solid']"/>
@@ -38,14 +49,23 @@
       <div class="menu-icon-wrapper" @click="clickMobileSearch"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
+          <div class="logo-wrapper"><div class="ic ic-logo"/></div>
           <div class="mobile-sidebar-tool-wrapper" v-if="!state.isLogin">
-            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
-            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
+            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">
+              <i :class="['ic', 'el-icon-key']"/>
+              <span>로그인</span>
+            </el-button>
+            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">
+              <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+              <span>회원 가입</span>
+            </el-button>
           </div>
           <div class="mobile-sidebar-tool-wrapper" v-else>
-            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button @click="clickProfile">
+            <el-button type="primary" class="mobile-sidebar-btn" @click="clickConference">
+              <i :class="['ic', 'el-icon-circle-plus-outline']"/>
+              <span>컨퍼런스 생성</span>
+            </el-button>
+            <el-button class="mobile-sidebar-btn" @click="clickProfile">
               <i :class="['ic', 'el-icon-user-solid']"/>
               <span>프로필</span>
             </el-button>
@@ -140,6 +160,10 @@ export default {
       emit('openSignupDialog')
     }
 
+    const clickConference = () => {
+      emit('openConferenceDialog')
+    }
+
     const clickProfile = () => {
       emit('openProfileDialog')
       store.dispatch('root/requestProfile')
@@ -166,9 +190,10 @@ export default {
       emit('openSearchDialog')
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile, clickConference }
   }
 }
+
 </script>
 <style>
   .main-header {

@@ -14,7 +14,7 @@
   </el-button>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
-      <conference />
+      <Conference/>
     </li>
   </ul>
 </template>

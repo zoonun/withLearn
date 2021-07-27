@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 import java.util.Date;
 /**
@@ -26,11 +26,15 @@ public class Conference extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @CreationTimestamp
-    LocalDateTime call_start_time;
-    Date call_update_time;
+    LocalDateTime callStartTime;
+    Date callUpdateTime;
     String thumbnail;
     String title;
     String description;
     Boolean is_active;
+
+    @PrePersist
+    public void callStartTime() {
+        this.callStartTime = LocalDateTime.now();
+    }
 }

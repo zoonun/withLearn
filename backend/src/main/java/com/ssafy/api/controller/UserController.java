@@ -101,8 +101,7 @@ public class UserController {
 //			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> patchUser(
-			@RequestBody @ApiParam(value = "회원 수정 정보", required = true) UserRegisterPostReq registerInfo) {
-		String userId = registerInfo.getId();
+			@PathVariable String userId, @RequestBody @ApiParam(value = "회원 수정 정보", required = true) UserRegisterPostReq registerInfo) {
 		userService.patchUser(registerInfo, userId);
 		return ResponseEntity.status(200).body(UserLoginPostRes.of(200, "Success"));
 	}

@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem('user'))
 
   if (user && user.accessToken) {
-    store.commit('root/startSpinner')
+    store.commit('root/setSpinnerStart')
     setTimeout(() => {
       next()
     }, 100)
@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-  store.commit('root/endSpinner')
+  store.commit('root/setSpinnerEnd')
 })
 
 export default router

@@ -5,6 +5,7 @@
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
+      @openConferenceDialog="onOpenConferenceDialog()"
       @openProfileDialog="onOpenProflieDialog()"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
@@ -13,7 +14,7 @@
       </el-aside>
       <el-main>
         <router-view></router-view>
-        <spinner :loading="state.isSpinning"/>
+        <Spinner :loading="state.isSpinning"/>
       </el-main>
     </el-container>
     <main-footer :height="`110px`"/>
@@ -27,6 +28,9 @@
   <search-dialog
     :open="state.searchDialogOpen"
     @closeSearchDialog="onCloseSearchDialog()"/>
+  <conference-dialog
+    :open="state.conferenceDialogOpen"
+    @closeConferenceDialog="onCloseConferenceDialog()"/>
   <profile-dialog
     :open="state.profileDialogOpen"
     @closeProfileDialog="onCloseProfileDialog()"/>
@@ -40,6 +44,7 @@
 <script>
 import LoginDialog from './components/login-dialog'
 import SignupDialog from './components/signup-dialog'
+import ConferenceDialog from './components/conference-dialog'
 import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
@@ -58,8 +63,9 @@ export default {
     LoginDialog,
     SignupDialog,
     SearchDialog,
+    ConferenceDialog,
     ProfileDialog,
-    Spinner,
+    Spinner
   },
   setup() {
     const store = useStore()
@@ -68,6 +74,7 @@ export default {
       loginDialogOpen: false,
       signupDialogOpen: false,
       searchDialogOpen: false,
+      conferenceDialogOpen: false,
       profileDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
@@ -90,6 +97,12 @@ export default {
     const onCloseSearchDialog = () => {
       state.searchDialogOpen = false
     }
+    const onOpenConferenceDialog = () => {
+      state.conferenceDialogOpen = true
+    }
+    const onCloseConferenceDialog = () => {
+      state.conferenceDialogOpen = false
+    }
     const onOpenProflieDialog = () => {
       state.profileDialogOpen = true
     }
@@ -97,7 +110,7 @@ export default {
       state.profileDialogOpen = false
     }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog}
   }
 }
 </script>
