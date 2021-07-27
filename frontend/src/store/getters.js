@@ -37,3 +37,7 @@ export function getConference (state) {
 export function getSearchValue (state) {
   return state.recentSearchValue
 }
+
+export function getProfile (state) {
+  return state.profile
+}

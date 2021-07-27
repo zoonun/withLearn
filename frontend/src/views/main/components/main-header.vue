@@ -25,6 +25,10 @@
           <el-button class="search-button" @click="clickSearch" style= width:10%;>
             <i :class="['ic', 'el-icon-search']"/>
           </el-button>
+          <el-button @click="clickProfile">
+            <i :class="['ic', 'el-icon-user-solid']"/>
+            <span>프로필</span>
+          </el-button>
         </div>
       </div>
     </div>
@@ -38,6 +42,13 @@
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
             <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
+          </div>
+          <div class="mobile-sidebar-tool-wrapper" v-else>
+            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
+            <el-button @click="clickProfile">
+              <i :class="['ic', 'el-icon-user-solid']"/>
+              <span>프로필</span>
+            </el-button>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -129,6 +140,11 @@ export default {
       emit('openSignupDialog')
     }
 
+    const clickProfile = () => {
+      emit('openProfileDialog')
+      store.dispatch('root/requestProfile')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
@@ -150,7 +166,7 @@ export default {
       emit('openSearchDialog')
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile }
   }
 }
 </script>

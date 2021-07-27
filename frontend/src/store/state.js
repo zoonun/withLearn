@@ -52,4 +52,5 @@ export default {
   SortIndex:0,
   conferenceData: null,
   recentSearchValue:null,
+  profile: null,
 }

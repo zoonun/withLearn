@@ -4,7 +4,8 @@
       :height="`70px`"
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
-      @openSignupDialog="onOpenSignupDialog()"/>
+      @openSignupDialog="onOpenSignupDialog()"
+      @openProfileDialog="onOpenProflieDialog()"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
@@ -26,6 +27,9 @@
   <search-dialog
     :open="state.searchDialogOpen"
     @closeSearchDialog="onCloseSearchDialog()"/>
+  <profile-dialog
+    :open="state.profileDialogOpen"
+    @closeProfileDialog="onCloseProfileDialog()"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -43,6 +47,7 @@ import Spinner from './components/spinner'
 import SearchDialog from './components/search-dialog'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import ProfileDialog from './components/profile-dialog'
 
 export default {
   name: 'Main',
@@ -52,8 +57,9 @@ export default {
     MainFooter,
     LoginDialog,
     SignupDialog,
+    SearchDialog,
+    ProfileDialog,
     Spinner,
-    SearchDialog
   },
   setup() {
     const store = useStore()
@@ -62,6 +68,7 @@ export default {
       loginDialogOpen: false,
       signupDialogOpen: false,
       searchDialogOpen: false,
+      profileDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
@@ -83,8 +90,14 @@ export default {
     const onCloseSearchDialog = () => {
       state.searchDialogOpen = false
     }
+    const onOpenProflieDialog = () => {
+      state.profileDialogOpen = true
+    }
+    const onCloseProfileDialog = () => {
+      state.profileDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenSearchDialog, onCloseSearchDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog}
   }
 }
 </script>

@@ -48,3 +48,11 @@ export function setSearchValue (state, searchValue) {
   console.log('setSearchValue')
   state.recentSearchValue = searchValue
 }
+
+export function setProfile (state, profileItem) {
+  state.profile = profileItem
+}
+
+export function setUpdate (state, profileItem) {
+  state.profile = profileItem
+}
