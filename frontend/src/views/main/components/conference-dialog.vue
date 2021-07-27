@@ -1,17 +1,27 @@
 <template>
   <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
-      <el-form-item prop="usage" label="용도" :label-width="state.formLabelWidth">
+      <el-form-item prop="conferenceCategory" label="용도" :label-width="state.formLabelWidth">
         <el-select
-          v-model="state.form.conferenceId"
+          v-model="state.form.conferenceCategory"
+          allow-create
+          filterable
+          default-first-option
+          clearable
           placeholder="선택">
           <el-option
             v-for="item in state.conferenceIds"
             :key="item.id"
             :label="item.name"
-            :value="item.id">
+            :value="{id: item.id, name: item.name}">
           </el-option>
         </el-select>
+        <div>
+          <el-button-group>
+            <el-button size="small" type="primary" icon="el-icon-edit" @click="createConferenceId">카테고리 생성</el-button>
+            <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteConferenceId">카테고리 삭제</el-button>
+          </el-button-group>
+        </div>
       </el-form-item>
       <el-form-item prop="title" label="제목" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
@@ -55,13 +65,13 @@ export default {
     const state = reactive({
       form: {
         title: '',
-        conferenceId: '',
+        conferenceCategory: null,
         description: '',
         thumbnail: null,
         align: 'left'
       },
       rules: {
-        conferenceId: [
+        conferenceCategory: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
         ],
         title: [
@@ -83,7 +93,7 @@ export default {
 
     const thumbnailValidate = function (value) {
       if (value === null) {
-        alert('첨부파일은 필수입니다.')
+        alert('첨부파일은 필수 항목입니다.')
         return
       } else {
         let thumbnailSize = value.size
@@ -112,14 +122,14 @@ export default {
 
             const formData = new FormData()
             formData.append('title', state.form.title)
-            formData.append('conferenceId', state.form.conferenceId)
+            formData.append('conferenceId', state.form.conferenceCategory.id)
             formData.append('description', state.form.description)
             formData.append('thumbnail', state.form.thumbnail)
             // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
             // FormData를 로깅하려면 FormData.entries()를 이용하여 key : value 쌍을 뽑아야 한다.
-            for (let key of formData.entries()) {
-              console.log(`${key}`)
-            }
+            // for (let key of formData.entries()) {
+            //   console.log(`${key}`)
+            // }
             store.dispatch('root/requestConferenceCreate', formData)
             .then(function (res) {
               console.log('컨퍼런스 생성 결과 : ', res)
@@ -146,6 +156,30 @@ export default {
       state.form.thumbnail = event.target.files[0]
     }
 
+    const createConferenceId = function () {
+      const newCategory = state.form.conferenceCategory
+      store.dispatch('root/requestConferenceIdCreate', {'name': newCategory})
+      .then(() => {
+        document.location.reload()
+        alert(newCategory + '카테고리가 추가되었습니다.')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
+    const deleteConferenceId = function () {
+      const curCategory = state.form.conferenceCategory.name
+      store.dispatch('root/requestConferenceIdDelete', {'name': curCategory})
+      .then(() => {
+        document.location.reload()
+        alert(curCategory + '카테고리가 삭제되었습니다.')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
     const handleClose = function () {
       state.form.title = ''
       state.form.usage = ''
@@ -154,7 +188,7 @@ export default {
       emit('closeConferenceDialog')
     }
 
-    return { conferenceForm, state, clickConference, handleClose, fileSelect }
+    return { conferenceForm, state, clickConference, handleClose, fileSelect, createConferenceId, deleteConferenceId }
   }
 }
 </script>

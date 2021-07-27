@@ -40,15 +40,15 @@ export function requestAvailableId({ commit }, id) {
 }
 
 // 컨퍼런스 액션
-export function requestConferenceCreate( { state }, payload ) {
+export function requestConferenceCreate({ state }, payload) {
   const url = '/conferences'
   let body = payload
   let config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
-  // response: statuscode, message, conferenceId
   return $axios.post(url, body, config)
 }
+
 
 export function requestConferenceId({ commit }) {
   const url = '/conference-categories'
@@ -57,4 +57,17 @@ export function requestConferenceId({ commit }) {
     commit('setConferenceId', res.data.categoryList)
   })
   .catch(err => console.log(err))
+}
+
+export function requestConferenceIdCreate({ state }, payload) {
+  const url = '/conference-categories'
+  let body = payload
+  return $axios.post(url, body)
+}
+
+export function requestConferenceIdDelete({ state }, payload) {
+  const url = '/conference-categories'
+  let body = payload
+  console.log(body)
+  return $axios.delete(url, {data: body})
 }
