@@ -1,4 +1,17 @@
 <template>
+  <el-dropdown>
+    <el-button type="primary" @click="clickDropdown">
+      {{ state.currentText }}<i class="el-icon-arrow-down el-icon--right"></i>
+    </el-button>
+    <el-dropdown-menu slot="dropdown" v-if="state.dropDownCollapse">
+      <el-dropdown-item v-for="(item, index) in state.dropDownArray" :key="index" :index="index.toString()" @click="clickDropdownItem(index)">
+        {{ item }}
+      </el-dropdown-item>
+    </el-dropdown-menu>
+  </el-dropdown>
+  <el-button @click="clickSortIndex">
+    <i :class="['ic', state.sortItem]"/>
+  </el-button>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
       <Conference/>
@@ -29,11 +42,13 @@
   display: inline-block;
   cursor: pointer;
 }
+
 </style>
 <script>
 import Conference from './components/conference'
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Home',
@@ -43,10 +58,20 @@ export default {
   },
 
   setup () {
+    const store = useStore()
     const router = useRouter()
 
     const state = reactive({
-      count: 12
+      recentSearchValue: computed(() => store.getters['root/getSearchValue']),
+      count: 12,
+      currentText:'제목순',
+      dropDownArray: ['제목순', '추천순'],
+      dropDownCollapse:false,
+      activeSortIndex: computed(() => store.getters['root/getSortIndex']),
+      sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
+      sortItem: computed(() => {
+        return state.sortItems[state.activeSortIndex]
+      })
     })
 
     const load = function () {
@@ -62,8 +87,32 @@ export default {
         }
       })
     }
+    const clickSortIndex = () => {
+      console.log(state.activeSortIndex)
+      store.commit('root/setSortIndex')
+  }
 
-    return { state, load, clickConference }
+    const clickDropdown = () => {
+      state.dropDownCollapse = !state.dropDownCollapse
+    }
+
+    const clickDropdownItem = (index) => {
+      state.currentText = state.dropDownArray[index]
+      state.dropDownCollapse=false
+      let sortOrderItmes = ['asc', 'desc']
+      let dropdownItems = ['title', 'recommend']
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [dropdownItems[index], sortOrderItmes[state.activeSortIndex]],
+        page: null,
+        size: 10,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
+    }
+
+    return { state, load, clickConference, clickSortIndex, clickDropdown, clickDropdownItem }
   }
 }
 </script>

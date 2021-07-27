@@ -39,6 +39,17 @@ export function requestAvailableId({ commit }, id) {
   })
 }
 
+export function requestSearchTitle({ commit }, payload) {
+  const url = '/conferences'
+  const body = payload
+  commit('setSearchValue', body.title)
+  return $axios.get(url, body)
+  .then((res) => {
+    console.log(res.data.content)
+    console.log('request setConferenceData')
+    commit('setConferenceData', res.data.content)
+  })
+}
 // 컨퍼런스 액션
 export function requestConferenceCreate({ state }, payload) {
   const url = '/conferences'
