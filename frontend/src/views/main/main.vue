@@ -4,7 +4,8 @@
       :height="`70px`"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
-      @openConferenceDialog="onOpenConferenceDialog()"/>
+      @openConferenceDialog="onOpenConferenceDialog()"
+      @openProfileDialog="onOpenProflieDialog()"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
@@ -26,6 +27,9 @@
   <conference-dialog
     :open="state.conferenceDialogOpen"
     @closeConferenceDialog="onCloseConferenceDialog()"/>
+  <profile-dialog
+    :open="state.profileDialogOpen"
+    @closeProfileDialog="onCloseProfileDialog()"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -43,6 +47,7 @@ import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import ProfileDialog from './components/profile-dialog'
 
 export default {
   name: 'Main',
@@ -53,6 +58,7 @@ export default {
     LoginDialog,
     SignupDialog,
     ConferenceDialog,
+    ProfileDialog,
     Spinner
   },
   setup() {
@@ -62,6 +68,7 @@ export default {
       loginDialogOpen: false,
       signupDialogOpen: false,
       conferenceDialogOpen: false,
+      profileDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
@@ -83,8 +90,14 @@ export default {
     const onCloseConferenceDialog = () => {
       state.conferenceDialogOpen = false
     }
+    const onOpenProflieDialog = () => {
+      state.profileDialogOpen = true
+    }
+    const onCloseProfileDialog = () => {
+      state.profileDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenConferenceDialog, onCloseConferenceDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenConferenceDialog, onCloseConferenceDialog, onOpenProflieDialog, onCloseProfileDialog}
   }
 }
 </script>

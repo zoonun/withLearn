@@ -28,3 +28,7 @@ export function getIsAvailableId (state) {
 export function getConferenceId (state) {
   return state.conferenceId
 }
+
+export function getProfile (state) {
+  return state.profile
+}

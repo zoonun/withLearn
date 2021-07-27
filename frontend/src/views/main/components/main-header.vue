@@ -25,10 +25,13 @@
           </el-button>
         </div>
         <div class="button-wrapper" v-else>
-          <el-button>내 정보</el-button>
           <el-button type="primary" @click="clickConference">
             <i :class="['ic', 'el-icon-circle-plus-outline']"/>
             <span>컨퍼런스 생성</span>
+          </el-button>
+          <el-button @click="clickProfile">
+            <i :class="['ic', 'el-icon-user-solid']"/>
+            <span>프로필</span>
           </el-button>
         </div>
       </div>
@@ -54,7 +57,11 @@
             <el-button type="primary" class="mobile-sidebar-btn" @click="clickConference">
               <i :class="['ic', 'el-icon-circle-plus-outline']"/>
               <span>컨퍼런스 생성</span>
-          </el-button>
+            </el-button>
+            <el-button class="mobile-sidebar-btn" @click="clickProfile">
+              <i :class="['ic', 'el-icon-user-solid']"/>
+              <span>프로필</span>
+            </el-button>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -147,13 +154,19 @@ export default {
       emit('openConferenceDialog')
     }
 
+    const clickProfile = () => {
+      emit('openProfileDialog')
+      store.dispatch('root/requestProfile')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, clickConference, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, clickConference, clickProfile, changeCollapse }
   }
 }
+
 </script>
 <style>
   .main-header {

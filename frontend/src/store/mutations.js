@@ -38,3 +38,11 @@ export function setIsUnavailableId (state) {
 export function setConferenceId (state, ids) {
   state.conferenceId = ids
 }
+
+export function setProfile (state, profileItem) {
+  state.profile = profileItem
+}
+
+export function setUpdate (state, profileItem) {
+  state.profile = profileItem
+}

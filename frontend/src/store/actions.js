@@ -49,7 +49,6 @@ export function requestConferenceCreate({ state }, payload) {
   return $axios.post(url, body, config)
 }
 
-
 export function requestConferenceId({ commit }) {
   const url = '/conference-categories'
   return $axios.get(url)
@@ -70,4 +69,26 @@ export function requestConferenceIdDelete({ state }, payload) {
   let body = payload
   console.log(body)
   return $axios.delete(url, {data: body})
+}
+
+export function requestProfile( { commit }) {
+  console.log('requestProfile')
+  const url = '/users/me'
+  return $axios.get(url)
+  .then((res) => {
+    console.log('requestProfile', res.data)
+    commit('setProfile', res.data)
+  })
+}
+
+export function requestUpdate({ commit }, payload) {
+  const id = payload.id
+  const url = `/users/${id}`
+  let body = payload
+  console.log('requestUpdate')
+  return $axios.patch(url, body)
+  .then((res) =>{
+    console.log('requestUpdate', res.status)
+    commit('setUpdate', body)
+  })
 }
