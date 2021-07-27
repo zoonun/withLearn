@@ -101,7 +101,7 @@ export default {
         if (!thumbnailRegExp.test(value.name)) {
           alert('이미지 파일만 업로드 가능합니다.')
           return state.form.thumbnail = null
-        } else if (thumbnailSize >= maxSize) {
+        } else if (thumbnailSize > maxSize) {
           alert('5MB 이하의 파일만 업로드 가능합니다.')
           return state.form.thumbnail = null
         } else {
@@ -125,11 +125,7 @@ export default {
             formData.append('conferenceId', state.form.conferenceCategory.id)
             formData.append('description', state.form.description)
             formData.append('thumbnail', state.form.thumbnail)
-            // FormData 객체는 그 자체를 로깅하면 빈 객체만을 리턴한다.
-            // FormData를 로깅하려면 FormData.entries()를 이용하여 key : value 쌍을 뽑아야 한다.
-            // for (let key of formData.entries()) {
-            //   console.log(`${key}`)
-            // }
+
             store.dispatch('root/requestConferenceCreate', formData)
             .then(function (res) {
               console.log('컨퍼런스 생성 결과 : ', res)
