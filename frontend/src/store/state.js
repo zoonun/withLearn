@@ -53,4 +53,5 @@ export default {
   conferenceData: null,
   recentSearchValue:null,
   profile: null,
+  conferenceId: {},
 }
