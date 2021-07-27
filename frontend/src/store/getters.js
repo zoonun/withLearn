@@ -22,7 +22,11 @@ export function getIsSpinning (state) {
 }
 
 export function getIsAvailableId (state) {
-  return state.isAvailable
+  return state.isAvailableId
+}
+
+export function getConferenceId (state) {
+  return state.conferenceId
 }
 
 export function getProfile (state) {

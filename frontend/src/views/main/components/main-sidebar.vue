@@ -82,8 +82,8 @@ export default {
           const MenuItems = store.getters['root/getMenus']
           let menuArray = []
           let homeObject = {}
-          homeObject.icon = MenuItems["home"].icon
-          homeObject.title = MenuItems["home"].name
+          homeObject.icon = MenuItems['home'].icon
+          homeObject.title = MenuItems['home'].name
           menuArray.push(homeObject)
 
           return menuArray
