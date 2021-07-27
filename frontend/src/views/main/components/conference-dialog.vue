@@ -1,9 +1,9 @@
 <template>
   <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
-      <el-form-item prop="conferenceCategory" label="용도" :label-width="state.formLabelWidth">
+      <el-form-item prop="conferenceCategory" label="카테고리" :label-width="state.formLabelWidth">
         <el-select
-          v-model="state.form.conferenceCategory"
+          v-model="state.form.conferenceCategoryId"
           allow-create
           filterable
           default-first-option
@@ -13,15 +13,9 @@
             v-for="item in state.conferenceIds"
             :key="item.id"
             :label="item.name"
-            :value="{id: item.id, name: item.name}">
+            :value="item.id">
           </el-option>
         </el-select>
-        <div>
-          <el-button-group>
-            <el-button size="small" type="primary" icon="el-icon-edit" @click="createConferenceId">카테고리 생성</el-button>
-            <el-button size="small" type="danger" icon="el-icon-delete" @click="deleteConferenceId">카테고리 삭제</el-button>
-          </el-button-group>
-        </div>
       </el-form-item>
       <el-form-item prop="title" label="제목" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
@@ -65,13 +59,13 @@ export default {
     const state = reactive({
       form: {
         title: '',
-        conferenceCategory: null,
+        conferenceCategoryId: '',
         description: '',
         thumbnail: null,
         align: 'left'
       },
       rules: {
-        conferenceCategory: [
+        conferenceCategoryId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' }
         ],
         title: [
@@ -122,7 +116,7 @@ export default {
 
             const formData = new FormData()
             formData.append('title', state.form.title)
-            formData.append('conferenceId', state.form.conferenceCategory.id)
+            formData.append('conferenceCategoryId', state.form.conferenceCategoryId)
             formData.append('description', state.form.description)
             formData.append('thumbnail', state.form.thumbnail)
 
@@ -133,7 +127,7 @@ export default {
               router.push({
                 name: 'conference-detail',
                 params: {
-                  conferenceId: res.id
+                  conferenceId: res.data.conferenceId
                 }
               })
             })
@@ -152,39 +146,15 @@ export default {
       state.form.thumbnail = event.target.files[0]
     }
 
-    const createConferenceId = function () {
-      const newCategory = state.form.conferenceCategory
-      store.dispatch('root/requestConferenceIdCreate', {'name': newCategory})
-      .then(() => {
-        document.location.reload()
-        alert(newCategory + '카테고리가 추가되었습니다.')
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
-
-    const deleteConferenceId = function () {
-      const curCategory = state.form.conferenceCategory.name
-      store.dispatch('root/requestConferenceIdDelete', {'name': curCategory})
-      .then(() => {
-        document.location.reload()
-        alert(curCategory + '카테고리가 삭제되었습니다.')
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
-
     const handleClose = function () {
       state.form.title = ''
-      state.form.usage = ''
+      state.form.conferenceCategoryId = ''
       state.form.description = ''
       state.form.thumbnail = null
       emit('closeConferenceDialog')
     }
 
-    return { conferenceForm, state, clickConference, handleClose, fileSelect, createConferenceId, deleteConferenceId }
+    return { conferenceForm, state, clickConference, handleClose, fileSelect }
   }
 }
 </script>
