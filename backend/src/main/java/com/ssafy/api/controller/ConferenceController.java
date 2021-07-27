@@ -1,7 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceCreaterPostReq;
+import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -12,6 +12,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,11 +34,10 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
-            @ModelAttribute @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq createrInfo) throws IOException {
-        System.out.println("test thumbnail_back");
-        System.out.println(1);
-        Conference conference = conferenceService.createConference(createrInfo);
-        return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201,"success.",conference));
+            @RequestParam("description") String description, @RequestParam("title") String title,
+            @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail) throws IOException {
+        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail);
+        return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
     }
 
     @GetMapping("conference-categories")
@@ -47,7 +47,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceCategoryRes> getCategories() {
         System.out.println("test thumbnail_back");
-        Optional<List<ConferenceCategory>> categories= conferenceService.getCategories();
+        Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
         return ResponseEntity.status(201).body(ConferenceCategoryRes.of(categories));
     }
 
@@ -58,7 +58,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceDetailRes> getConferenceDetail(
             @PathVariable Long conference_id) {
-        Conference conference= conferenceService.getConferenceByConferenceId(conference_id);
+        Conference conference = conferenceService.getConferenceByConferenceId(conference_id);
         Optional<List<UserConference>> userConference = conferenceService.getUserConferenceByConferenceId(conference_id);
         return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference, userConference));
     }
@@ -69,7 +69,7 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(
-            @PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceCreaterPostReq patcherInfo) {
+            @PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo) {
         conferenceService.patchConferenceInfo(patcherInfo, conference_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -82,7 +82,7 @@ public class ConferenceController {
     public ResponseEntity<ConferenceListPostRes> getConferenceList(
             @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort,
             @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
-        Optional<List<Conference>> conferences= conferenceService.getAllConference(title,sort,size,conferenceCategory);
+        Optional<List<Conference>> conferences = conferenceService.getAllConference(title, sort, size, conferenceCategory);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
     }
 
@@ -95,9 +95,9 @@ public class ConferenceController {
     public ResponseEntity<? extends BaseResponseBody> createConferenceCategory(
             @RequestBody @ApiParam(value = "카테고리 정보", required = true) ConferenceCategoryPostReq categoryInfo) {
         Optional<ConferenceCategory> conferenceCategory = conferenceService.getConferenceCategoryByName(categoryInfo.getName());
-        if(conferenceCategory.isPresent()){
+        if (conferenceCategory.isPresent()) {
             return ResponseEntity.status(409).body(BaseResponseBody.of(409, "duplicate category"));
-        }else{
+        } else {
             conferenceService.createConferenceCategory(categoryInfo);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         }
@@ -112,10 +112,10 @@ public class ConferenceController {
     public ResponseEntity<? extends BaseResponseBody> deleteConferenceCategory(
             @RequestBody @ApiParam(value = "카테고리 정보", required = true) ConferenceCategoryPostReq categoryInfo) {
         Optional<ConferenceCategory> conferenceCategory = conferenceService.getConferenceCategoryByName(categoryInfo.getName());
-        if(conferenceCategory.isPresent()){
+        if (conferenceCategory.isPresent()) {
             conferenceService.deleteConferenceCategory(conferenceCategory.get().getId());
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-        }else{
+        } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "non-existent category"));
         }
     }
