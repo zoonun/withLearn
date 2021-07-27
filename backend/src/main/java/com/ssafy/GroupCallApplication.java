@@ -48,7 +48,7 @@ public class GroupCallApplication implements WebSocketConfigurer {
         return container;
     }
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
         SpringApplication.run(GroupCallApplication.class, args);
     }
 
