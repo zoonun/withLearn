@@ -82,8 +82,8 @@ export default {
           const MenuItems = store.getters['root/getMenus']
           let menuArray = []
           let homeObject = {}
-          homeObject.icon = MenuItems["home"].icon
-          homeObject.title = MenuItems["home"].name
+          homeObject.icon = MenuItems['home'].icon
+          homeObject.title = MenuItems['home'].name
           menuArray.push(homeObject)
 
           return menuArray
@@ -107,7 +107,7 @@ export default {
     }
 
     const clickLogout = function (param) {
-      store.commit('root/setLogout', param)
+      store.dispatch('root/requestLogout', param)
     }
 
     return { state, menuSelect, clickLogout }

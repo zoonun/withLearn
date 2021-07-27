@@ -1,5 +1,4 @@
 /* Element Plus Overriding CSS */
-
 @media (max-width: 1269px) {
   .el-main {
     width: calc(100% - 2px);

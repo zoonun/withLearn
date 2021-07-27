@@ -15,25 +15,34 @@ export function setMenuActiveMenuName (state, menuName) {
 // User management Mutations
 export function setLogout (state) {
   state.isLoggedIn = false
-  localStorage.removeItem('user')
-  alert('로그아웃 되었습니다.')
-  document.location.reload()
 }
 
 // Spinner Mutations
-export function startSpinner (state) {
+export function setSpinnerStart (state) {
   state.loadingStatus = true
 }
 
-export function endSpinner (state) {
+export function setSpinnerEnd (state) {
   state.loadingStatus = false
 }
 
 // Id Dupication Check
-export function availableId (state) {
-  state.isAvailable = true
+export function setIsAvailableId (state) {
+  state.isAvailableId = true
 }
 
-export function unAvailableId (state) {
-  state.isAvailable = false
+export function setIsUnavailableId (state) {
+  state.isAvailableId = false
+}
+
+export function setConferenceId (state, ids) {
+  state.conferenceId = ids
+}
+
+export function setProfile (state, profileItem) {
+  state.profile = profileItem
+}
+
+export function setUpdate (state, profileItem) {
+  state.profile = profileItem
 }

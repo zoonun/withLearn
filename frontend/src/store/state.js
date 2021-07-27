@@ -48,5 +48,7 @@ export default {
   menus: menuData,
   isLoggedIn: IsLoggedIn,
   loadingStatus: false,
-  isAvailable: false
+  isAvailableId: false,
+  conferenceId: {},
+  profile: null
 }
