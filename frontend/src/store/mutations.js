@@ -35,12 +35,16 @@ export function unAvailableId (state) {
   state.isAvailable = false
 }
 
-export function setTitleSortIndex (state) {
-  console.log('setTitleSortIndex')
-  state.titleSortIndex = (state.titleSortIndex + 1) % 2
+export function setSortIndex (state) {
+  console.log('setSortIndex')
+  state.SortIndex = (state.SortIndex + 1) % 2
 }
 
-export function setConferenceData (state, conferenceData){
+export function setConferenceData (state, conferenceData) {
   state.conferenceData = conferenceData
 }
 
+export function setSearchValue (state, searchValue) {
+  console.log('setSearchValue')
+  state.recentSearchValue = searchValue
+}

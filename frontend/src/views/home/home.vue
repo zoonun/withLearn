@@ -9,7 +9,7 @@
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
-  <el-button @click="clickTitleSort">
+  <el-button @click="clickSortIndex">
     <i :class="['ic', state.sortItem]"/>
   </el-button>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
@@ -42,6 +42,7 @@
   display: inline-block;
   cursor: pointer;
 }
+
 </style>
 <script>
 import Conference from './components/conference'
@@ -61,11 +62,12 @@ export default {
     const router = useRouter()
 
     const state = reactive({
+      recentSearchValue: computed(() => store.getters['root/getSearchValue']),
       count: 12,
       currentText:'제목순',
       dropDownArray: ['제목순', '추천순'],
       dropDownCollapse:false,
-      activeSortIndex: computed(() => store.getters['root/getTitleSortIndex']),
+      activeSortIndex: computed(() => store.getters['root/getSortIndex']),
       sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
       sortItem: computed(() => {
         return state.sortItems[state.activeSortIndex]
@@ -85,9 +87,9 @@ export default {
         }
       })
     }
-    const clickTitleSort = () => {
+    const clickSortIndex = () => {
       console.log(state.activeSortIndex)
-      store.commit('root/setTitleSortIndex')
+      store.commit('root/setSortIndex')
   }
 
     const clickDropdown = () => {
@@ -97,9 +99,20 @@ export default {
     const clickDropdownItem = (index) => {
       state.currentText = state.dropDownArray[index]
       state.dropDownCollapse=false
+      let sortOrderItmes = ['asc', 'desc']
+      let dropdownItems = ['title', 'recommend']
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [dropdownItems[index], sortOrderItmes[state.activeSortIndex]],
+        page: null,
+        size: 10,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
     }
 
-    return { state, load, clickConference, clickTitleSort, clickDropdown, clickDropdownItem }
+    return { state, load, clickConference, clickSortIndex, clickDropdown, clickDropdownItem }
   }
 }
 </script>

@@ -73,7 +73,8 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
-      sort:'asc',
+      sort: 'title',
+      order: 'asc',
       conference_category:null,
       searchValue: null,
       isCollapse: true,
@@ -136,7 +137,7 @@ export default {
       console.log('clickSearch')
       const payload = {
         title: state.searchValue,
-        sort: state.sort,
+        sort: [state.sort, state.order],
         page: null,
         size: 10,
         conference_category: state.conference_category,

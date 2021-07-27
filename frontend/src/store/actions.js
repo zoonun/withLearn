@@ -39,9 +39,10 @@ export function checkDuplicate({ commit }, id) {
   })
 }
 
-export function requestSearchTitle({commit}, payload) {
+export function requestSearchTitle({ commit }, payload) {
   const url = '/conference'
   const body = payload
+  commit('setSearchValue', body.title)
   return $axios.get(url, body)
   .then((res) => {
     console.log(res.data.content)

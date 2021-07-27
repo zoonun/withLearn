@@ -25,11 +25,15 @@ export function getIsAvailableId (state) {
   return state.isAvailable
 }
 
-export function getTitleSortIndex (state) {
-  console.log('getTitleSortIndex')
-  return state.titleSortIndex
+export function getSortIndex (state) {
+  console.log('getSortIndex')
+  return state.SortIndex
 }
 
 export function getConference (state) {
   return state.conferenceData
+}
+
+export function getSearchValue (state) {
+  return state.recentSearchValue
 }
