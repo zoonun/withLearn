@@ -1,14 +1,14 @@
 <template>
-  <el-dropdown>
-    <el-button type="primary" @click="clickDropdown">
-      {{ state.currentText }}<i class="el-icon-arrow-down el-icon--right"></i>
-    </el-button>
-    <el-dropdown-menu slot="dropdown" v-if="state.dropDownCollapse">
-      <el-dropdown-item v-for="(item, index) in state.dropDownArray" :key="index" :index="index.toString()" @click="clickDropdownItem(index)">
-        {{ item }}
-      </el-dropdown-item>
-    </el-dropdown-menu>
-  </el-dropdown>
+  <el-select
+    v-model="state.currentText">
+    <el-option
+      v-for="(item, index) in state.dropDownArray"
+      :key="index"
+      :index="index.toString()"
+      :label="item"
+      @click="clickDropdownItem(index)">
+    </el-option>
+  </el-select>
   <el-button @click="clickSortIndex">
     <i :class="['ic', state.sortItem]"/>
   </el-button>
@@ -71,7 +71,8 @@ export default {
       sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
       sortItem: computed(() => {
         return state.sortItems[state.activeSortIndex]
-      })
+      }),
+      activeItemIndex: 0,
     })
 
     const load = function () {
@@ -90,6 +91,17 @@ export default {
     const clickSortIndex = () => {
       console.log(state.activeSortIndex)
       store.commit('root/setSortIndex')
+      let sortOrderItems = ['asc', 'desc']
+      let dropdownItems = ['title', 'recommend']
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [dropdownItems[state.activeItemIndex], sortOrderItems[state.activeSortIndex]],
+        page: null,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
   }
 
     const clickDropdown = () => {
@@ -101,11 +113,12 @@ export default {
       state.dropDownCollapse=false
       let sortOrderItmes = ['asc', 'desc']
       let dropdownItems = ['title', 'recommend']
+      state.activeItemIndex = index
       const payload = {
         title: state.recentSearchValue,
         sort: [dropdownItems[index], sortOrderItmes[state.activeSortIndex]],
         page: null,
-        size: 10,
+        size: 20,
         conference_category: state.conference_category,
       }
       console.log(payload)
