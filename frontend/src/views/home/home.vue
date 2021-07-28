@@ -1,16 +1,16 @@
 <template>
-  <el-dropdown>
-    <el-button type="primary" @click="clickDropdown">
-      {{ state.currentText }}<i class="el-icon-arrow-down el-icon--right"></i>
-    </el-button>
-    <el-dropdown-menu slot="dropdown" v-if="state.dropDownCollapse">
-      <el-dropdown-item v-for="(item, index) in state.dropDownArray" :key="index" :index="index.toString()" @click="clickDropdownItem(index)">
-        {{ item }}
-      </el-dropdown-item>
-    </el-dropdown-menu>
-  </el-dropdown>
-  <el-button @click="clickSortIndex">
-    <i :class="['ic', state.sortItem]"/>
+  <el-select
+    v-model="state.sortCurrentText">
+    <el-option
+      v-for="(item, index) in state.sortSelectLabelItems"
+      :key="index"
+      :index="index.toString()"
+      :label="item"
+      @click="clickSortSelectItem(index)">
+    </el-option>
+  </el-select>
+  <el-button @click="clickSortOrderIndex">
+    <i :class="['ic', state.sortOrderIconItem]"/>
   </el-button>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
@@ -64,14 +64,16 @@ export default {
     const state = reactive({
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
       count: 12,
-      currentText:'제목순',
-      dropDownArray: ['제목순', '추천순'],
-      dropDownCollapse:false,
-      activeSortIndex: computed(() => store.getters['root/getSortIndex']),
-      sortItems:['el-icon-sort-up', 'el-icon-sort-down'],
-      sortItem: computed(() => {
-        return state.sortItems[state.activeSortIndex]
-      })
+      sortCurrentText:'제목순',
+      sortSelectLabelItems: ['제목순', '추천순'],
+      sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
+      sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
+      sortOrderValueItems: ['asc', 'desc'],
+      sortOrderIconItem: computed(() => {
+        return state.sortOrderIconItems[state.sortActiveOrderIndex]
+      }),
+      sortActiveSelectIndex: 0,
+      sortSelectValueItems: ['title', 'recommend']
     })
 
     const load = function () {
@@ -87,32 +89,35 @@ export default {
         }
       })
     }
-    const clickSortIndex = () => {
+    const clickSortOrderIndex = () => {
       console.log(state.activeSortIndex)
       store.commit('root/setSortIndex')
-  }
-
-    const clickDropdown = () => {
-      state.dropDownCollapse = !state.dropDownCollapse
-    }
-
-    const clickDropdownItem = (index) => {
-      state.currentText = state.dropDownArray[index]
-      state.dropDownCollapse=false
-      let sortOrderItmes = ['asc', 'desc']
-      let dropdownItems = ['title', 'recommend']
       const payload = {
         title: state.recentSearchValue,
-        sort: [dropdownItems[index], sortOrderItmes[state.activeSortIndex]],
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
         page: null,
-        size: 10,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
+  }
+
+    const clickSortSelectItem = (index) => {
+      state.sortCurrentText = state.sortSelectLabelItems[index]
+      state.sortActiveSelectIndex = index
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        page: null,
+        size: 20,
         conference_category: state.conference_category,
       }
       console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
     }
 
-    return { state, load, clickConference, clickSortIndex, clickDropdown, clickDropdownItem }
+    return { state, load, clickConference, clickSortOrderIndex, clickSortSelectItem }
   }
 }
 </script>
