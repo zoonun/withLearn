@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 /**
  * 컨퍼런스 모델 정의.
  */
@@ -26,15 +26,16 @@ public class Conference extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    LocalDateTime callStartTime;
-    Date callUpdateTime;
     String thumbnail;
     String title;
     String description;
     Boolean is_active;
+    Boolean is_free;
 
-    @PrePersist
-    public void callStartTime() {
-        this.callStartTime = LocalDateTime.now();
-    }
+    String conference_day;
+    Date conference_time;
+    Date apply_end_time;
+    Date apply_start_time;
+    Integer price;
+
 }

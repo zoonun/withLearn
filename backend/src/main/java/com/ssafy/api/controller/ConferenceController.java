@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +36,11 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestParam("description") String description, @RequestParam("title") String title,
-            @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail) throws IOException {
-        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail);
+            @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
+            @RequestParam("conferenceDay") String conferenceDay, @RequestParam("conferenceTime") Date conferenceTime,
+            @RequestParam("applyEndTime") Date applyEndTime, @RequestParam("applyStartTime") Date applyStartTime,
+            @RequestParam("price") Integer price) throws IOException {
+        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime,applyStartTime, price);
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
     }
 
@@ -68,9 +72,10 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
-    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(
-            @PathVariable Long conference_id, @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo) {
-        conferenceService.patchConferenceInfo(patcherInfo, conference_id);
+    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo (
+            @PathVariable Long conference_id, @RequestParam("thumbnail") MultipartFile thumbnail,
+            @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo) throws IOException {
+        conferenceService.patchConferenceInfo(patcherInfo, thumbnail, conference_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
