@@ -36,14 +36,14 @@ public class ConferenceServiceImpl implements ConferenceService {
 
 
     @Override
-    public Conference createConference(String description, String title, Long conferenceCategoryId, MultipartFile thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) throws IOException {
+    public Conference createConference(String description, String title, Long conferenceCategoryId, MultipartFile thumbnail,  String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price ) throws IOException{
         System.out.println(2);
         Conference conference = new Conference();
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
         conference.setIs_active(true);
+        conference.setIs_free(true);
         conference.setDescription(description);
         conference.setTitle(title);
-        conference.setIs_free(true);
         conference.setConference_day(conferenceDay);
         conference.setConference_time(conferenceTime);
         conference.setApply_end_time(applyEndTime);

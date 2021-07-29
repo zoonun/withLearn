@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,7 +34,9 @@ public class Conference extends BaseEntity{
     Boolean is_free;
 
     String conference_day;
+
     Date conference_time;
+
     Date apply_end_time;
     Date apply_start_time;
     Integer price;

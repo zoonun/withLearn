@@ -10,6 +10,7 @@ import com.ssafy.db.entity.ConferenceCategory;
 import com.ssafy.db.entity.UserConference;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,15 +38,18 @@ public class ConferenceController {
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestParam("description") String description, @RequestParam("title") String title,
             @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
-            @RequestParam("conferenceDay") String conferenceDay, @RequestParam("conferenceTime") Date conferenceTime,
-            @RequestParam("applyEndTime") Date applyEndTime, @RequestParam("applyStartTime") Date applyStartTime,
-            @RequestParam("price") Integer price) throws IOException {
-        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime,applyStartTime, price);
+            @RequestParam("conferenceDay") String conferenceDay,
+            @RequestParam(required = false/*"conferenceTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
+            @RequestParam(required = false/*"applyEndTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime,
+            @RequestParam(required = false/*"applyStartTime"*/)@DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @RequestParam("price") Integer price
+    )throws IOException {
+        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
     }
 
     @GetMapping("conference-categories")
-    @ApiOperation(value = "방 카테고리 조회", notes = "방 카테고리듫을 조회한다")
+    @ApiOperation(value = "방 카테고리 조회", notes = "방 카테고리들을 조회한다")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
