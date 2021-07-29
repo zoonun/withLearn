@@ -5,12 +5,15 @@
       {{ state.status }}
     <div v-if="state.status === 'connected'">
       <form action="#" @submit.prevent="sendMessage">
-        <input type="text" v-model="message">
+        <input type="text" v-model="state.message">
         <button type="submit">메시지 전송</button>
       </form>
       <ul id="logs">
-        <li v-for="log in logs" class="log">
-          {{ log.event }} : {{ log.data }}
+        <li
+          v-for="(item, index) in state.logs"
+          :key=index
+          class="log">
+          {{ item.event }} : {{ item.data }}
         </li>
       </ul>
     </div>
@@ -27,7 +30,6 @@ export default {
       status: 'disconnected',
       message: '',
     })
-    // websocket :
     const ws = new WebSocket('wss://echo.websocket.org')
 
     const connect = function () {
@@ -49,11 +51,10 @@ export default {
     }
 
     const sendMessage = function (e) {
-      console.log(e)
       ws.send(state.message)
       state.logs.push({ event: '메시지 전송', data: state.message })
+      console.log(JSON.stringify(state.logs))
       state.message = ''
-      console.log('sendMessage: ' + e)
     }
     return { state, ws, connect, disconnect, sendMessage }
   }

@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
-      <el-form-item prop="conferenceCategory" label="카테고리" :label-width="state.formLabelWidth">
+      <el-form-item prop="conferenceCategoryId" label="카테고리" :label-width="state.formLabelWidth">
         <el-select
           v-model="state.form.conferenceCategoryId"
           allow-create
