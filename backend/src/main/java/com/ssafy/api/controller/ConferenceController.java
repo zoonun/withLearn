@@ -36,14 +36,11 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
-            @RequestParam("description") String description, @RequestParam("title") String title,
-            @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
-            @RequestParam("conferenceDay") String conferenceDay,
-            @RequestParam(required = false/*"conferenceTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
-            @RequestParam(required = false/*"applyEndTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime,
-            @RequestParam(required = false/*"applyStartTime"*/)@DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
-            @RequestParam("price") Integer price
-    )throws IOException {
+            @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
+            @RequestParam("conferenceDay") String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @RequestParam(required = false) Integer price
+    ) throws IOException {
         Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
     }
@@ -76,12 +73,12 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
     })
-    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo (
+    public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(
             @PathVariable Long conference_id, @RequestParam String description, @RequestParam String title,
             @RequestParam Long conferenceCategoryId, @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
-            @RequestParam Boolean isActive, @RequestParam Integer price ) throws IOException {
-        conferenceService.patchConferenceInfo(description,title,conferenceCategoryId,thumbnail,conferenceDay,conferenceTime,applyEndTime,applyStartTime,isActive,price, conference_id);
+            @RequestParam Boolean isActive, @RequestParam Integer price) throws IOException {
+        conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
