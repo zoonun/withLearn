@@ -4,31 +4,33 @@
       <button id="connect" @click="connect" type="submit">Connect</button>
       <button id="idsconnect" @click="disconnect" type="submit" disabled="disabled">Disconnect</button>
     </div>
-  </div>
-  <div class="form-inline">
-    <div class="form-group">
-      <label for="name">이름을 입력하세요</label>
-      <input type="text" id="name" placeholder="name here">
+    <div class="form-inline">
+      <div class="form-group">
+        <label for="name">이름을 입력하세요</label>
+        <input type="text" id="name" placeholder="name here">
+      </div>
+      <div class="form-group">
+        <label for="message">메시지를 입력하세요</label>
+        <input type="text" id="chatMessage" placeholder="message here">
+      </div>
+      <button id="chatSend" @click="sendChat">전송</button>
+      <table id="conversation">
+        <thead>
+          <tr>
+            <th>Messages</th>
+          </tr>
+          <tbody id="greetings">
+          </tbody>
+        </thead>
+      </table>
     </div>
-    <div class="form-group">
-      <label for="message">메시지를 입력하세요</label>
-      <input type="text" id="chatMessage" placeholder="message here">
-    </div>
-    <button id="chatSend" @click="sendChat">전송</button>
-    <table id="conversation">
-      <thead>
-        <tr>
-          <th>Messages</th>
-        </tr>
-        <tbody id="greetings">
-        </tbody>
-      </thead>
-    </table>
   </div>
 </template>
 
 <script>
 import { reactive } from 'vue'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 export default {
   name: 'websocket',
   setup() {
