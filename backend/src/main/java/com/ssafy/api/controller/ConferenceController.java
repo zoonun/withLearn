@@ -77,10 +77,26 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo (
-            @PathVariable Long conference_id, @RequestParam("thumbnail") MultipartFile thumbnail,
-            @RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo) throws IOException {
-        conferenceService.patchConferenceInfo(patcherInfo, thumbnail, conference_id);
+            @PathVariable Long conference_id,
+            @RequestParam(required = false/*"description"*/) String description,
+            @RequestParam(required = false/*"title"*/) String title,
+            @RequestParam(required = false/*"conferenceCategoryId"*/) Long conferenceCategoryId,
+            @RequestParam(required = false/*"thumbnail"*/) MultipartFile thumbnail,
+            @RequestParam(required = false/*"conferenceDay"*/) String conferenceDay,
+            @RequestParam(required = false/*"conferenceTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
+            @RequestParam(required = false/*"applyEndTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime,
+            @RequestParam(required = false/*"applyStartTime"*/)@DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @RequestParam(required = false/*"isActive"*/) Boolean isActive,
+            @RequestParam(required = false/*"isFree"*/)Boolean isFree,
+            @RequestParam(required = false/*"price"*/) Integer price
+/*            @RequestParam(required = false*//*"thumbnail"*//*) MultipartFile thumbnail,*/
+            //@RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo
+            ) throws IOException {
+        System.out.println(1);
+//        conferenceService.patchConferenceInfo(patcherInfo, thumbnail, conference_id);
+        System.out.println(2);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+
     }
 
     @GetMapping(value = "conferences")

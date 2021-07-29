@@ -99,22 +99,21 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public void patchConferenceInfo(ConferenceModiferPostReq patcherInfo, MultipartFile thumbnail, Long conference_id) throws IOException {
-        Conference conference = new Conference();
+    public void patchConferenceInfo(Long conferenceId, String description, String title, Long conferenceCategoryId, MultipartFile thumbnail,  String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price, Boolean isFree, Boolean isActive)  throws IOException{
+        Conference conference = conferenceRepositorySupport.findConferenceByConferenceId(conferenceId).get();
         ConferenceCategory conferenceCategory = new ConferenceCategory();
-        conference = getConferenceByConferenceId(conference_id);
-        conference.setTitle(patcherInfo.getTitle());
-        conference.setDescription(patcherInfo.getDescription());
-        conferenceCategory.setId(patcherInfo.getConferenceCategoryId());
+        conference.setConference_time(conferenceTime);
+        conference.setConference_day(conferenceDay);
+        conference.setApply_start_time(applyStartTime);
+        conference.setApply_end_time(applyEndTime);
+        conference.setIs_active(isActive);
+        conference.setIs_free(isFree);
+        conference.setPrice(price);
+        conference.setTitle(title);
+        conference.setDescription(description);
+        conferenceCategory.setId(conferenceCategoryId);
         conference.setConferenceCategory(conferenceCategory);
-        conference.setIs_active(patcherInfo.getIs_active());
-        conference.setIs_free(patcherInfo.getIs_free());
-        conference.setConference_day(patcherInfo.getConference_day());
-        conference.setConference_time(patcherInfo.getConference_time());
-        conference.setApply_start_time(patcherInfo.getApply_start_time());
-        conference.setApply_end_time(patcherInfo.getApply_end_time());
-        conference.setPrice(patcherInfo.getPrice());
-        conferenceRepository.save(conference);
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String current_date = simpleDateFormat.format(new Date());
         System.out.println(3 + " " + current_date + " current_date");
@@ -146,7 +145,9 @@ public class ConferenceServiceImpl implements ConferenceService {
             conference.setThumbnail(new_file_name);
             System.out.println(new_file_name + " new_file_name");
         }
+        conferenceRepository.save(conference);
     }
+
 
     @Override
     public Optional<List<Conference>> getAllConference(String title, String sort, Integer size, Long conferenceCategory) {
