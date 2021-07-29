@@ -26,5 +26,12 @@
     "path" : "/groupcall",
     "icon" : "el-icon-switch-button",
     "children" : []
+  },
+  "websocket" : {
+    "name" : "웹소켓",
+    "hidden" : false,
+    "path" : "/websocket",
+    "icon" : "el-icon-switch-button",
+    "children" : []
   }
 }

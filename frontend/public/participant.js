@@ -61,7 +61,6 @@ function Participant(name) {
       elements.forEach(function(item) {
           item.className = PARTICIPANT_CLASS;
         });
-
         container.className = PARTICIPANT_MAIN_CLASS;
       } else {
       container.className = PARTICIPANT_CLASS;

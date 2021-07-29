@@ -38,9 +38,9 @@ ws.onmessage = function(message) {
 
 function register() {
   const name = 'Joo.non'
-  const room = 'WebRTC'
+  const room = 'WebRTC TestRoom'
 
-  document.getElementById('room-header').innerText = 'ROOM' + room
+  document.getElementById('room-header').innerText = 'ROOM ' + room
   document.getElementById('join').style.display = 'none'
   document.getElementById('room').style.display = 'block'
 
