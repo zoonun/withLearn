@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.domain.Chat;
 import com.ssafy.api.service.ChattingService;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.db.entity.Chatting;
@@ -29,14 +30,14 @@ public class ChattingController {
     }
 
     @MessageMapping("/chat/join/{conferenceId}")
-    public void join(@DestinationVariable Long conferenceId, Chatting message) {
-        template.convertAndSend("/topic/chat/" + conferenceId, message.getUser().getName() + "님이 입장하셨습니다.");
+    public void join(@DestinationVariable Long conferenceId, Chat message) {
+        template.convertAndSend("/topic/chat/" + conferenceId, message.getName() + "님이 입장하셨습니다.");
     }
 
     @MessageMapping("/chat/message/{conferenceId}")
-    public void message(@DestinationVariable Long conferenceId, Chatting message) {
-        System.out.println(message);
-        chattingService.saveChatting(message);
+    public void message(@DestinationVariable Long conferenceId, Chat message) {
+//        System.out.println(message);
+//        chattingService.saveChatting(message);
         template.convertAndSend("/topic/chat/" + conferenceId, message);
     }
 }
