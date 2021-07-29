@@ -2,7 +2,7 @@
   <div id="app">
     <div class="form-group" @submit.prevent>
       <button id="connect" @click="connect" type="submit">Connect</button>
-      <button id="idsconnect" @click="disconnect" type="submit" disabled="disabled">Disconnect</button>
+      <button id="disconnect" @click="disconnect" type="submit" disabled="disabled">Disconnect</button>
     </div>
     <div class="form-inline">
       <div class="form-group">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 export default {
@@ -42,19 +42,23 @@ export default {
       message: '',
     })
 
-    const setConnected = function (connected) {
-      $("#connect").prop('disabled', connected)
-      $("#disconnect").prop('disabled', !connected)
-      if (connected) {
-        $("#conversation").show()
-      } else {
-        $("#conversation").hide()
-      }
-      $("#greetings").html("")
-    }
+    // onMounted(() => {
+    //   setConnected(state.connected)
+    // })
+
+    // const setConnected = function (connected) {
+    //   $("#connect").prop('disabled', connected)
+    //   $("#disconnect").prop('disabled', !connected)
+    //   if (connected) {
+    //     $("#conversation").show()
+    //   } else {
+    //     $("#conversation").hide()
+    //   }
+    //   $("#greetings").html("")
+    // }
 
     const connect = function () {
-      const socket = new SockJS('/')
+      const socket = new SockJS('https://localhost:8083')
       this.stompClient = Stomp.over(socket)
       stompClient.connect({}, function (frame) {
         state.connected = true
@@ -83,15 +87,15 @@ export default {
     }
 
     const sendChat = function () {
-      stompClient.send("/chat/message/1", {}, JSON.stringfy({'name': $('#name').val(), 'message': $('#chatMessage').val()}))
+      stompClient.send('/chat/message/1', {}, JSON.stringfy({'name': $('#name').val(), 'message': $('#chatMessage').val()}))
     }
 
     const showChat = function (chat) {
       const greetings = document.getElementById('greetings')
-      greetings.append("<tr><td>" + chat.name + " : " + chat.message + "</td></tr>")
+      greetings.append('<tr><td>' + chat.name + ' : ' + chat.message + '</td></tr>')
     }
 
-    return { state, setConnected, stompClient, connect, disconnect, sendChat, showGreeting, showChat }
+    return { state, stompClient, connect, disconnect, sendChat, showGreeting, showChat }
   }
 }
 </script>
