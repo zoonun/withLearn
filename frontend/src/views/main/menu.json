@@ -33,5 +33,12 @@
     "path" : "/websocket",
     "icon" : "el-icon-switch-button",
     "children" : []
+  },
+  "socketjs" : {
+    "name" : "웹소켓",
+    "hidden" : false,
+    "path" : "/socketjs",
+    "icon" : "el-icon-switch-button",
+    "children" : []
   }
 }

@@ -5,6 +5,7 @@ import History from '@/views/history/history'
 import store from '@/api/store'
 import Groupcall from '@/views/conferences/groupcall'
 import Websocket from '@/views/conferences/websocket'
+import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
 
 // const fullMenu = require('@/views/main/menu.json')
@@ -20,6 +21,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Groupcall }
     } else if (key === 'websocket'){
       return { path: fullMenu[key].path, name: key, component: Websocket }
+    } else if (key === 'socketjs'){
+      return { path: fullMenu[key].path, name: key, component: Socketjs }
     }
   })
   // 로그아웃 파싱한 부분 제거

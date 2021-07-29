@@ -30,7 +30,7 @@
 <script>
 import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import kurentoUtils from 'kurento-utils'
+// import kurentoUtils from 'kurento-utils'
 export default {
   name: 'groupcall',
 
