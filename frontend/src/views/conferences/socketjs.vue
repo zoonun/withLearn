@@ -55,7 +55,7 @@ export default {
 
     const connect = function () {
       const socket = new SockJS('/')
-      stompClient = Stomp.over(socket)
+      this.stompClient = Stomp.over(socket)
       stompClient.connect({}, function (frame) {
         state.connected = true
         console.log('Connected: ' + frame)
