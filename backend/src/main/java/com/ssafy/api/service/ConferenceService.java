@@ -25,4 +25,8 @@ public interface ConferenceService {
 	void deleteConferenceCategory(long categoryId);
 	Optional<List<UserConference>> getUserConferenceByConferenceId(Long conference_id);
     Conference createConference(String description, String title, Long conferenceCategory_id, MultipartFile thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) throws IOException;
+
+//	void patchConferenceInfo(ConferenceModiferPostReq patcherInfo, Long conference_id) throws IOException;
+
+	void patchConferenceInfo(String description, String title, Long conferenceCategoryId, MultipartFile thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id) throws IOException ;
 }

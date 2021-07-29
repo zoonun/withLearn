@@ -24,8 +24,6 @@ public class ConferenceModiferPostReq {
 	String description;
 	@ApiModelProperty(name="is_active", example="false")
 	Boolean is_active;
-	@ApiModelProperty(name="is_free", example="false")
-	Boolean is_free;
 	@ApiModelProperty(name="conference_day", example="mon")
 	String conference_day;
 	@ApiModelProperty(name="conference_time", example="2019-01-02")
@@ -39,6 +37,6 @@ public class ConferenceModiferPostReq {
 	Date apply_start_time;
 	@ApiModelProperty(name="price", example="2000")
 	Integer price;
-//	@ApiModelProperty(name="thumbnail", example="썸네일")
-//	MultipartFile thumbnail;
+	@ApiModelProperty(name="thumbnail", example="썸네일")
+	MultipartFile thumbnail;
 }

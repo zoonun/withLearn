@@ -51,24 +51,24 @@ public class ConferenceController {
     @GetMapping("conference-categories")
     @ApiOperation(value = "방 카테고리 조회", notes = "방 카테고리들을 조회한다")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceCategoryRes> getCategories() {
         System.out.println("test thumbnail_back");
         Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
-        return ResponseEntity.status(201).body(ConferenceCategoryRes.of(categories));
+        return ResponseEntity.status(200).body(ConferenceCategoryRes.of(categories));
     }
 
     @GetMapping(value = "conferences/{conference_id}")
     @ApiOperation(value = "방 상세정보 조회", notes = "방 ID를 가지고 상세 정보를 조회한다")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceDetailRes> getConferenceDetail(
             @PathVariable Long conference_id) {
         Conference conference = conferenceService.getConferenceByConferenceId(conference_id);
         Optional<List<UserConference>> userConference = conferenceService.getUserConferenceByConferenceId(conference_id);
-        return ResponseEntity.status(201).body(ConferenceDetailRes.of(conference, userConference));
+        return ResponseEntity.status(200).body(ConferenceDetailRes.of(conference, userConference));
     }
 
     @PatchMapping(value = "conferences/{conference_id}")
@@ -77,32 +77,18 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo (
-            @PathVariable Long conference_id,
-            @RequestParam(required = false/*"description"*/) String description,
-            @RequestParam(required = false/*"title"*/) String title,
-            @RequestParam(required = false/*"conferenceCategoryId"*/) Long conferenceCategoryId,
-            @RequestParam(required = false/*"thumbnail"*/) MultipartFile thumbnail,
-            @RequestParam(required = false/*"conferenceDay"*/) String conferenceDay,
-            @RequestParam(required = false/*"conferenceTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
-            @RequestParam(required = false/*"applyEndTime"*/) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime,
-            @RequestParam(required = false/*"applyStartTime"*/)@DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
-            @RequestParam(required = false/*"isActive"*/) Boolean isActive,
-            @RequestParam(required = false/*"isFree"*/)Boolean isFree,
-            @RequestParam(required = false/*"price"*/) Integer price
-/*            @RequestParam(required = false*//*"thumbnail"*//*) MultipartFile thumbnail,*/
-            //@RequestBody @ApiParam(value = "방 정보", required = true) ConferenceModiferPostReq patcherInfo
-            ) throws IOException {
-        System.out.println(1);
-//        conferenceService.patchConferenceInfo(patcherInfo, thumbnail, conference_id);
-        System.out.println(2);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-
+            @PathVariable Long conference_id, @RequestParam String description, @RequestParam String title,
+            @RequestParam Long conferenceCategoryId, @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @RequestParam Boolean isActive, @RequestParam Integer price ) throws IOException {
+        conferenceService.patchConferenceInfo(description,title,conferenceCategoryId,thumbnail,conferenceDay,conferenceTime,applyEndTime,applyStartTime,isActive,price, conference_id);
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
     @GetMapping(value = "conferences")
     @ApiOperation(value = "방 목록 조회", notes = "방 목록 리스트를 검색한다")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceListPostRes> getConferenceList(
             @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort,
@@ -114,7 +100,7 @@ public class ConferenceController {
     @PostMapping(value = "conference-categories")
     @ApiOperation(value = "방 카테고리 생성", notes = "방 카테고리를 생성한다")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 201, message = "성공"),
             @ApiResponse(code = 409, message = "카테고리 중복"),
     })
     public ResponseEntity<? extends BaseResponseBody> createConferenceCategory(
@@ -124,7 +110,7 @@ public class ConferenceController {
             return ResponseEntity.status(409).body(BaseResponseBody.of(409, "duplicate category"));
         } else {
             conferenceService.createConferenceCategory(categoryInfo);
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
         }
     }
 
