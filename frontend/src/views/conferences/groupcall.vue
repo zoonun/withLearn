@@ -3,7 +3,7 @@
     <div id="wrapper">
       <div id="join" class="animate join">
         <h1>Join a Room</h1>
-        <form @onsubmit="register()" accept-charset="UTF-8">
+        <form @onsubmit="register" accept-charset="UTF-8">
           <p>
             <input type="text" name="name" value="" id="name"
               placeholder="Username" required>
@@ -20,7 +20,7 @@
       <div id="room" style="display: none;">
         <h2 id="room-header"></h2>
         <div id="participants"></div>
-        <input type="button" id="button-leave" @onmouseup="leaveRoom()"
+        <input type="button" id="button-leave" @onmouseup="leaveRoom"
           value="Leave room">
       </div>
     </div>
@@ -30,7 +30,7 @@
 <script>
 import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-// import kurentoUtils from 'kurento-utils'
+import kurentoUtils from 'kurento-utils'
 export default {
   name: 'groupcall',
 

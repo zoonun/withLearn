@@ -82,12 +82,16 @@ export default {
     const validatePw = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
+      } else {
+        callback()
       }
     }
 
     const validatePw2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
+      } else {
+        callback()
       }
     }
     // const validatePw2 = (rule, value, callback) => {

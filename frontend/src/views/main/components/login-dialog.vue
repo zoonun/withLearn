@@ -77,6 +77,8 @@ export default {
     const validateId = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
+      } else {
+        callback()
       }
     }
     // const validateId = (rule, value, callback) => {
@@ -105,6 +107,8 @@ export default {
     const validatePw = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
+      } else {
+        callback()
       }
     }
 

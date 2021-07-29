@@ -4,6 +4,7 @@ import $axios from 'axios'
 export function requestLogin ({ state }, payload) {
   console.log('requestLogin', state, payload)
   const url = '/auth/login'
+  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
@@ -11,6 +12,7 @@ export function requestLogin ({ state }, payload) {
 export function requestSignup ({ state }, payload) {
   console.log('requestSignup', state, payload)
   const url = '/users'
+  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
