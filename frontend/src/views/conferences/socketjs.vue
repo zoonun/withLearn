@@ -7,11 +7,11 @@
     <div class="form-inline">
       <div class="form-group">
         <label for="name">이름을 입력하세요</label>
-        <input type="text" id="name" placeholder="name here">
+        <input type="text" v-model="state.userName" placeholder="name here">
       </div>
       <div class="form-group">
         <label for="message">메시지를 입력하세요</label>
-        <input type="text" id="chatMessage" placeholder="message here">
+        <input type="text" v-model="state.message" placeholder="message here">
       </div>
       <button id="chatSend" @click="sendChat">전송</button>
       <table id="conversation">
@@ -28,18 +28,20 @@
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { reactive } from 'vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 export default {
   name: 'websocket',
   setup() {
-    const stompClient = null
+    let stompClient = null
 
     const state = reactive({
       logs: [],
       connected: false,
+      userName: '',
       message: '',
+      socket: null,
     })
 
     // onMounted(() => {
@@ -58,16 +60,15 @@ export default {
     // }
 
     const connect = function () {
-      const socket = new SockJS('https://localhost:8083')
-      this.stompClient = Stomp.over(socket)
-      stompClient.connect({}, function (frame) {
+      state.socket = new SockJS('http://localhost:8080/chat', {transports: 'websocket'})
+      stompClient = Stomp.over(state.socket)
+      stompClient.connect({}, function () {
         state.connected = true
-        console.log('Connected: ' + frame)
         // Stomp path: https://localhost:8443/chat/join/{conferenceId}
-        stompClient.subscribe('/chat/join/1', function (greeting) {
+        stompClient.subscribe('/join/1', function (greeting) {
           showGreeting(JSON.parse(greeting.message).content)
         })
-        stompClient.subscribe('/chat/message/1', function (chat) {
+        stompClient.subscribe('/message/1', function (chat) {
           showChat(JSON.parse(chat.message))
         })
       })
@@ -87,7 +88,7 @@ export default {
     }
 
     const sendChat = function () {
-      stompClient.send('/chat/message/1', {}, JSON.stringfy({'name': $('#name').val(), 'message': $('#chatMessage').val()}))
+      stompClient.send('/chat/message/1', {}, JSON.stringfy({'name': state.userName, 'message': state.message }))
     }
 
     const showChat = function (chat) {
