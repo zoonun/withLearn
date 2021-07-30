@@ -47,10 +47,11 @@ public class ConferenceRepositorySupport {
                 conferences.orderBy(qConference.title.asc());
             else if (sortOption[1].equals("desc") && sortOption[0].equals("title"))
                 conferences.orderBy(qConference.title.desc());
-            else if (sortOption[1].equals("asc") && sortOption[0].equals("call_start_time"))
-                conferences.orderBy(qConference.callStartTime.asc());
-            else if (sortOption[1].equals("desc") && sortOption[0].equals("call_start_time"))
-                conferences.orderBy(qConference.callStartTime.desc());
+//            else if (sortOption[1].equals("asc") && sortOption[0].equals("call_start_time"))
+//                conferences.orderBy(qConference.callStartTime.asc());
+//            else if (sortOption[1].equals("desc") && sortOption[0].equals("call_start_time"))
+//                conferences.orderBy(qConference.callStartTime.desc());
+            //마감, is_Free, is_active, 리뷰순 정렬, rate순
         }
         // size
         if(size != null) conferences.limit(size);
