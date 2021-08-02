@@ -22,8 +22,8 @@ import java.util.List;
 @Setter
 @ToString
 public class User extends BaseEntity{
-    String position;
-    String department;
+    String email;
+    String phonenumber;
     String name;
     String userId;
 
