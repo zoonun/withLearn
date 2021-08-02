@@ -26,14 +26,14 @@ const PARTICIPANT_CLASS = 'participant';
  *                        The tag of the new element will be 'video<name>'
  * @return
  */
-function Participant(name) {
+export default function Participant(name) {
   this.name = name;
   const container = document.createElement('div');
   container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
   container.id = name;
   const span = document.createElement('span');
   const video = document.createElement('video');
-  const rtcPeer;
+  let rtcPeer;
 
   container.appendChild(video);
   container.appendChild(span);
