@@ -36,7 +36,7 @@ public class ConferenceServiceImpl implements ConferenceService  {
 
 
     @Override
-    public Conference createConference(String description, String title, Long conferenceCategoryId, MultipartFile thumbnail,  String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price ) throws IOException{
+    public Conference createConference(String description, String title, Long conferenceCategoryId, String thumbnail,  String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price ) throws IOException{
         Conference conference = new Conference();
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
         conference.setIs_active(false);
@@ -48,12 +48,13 @@ public class ConferenceServiceImpl implements ConferenceService  {
         conference.setApply_start_time(applyStartTime);
         conference.setApply_end_time(applyEndTime);
         conference.setPrice(price);
-        conference.setThumbnail(setThumbnail(conference,thumbnail));
+//        conference.setThumbnail(setThumbnail(conference,thumbnail));
+        conference.setThumbnail(thumbnail);
         return conferenceRepository.save(conference);
     }
 
     @Override
-    public void patchConferenceInfo(String description, String title, Long conferenceCategoryId, MultipartFile thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id) throws IOException {
+    public void patchConferenceInfo(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id) throws IOException {
         Conference conference = conferenceRepositorySupport.findConferenceByConferenceId(conference_id).get();
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
         conference.setTitle(title);
@@ -64,32 +65,33 @@ public class ConferenceServiceImpl implements ConferenceService  {
         conference.setApply_start_time(applyStartTime);
         conference.setApply_end_time(applyEndTime);
         conference.setPrice(price);
-        conference.setThumbnail(setThumbnail(conference,thumbnail));
+        conference.setThumbnail(thumbnail);
         conferenceRepository.save(conference);
     }
 
-    public String setThumbnail(Conference conference,MultipartFile thumbnail) throws IOException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
-
-        String absolutePath = new File("").getAbsolutePath() + "\\";
-
-        String path = "images/" + current_date;
-        File file = new File(path);
-        if (!file.exists())
-            file.mkdirs();
-
-        if (thumbnail != null) {
-            String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
-            String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
-
-            file = new File( absolutePath + path + "/" + new_file_name);
-            thumbnail.transferTo(file);
-            conference.setThumbnail("images/"+current_date+"/"+new_file_name);
-            return "images/"+current_date+"/"+new_file_name;
-        }
-        return "";
-    }
+//    public String setThumbnail(Conference conference,MultipartFile thumbnail) throws IOException {
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+//        String current_date = simpleDateFormat.format(new Date());
+//
+//        String absolutePath = new File("").getAbsolutePath() + "\\";
+//
+//        String path = "images/" + current_date;
+//        File file = new File(path);
+//        if (!file.exists())
+//            file.mkdirs();
+//
+//        if (thumbnail != null) {
+//
+//            String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
+//            String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
+//
+//            file = new File( absolutePath + path + "/" + new_file_name);
+//            thumbnail.transferTo(file);
+//            conference.setThumbnail("images/"+current_date+"/"+new_file_name);
+//            return "images/"+current_date+"/"+new_file_name;
+//        }
+//        return "";
+//    }
 
     @Override
     public Optional<List<ConferenceCategory>> getCategories() {
