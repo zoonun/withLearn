@@ -1,7 +1,6 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -12,6 +11,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +28,7 @@ import java.util.Optional;
  * 방 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "방 API", tags = {"Conference"})
-@RestController
+@Controller
 @RequestMapping("/api/v1/")
 public class ConferenceController {
     @Autowired
@@ -59,10 +59,9 @@ public class ConferenceController {
             String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
             String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
 
-//            file = new File( absolutePath + path + "/" + new_file_name);
-            Path pathabs = Paths.get(absolutePath + path + "/" + new_file_name).toAbsolutePath();
+            thumbnailurl="images" + File.separator + current_date + File.separator + new_file_name;
+            Path pathabs = Paths.get(thumbnailurl).toAbsolutePath();
             thumbnail.transferTo(pathabs.toFile());
-            thumbnailurl="images/"+current_date+"/"+new_file_name;
         }
         Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnailurl, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
