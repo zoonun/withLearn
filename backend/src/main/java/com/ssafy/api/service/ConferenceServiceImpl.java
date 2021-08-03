@@ -73,9 +73,8 @@ public class ConferenceServiceImpl implements ConferenceService  {
         String current_date = simpleDateFormat.format(new Date());
 
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        absolutePath = absolutePath.substring(0,absolutePath.length()-8);
 
-        String path = absolutePath + "images/" + current_date;
+        String path = "images/" + current_date;
         File file = new File(path);
         if (!file.exists())
             file.mkdirs();
@@ -84,7 +83,7 @@ public class ConferenceServiceImpl implements ConferenceService  {
             String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
             String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
 
-            file = new File( path + "/" + new_file_name);
+            file = new File( absolutePath + path + "/" + new_file_name);
             thumbnail.transferTo(file);
             conference.setThumbnail("images/"+current_date+"/"+new_file_name);
             return "images/"+current_date+"/"+new_file_name;
