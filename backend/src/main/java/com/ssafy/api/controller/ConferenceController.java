@@ -1,7 +1,6 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -12,10 +11,15 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +28,7 @@ import java.util.Optional;
  * 방 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "방 API", tags = {"Conference"})
-@RestController
+@Controller
 @RequestMapping("/api/v1/")
 public class ConferenceController {
     @Autowired
@@ -41,7 +45,25 @@ public class ConferenceController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam(required = false) Integer price
     ) throws IOException {
-        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String current_date = simpleDateFormat.format(new Date());
+        String absolutePath = new File("").getAbsolutePath() + "\\";
+
+        String path = "images/" + current_date;
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
+
+        String thumbnailurl="";
+        if (thumbnail != null) {
+            String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
+            String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
+
+            thumbnailurl="images" + File.separator + current_date + File.separator + new_file_name;
+            Path pathabs = Paths.get(thumbnailurl).toAbsolutePath();
+            thumbnail.transferTo(pathabs.toFile());
+        }
+        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnailurl, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
     }
 
@@ -78,7 +100,7 @@ public class ConferenceController {
             @RequestParam Long conferenceCategoryId, @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam Boolean isActive, @RequestParam Integer price) throws IOException {
-        conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
+//        conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
