@@ -41,9 +41,10 @@ export default {
     const state = reactive({
       name: '',
       room: '',
-      participants: {},
-      ws: null
+      participants: {}
     })
+    const ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
+
     onMounted(() => {
       window.addEventListener('beforeunload', unloadEvent)
     })
@@ -64,12 +65,12 @@ export default {
 
     // conferenceroom.js
     const unloadEvent = function (event) {
-      state.ws.close()
+      ws.close()
       // event.preventDefault()
       // event.returnValue = ''
     }
 
-    state.ws.onmessage = function (message) {
+    ws.onmessage = function (message) {
       const parsedMessage = JSON.parse(message.data)
       console.info('Received msg:' + message.data)
 
@@ -100,7 +101,6 @@ export default {
     }
 
     const register = function () {
-      state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8443/groupcall')
       document.getElementById('room-header').innerText = 'ROOM ' + state.room
       document.getElementById('join').style.display = 'none'
       document.getElementById('room').style.display = 'block'
@@ -117,11 +117,11 @@ export default {
     }
 
     const receiveVideo = function (sender) {
-      const participant = new Participant(sender);
+      var participant = new Participant(sender);
       state.participants[sender] = participant;
-      const video = participant.getVideoElement();
+      var video = participant.getVideoElement();
 
-      const options = {
+      var options = {
         remoteVideo: video,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
@@ -151,7 +151,7 @@ export default {
     }
 
     const onExistingParticipants = function (message) {
-      const constraints = {
+      var constraints = {
         audio: true,
         video: {
           mandatory: {
@@ -162,11 +162,11 @@ export default {
         }
       }
       console.log(state.name + ' registered in room ' + 'sample')
-      const participant = new Participant(state.name)
+      var participant = new Participant(state.name)
       state.participants[state.name] = participant
-      const video = participant.getVideoElement()
+      var video = participant.getVideoElement()
 
-      const options = {
+      var options = {
         localVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
@@ -191,7 +191,7 @@ export default {
       document.getElementById('join').style.display = 'block';
       document.getElementById('room').style.display = 'none';
 
-      state.ws.close();
+      ws.close();
     }
 
     const onParticipantLeft = function (request) {
@@ -204,7 +204,7 @@ export default {
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
       console.log('Sending message: ' + jsonMessage);
-      state.ws.send(jsonMessage);
+      ws.send(jsonMessage);
     }
 
     return { state, unloadEvent,

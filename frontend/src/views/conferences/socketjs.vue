@@ -60,11 +60,11 @@ export default {
     // }
 
     const connect = function () {
-      state.socket = new SockJS('https://i5d106.p.ssafy.io:8443/chat', {transports: 'websocket'})
+      state.socket = new SockJS('https://i5d106.p.ssafy.io:8080/chat', {transports: 'websocket'})
       stompClient = Stomp.over(state.socket)
       stompClient.connect({}, function () {
         state.connected = true
-        // Stomp path: https://localhost:8443/chat/join/{conferenceId}
+        // Stomp path: https://localhost:8080/chat/join/{conferenceId}
         stompClient.subscribe('/join/1', function (greeting) {
           showGreeting(JSON.parse(greeting.message).content)
         })
