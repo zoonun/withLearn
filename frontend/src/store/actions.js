@@ -1,5 +1,6 @@
 // API
 import $axios from 'axios'
+import Swal from 'sweetalert2'
 
 export function requestLogin ({ state }, payload) {
   console.log('requestLogin', state, payload)
@@ -18,8 +19,15 @@ export function requestSignup ({ state }, payload) {
 export function requestLogout ({ commit }) {
   console.log('requestLogout')
   localStorage.removeItem('user')
-  alert('로그아웃 되었습니다.')
-  document.location.reload()
+  Swal.fire({
+    icon:'warning',
+    html: '로그아웃 되었습니다.',
+    showConfirmButton: false,
+    timer:1000,
+  })
+  setTimeout(function(){
+    document.location.reload();
+  }, 1000);
   return commit('setLogout')
 }
 
@@ -33,6 +41,11 @@ export function requestAvailableId({ commit }, id) {
   return $axios.get(url)
   .then(() => {
     commit('setIsAvailableId')
+    Swal.fire({
+      icon: 'success',
+      html: '사용 가능한 아이디입니다.',
+      showConfirmButton: false,
+    })
   })
   .catch(() => {
     commit('setIsUnavailableId')
@@ -45,9 +58,8 @@ export function requestSearchTitle({ commit }, payload) {
   commit('setSearchValue', body.title)
   return $axios.get(url, body)
   .then((res) => {
-    console.log(res.data.content)
-    console.log('request setConferenceData')
-    commit('setConferenceData', res.data.content)
+    console.log(res.data)
+    commit('setConferenceData', res.data)
   })
 }
 // 컨퍼런스 액션

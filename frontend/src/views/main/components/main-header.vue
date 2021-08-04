@@ -10,14 +10,12 @@
           <el-input
             placeholder="검색"
             prefix-icon="el-icon-search"
-            v-model="state.searchValue">
+            v-model="state.searchValue"
+            @keyup.enter="clickSearch">
           </el-input>
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
-          <el-button class="search-button" @click="clickSearch" style= width:10%;>
-            <i :class="['ic', 'el-icon-search']"/>
-          </el-button>
           <el-button @click="clickSignup">
             <i :class="['ic', 'el-icon-circle-plus-outline']"/>
             <span>회원 가입</span>
@@ -29,9 +27,6 @@
 
         </div>
         <div class="button-wrapper" v-else>
-          <el-button class="search-button" @click="clickSearch" style= width:10%;>
-            <i :class="['ic', 'el-icon-search']"/>
-          </el-button>
           <el-button type="primary" @click="clickConference">
             <i :class="['ic', 'el-icon-circle-plus-outline']"/>
             <span>컨퍼런스 생성</span>
@@ -310,16 +305,23 @@ export default {
     background-color: white;
   }
   .main-header .hide-on-small .tool-wrapper .search-field .el-input {
-    width: 100%;
+    width: 80%;
     height: 100%;
   }
   .main-header .hide-on-small .tool-wrapper .search-field .el-input .el-input__inner {
     width: 88%;
     height: 50px;
-    margin-right: 1%;
+    margin-right: 0%;
   }
   .main-header .hide-on-small .tool-wrapper .search-field .el-input .el-input__prefix {
     top: 5px;
+  }
+  .main-header .hide-on-small .tool-wrapper .search-button {
+    border: 0;
+    outline: 0;
+    display: inline-block;
+    width:20%;
+    padding: 0%;
   }
 
 </style>
