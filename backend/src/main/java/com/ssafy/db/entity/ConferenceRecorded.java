@@ -17,11 +17,9 @@ public class ConferenceRecorded extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Conference conference;
 
-
     LocalDateTime startTime;
     Date endTime;
     String url;
-    String conferenceRecordedcol;
 
     @PrePersist
     public void startTime(){this.startTime = LocalDateTime.now();}
