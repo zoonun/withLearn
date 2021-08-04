@@ -21,7 +21,7 @@ import java.util.*;
  * 방 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 @Service("ConferenceService")
-public class ConferenceServiceImpl implements ConferenceService  {
+public class ConferenceServiceImpl implements ConferenceService {
     @Autowired
     ConferenceRepository conferenceRepository;
 
@@ -34,12 +34,7 @@ public class ConferenceServiceImpl implements ConferenceService  {
     @Autowired
     ConferenceRepositorySupport conferenceRepositorySupport;
 
-
-    @Override
-    public Conference createConference(String description, String title, Long conferenceCategoryId, String thumbnail,  String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price ) throws IOException{
-        Conference conference = new Conference();
-        ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
-        conference.setIs_active(false);
+    public Conference setConference(Conference conference, ConferenceCategory conferenceCategory, String description, String title, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
         conference.setTitle(title);
         conference.setDescription(description);
         conference.setConferenceCategory(conferenceCategory);
@@ -48,50 +43,31 @@ public class ConferenceServiceImpl implements ConferenceService  {
         conference.setApply_start_time(applyStartTime);
         conference.setApply_end_time(applyEndTime);
         conference.setPrice(price);
-//        conference.setThumbnail(setThumbnail(conference,thumbnail));
         conference.setThumbnail(thumbnail);
+        return conference;
+    }
+
+    @Override
+    public void deleteConference(Long conference_id) {
+        conferenceRepository.deleteById(conference_id);
+    }
+
+    @Override
+    public Conference createConference(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
+        Conference conference = new Conference();
+        ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
+        conference = setConference(conference, conferenceCategory, description, title, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);
+        conference.setIs_active(false);
         return conferenceRepository.save(conference);
     }
 
     @Override
-    public void patchConferenceInfo(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id) throws IOException {
+    public void patchConferenceInfo(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id) {
         Conference conference = conferenceRepositorySupport.findConferenceByConferenceId(conference_id).get();
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
-        conference.setTitle(title);
-        conference.setDescription(description);
-        conference.setConferenceCategory(conferenceCategory);
-        conference.setConference_day(conferenceDay);
-        conference.setConference_time(conferenceTime);
-        conference.setApply_start_time(applyStartTime);
-        conference.setApply_end_time(applyEndTime);
-        conference.setPrice(price);
-        conference.setThumbnail(thumbnail);
+        conference = setConference(conference, conferenceCategory, description, title, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);
         conferenceRepository.save(conference);
     }
-
-//    public String setThumbnail(Conference conference,MultipartFile thumbnail) throws IOException {
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-//        String current_date = simpleDateFormat.format(new Date());
-//
-//        String absolutePath = new File("").getAbsolutePath() + "\\";
-//
-//        String path = "images/" + current_date;
-//        File file = new File(path);
-//        if (!file.exists())
-//            file.mkdirs();
-//
-//        if (thumbnail != null) {
-//
-//            String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
-//            String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
-//
-//            file = new File( absolutePath + path + "/" + new_file_name);
-//            thumbnail.transferTo(file);
-//            conference.setThumbnail("images/"+current_date+"/"+new_file_name);
-//            return "images/"+current_date+"/"+new_file_name;
-//        }
-//        return "";
-//    }
 
     @Override
     public Optional<List<ConferenceCategory>> getCategories() {
