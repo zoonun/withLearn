@@ -35,10 +35,10 @@ export default {
     const connect = function () {
       // 나중에 API로 제공해야 함
       // JWT 인증 토큰을 AccessToken에 전달해야 함
-      state.ws = new WebSocket('wss://3.35.0.121:8443')
+      state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8443')
       state.ws.onopen = () => {
         state.status = 'connected'
-        state.logs.push({ event: '연결 완료', data: 'wss://3.35.0.121:8443'})
+        state.logs.push({ event: '연결 완료', data: 'wss://i5d106.p.ssafy.io:8443'})
         state.ws.onmessage = ({data}) => {
           state.logs.push({ event: '메시지 수신', data})
         }
