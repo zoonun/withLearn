@@ -43,7 +43,7 @@ export default {
       room: 'baekjoon',
       participants: {}
     })
-    const ws = new WebSocket('wss://i5d106.p.ssafy.io:8443/groupcall')
+    const ws = new WebSocket('wss://i5d106.p.ssafy.io/groupcall')
 
     onMounted(() => {
       window.addEventListener('beforeunload', unloadEvent)

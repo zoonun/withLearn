@@ -60,7 +60,7 @@ export default {
     // }
 
     const connect = function () {
-      state.socket = new SockJS('https://i5d106.p.ssafy.io:8443/chat', {transports: 'websocket'})
+      state.socket = new SockJS('https://i5d106.p.ssafy.io/chat', {transports: 'websocket'})
       stompClient = Stomp.over(state.socket)
       stompClient.connect({}, function () {
         state.connected = true
