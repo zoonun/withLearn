@@ -6,7 +6,7 @@ module.exports = {
     open: true,
     proxy: {
       '/api/v1': {
-        target: 'https://localhost:8443/'
+        target: 'https://i5d106.p.ssafy.io:8443/'
       },
       '/webjars': {
         target: 'https://localhost:8443/'
