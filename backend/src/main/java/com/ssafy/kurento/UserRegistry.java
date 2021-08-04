@@ -1,9 +1,10 @@
 package com.ssafy.kurento;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.concurrent.ConcurrentHashMap;
-
+@Slf4j
 public class UserRegistry {
 
     private final ConcurrentHashMap<String, UserSession> usersByName = new ConcurrentHashMap<>();
@@ -27,6 +28,7 @@ public class UserRegistry {
     }
 
     public UserSession removeBySession(WebSocketSession session) {
+        log.info("removeBySession : {}",  session);
         final UserSession user = getBySession(session);
         usersByName.remove(user.getName());
         usersBySessionId.remove(session.getId());
