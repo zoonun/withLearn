@@ -67,11 +67,14 @@ public class CallHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        log.info("afterConnectionClosed : {}",  session);
         UserSession user = registry.removeBySession(session);
         roomManager.getRoom(user.getRoomName()).leave(user);
     }
 
     private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
+        log.info("joinRoom : {session}",  session);
+        log.info("joinRoom : {params}",  params);
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
         log.info("PARTICIPANT {}: trying to join room {}", name, roomName);
@@ -82,6 +85,7 @@ public class CallHandler extends TextWebSocketHandler {
     }
 
     private void leaveRoom(UserSession user) throws IOException {
+        log.info("leaveRoom : {params}",  user);
         final Room room = roomManager.getRoom(user.getRoomName());
         room.leave(user);
         if (room.getParticipants().isEmpty()) {
