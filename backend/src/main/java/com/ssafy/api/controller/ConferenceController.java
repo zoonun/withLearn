@@ -92,7 +92,7 @@ public class ConferenceController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<? extends BaseResponseBody> getConferenceList(
+    public ResponseEntity<? extends BaseResponseBody> deleteConference(
             @RequestParam(required = true) Long conference_id) {
         conferenceService.deleteConference(conference_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
