@@ -6,11 +6,11 @@
         <h1>Join a Room</h1>
         <form @onsubmit="register" accept-charset="UTF-8">
           <p>
-            <input type="text" name="name" value="" id="name"
+            <input v-model="state.name" type="text" name="name" value="" id="name"
               placeholder="Username" required>
           </p>
           <p>
-            <input type="text" name="room" value="" id="roomName"
+            <input v-model="state.room" type="text" name="room" value="" id="roomName"
               placeholder="Room" required>
           </p>
           <p class="submit">
@@ -21,7 +21,7 @@
       <div id="room" style="display: none;">
         <h2 id="room-header"></h2>
         <div id="participants"></div>
-        <input type="button" id="button-leave" @onmouseup="leaveRoom"
+        <input type="button" id="button-leave" @click="leaveRoom"
           value="Leave room">
       </div>
     </div>
@@ -31,7 +31,7 @@
 <script>
 import { reactive, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import Participant from '@/api/participant'
+import Participant from './js/participant'
 import kurentoUtils from 'kurento-utils'
 
 export default {
@@ -39,12 +39,11 @@ export default {
 
   setup() {
     const state = reactive({
-      name: 'joonon',
-      room: 'baekjoon',
-      participants: {}
+      name: '',
+      room: '',
+      participants: {},
+      ws: null
     })
-    const ws = new WebSocket('wss://i5d106.p.ssafy.io/groupcall')
-
     onMounted(() => {
       window.addEventListener('beforeunload', unloadEvent)
     })
@@ -65,12 +64,12 @@ export default {
 
     // conferenceroom.js
     const unloadEvent = function (event) {
-      ws.close()
+      state.ws.close()
       // event.preventDefault()
       // event.returnValue = ''
     }
 
-    ws.onmessage = function (message) {
+    state.ws.onmessage = function (message) {
       const parsedMessage = JSON.parse(message.data)
       console.info('Received msg:' + message.data)
 
@@ -101,10 +100,10 @@ export default {
     }
 
     const register = function () {
+      state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8443/groupcall')
       document.getElementById('room-header').innerText = 'ROOM ' + state.room
       document.getElementById('join').style.display = 'none'
       document.getElementById('room').style.display = 'block'
-
       const message = {
         id: 'joinRoom',
         name: state.name,
@@ -115,6 +114,22 @@ export default {
 
     const onNewParticipant = function (request) {
       receiveVideo(request.name)
+    }
+
+    const receiveVideo = function (sender) {
+      const participant = new Participant(sender);
+      state.participants[sender] = participant;
+      const video = participant.getVideoElement();
+
+      const options = {
+        remoteVideo: video,
+        onicecandidate: participant.onIceCandidate.bind(participant)
+      }
+
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
+        if (error) return console.error(error)
+        this.generateOffer (participant.offerToReceiveVideo.bind(participant));
+      })
     }
 
     const receiveVideoResponse = function (result) {
@@ -164,6 +179,7 @@ export default {
     }
 
     const leaveRoom = function () {
+      alert('화상채팅 종료')
       sendMessage({
         id: 'leaveRoom'
       })
@@ -175,23 +191,7 @@ export default {
       document.getElementById('join').style.display = 'block';
       document.getElementById('room').style.display = 'none';
 
-      ws.close();
-    }
-
-    const receiveVideo = function (sender) {
-      const participant = new Participant(sender);
-      state.participants[sender] = participant;
-      const video = participant.getVideoElement();
-
-      const options = {
-        remoteVideo: video,
-        onicecandidate: participant.onIceCandidate.bind(participant)
-      }
-
-      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
-        if (error) return console.error(error)
-        this.generateOffer (participant.offerToReceiveVideo.bind(participant));
-      })
+      state.ws.close();
     }
 
     const onParticipantLeft = function (request) {
@@ -204,7 +204,7 @@ export default {
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
       console.log('Sending message: ' + jsonMessage);
-      ws.send(jsonMessage);
+      state.ws.send(jsonMessage);
     }
 
     return { state, unloadEvent,

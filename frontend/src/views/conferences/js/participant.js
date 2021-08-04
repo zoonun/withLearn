@@ -28,12 +28,12 @@ const PARTICIPANT_CLASS = 'participant';
  */
 export default function Participant(name) {
   this.name = name;
-  const container = document.createElement('div');
+  var container = document.createElement('div');
   container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
   container.id = name;
-  const span = document.createElement('span');
-  const video = document.createElement('video');
-  let rtcPeer;
+  var span = document.createElement('span');
+  var video = document.createElement('video');
+  var rtcPeer;
 
   container.appendChild(video);
   container.appendChild(span);
@@ -57,7 +57,7 @@ export default function Participant(name) {
 
   function switchContainerClass() {
     if (container.className === PARTICIPANT_CLASS) {
-      const elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
+      var elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
       elements.forEach(function(item) {
           item.className = PARTICIPANT_CLASS;
         });
@@ -74,7 +74,7 @@ export default function Participant(name) {
   this.offerToReceiveVideo = function(error, offerSdp, wp){
     if (error) return console.error ("sdp offer error")
     console.log('Invoking SDP offer callback function');
-    const msg =  { id : "receiveVideoFrom",
+    var msg =  { id : "receiveVideoFrom",
         sender : name,
         sdpOffer : offerSdp
       };
@@ -85,7 +85,7 @@ export default function Participant(name) {
   this.onIceCandidate = function (candidate, wp) {
       console.log("Local candidate" + JSON.stringify(candidate));
 
-      const message = {
+      var message = {
         id: 'onIceCandidate',
         candidate: candidate,
         name: name
