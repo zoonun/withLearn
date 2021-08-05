@@ -7,13 +7,13 @@
         </template>
       </el-skeleton>
       </div>
-    <div style="text-align: left; padding: 14px;">
+    <div class="content-wrapper" style="text-align: left; padding:14px;">
       <div class="header">
         <span class="title">{{ title }}</span>
-        <span class="date"> {{ date }}</span>
-        <div class="category">{{ name }}</div>
+        <div class="name">{{ name }}</div>
       </div>
       <div class="bottom">
+        <span v-if="isactive" class='isactive'> 수강신청중 </span>
       </div>
     </div>
   </el-card>
@@ -29,6 +29,24 @@
 }
 .el-card .title {
   font-weight: bold;
+  width:100%;
+  display:block;
+  font-size:130%;
+  margin-bottom: 5px;
+}
+.el-card .name {
+  color: #7D7D7D;
+
+}
+
+.el-card .isactive {
+  font-size:70%;
+  display: block;
+  background-color: greenyellow;
+  padding:.75em;
+  border-radius: 10px;
+  margin-top:5px;
+  float: right;
 }
 .el-card .bottom {
   margin-top: 5px;
@@ -38,6 +56,7 @@
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 /* 테블릿, 모바일의 경우 두 줄 말줄임표시 */
 @media (max-width: 1269px) {
   .el-card .bottom {
@@ -52,10 +71,6 @@
     height:60px;
   }
 }
-.el-card .header .date {
-  float:right;
-  margin-right:5%;
-}
 
 </style>
 <script>
@@ -67,17 +82,9 @@ export default {
       type: String,
       default: '제목'
     },
-    desc: {
-      type: String,
-      default: 'Lrsions of Lorem Ipsum.'
-    },
     name: {
       type: String,
       default: '백준'
-    },
-    date: {
-      type: String,
-      default: '2021-08-05 ~ 2021-09-30'
     },
     isactive: {
       type: Boolean,

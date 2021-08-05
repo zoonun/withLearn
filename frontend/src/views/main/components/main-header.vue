@@ -168,7 +168,7 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
-    const clickSearch = () => {
+    const clickSearch = async () => {
       console.log('clickSearch')
       const payload = {
         title: state.searchValue,
@@ -179,6 +179,12 @@ export default {
       }
       console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
+      await router.push({
+        name: 'search',
+        params: {
+          searchValue: state.searchValue
+        }
+      })
     }
 
     const clickMobileSearch = () => {
