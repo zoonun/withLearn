@@ -3,6 +3,10 @@ import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
 import store from '@/api/store'
+import Lobby from '@/views/conferences/lobby'
+import Groupcall from '@/views/conferences/groupcall'
+import Websocket from '@/views/conferences/websocket'
+import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
 import Search from '@/views/searches/search'
 
@@ -15,15 +19,21 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: History }
     } else if (key === 'logout'){
       return { path: fullMenu[key].path, name: key, component: Home }
+    } else if (key === 'lobby'){
+      return { path: fullMenu[key].path, name: key, component: Lobby }
+    } else if (key === 'websocket'){
+      return { path: fullMenu[key].path, name: key, component: Websocket }
+    } else if (key === 'socketjs'){
+      return { path: fullMenu[key].path, name: key, component: Socketjs }
     }
   })
   // 로그아웃 파싱한 부분 제거
   routes = routes.filter(item => item)
   // menu 자체에는 나오지 않는 페이지 라우터에 추가(방 상세보기)
   routes.push({
-    path: '/conferences/:conferenceId',
-    name: 'conference-detail',
-    component: ConferencesDetail
+    path: '/conferences/:roomId',
+    name: 'groupcall',
+    component: Groupcall
   },
   {
     path:'/search/:searchValue',

@@ -1,7 +1,6 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -12,10 +11,15 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +28,7 @@ import java.util.Optional;
  * 방 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "방 API", tags = {"Conference"})
-@RestController
+@Controller
 @RequestMapping("/api/v1/")
 public class ConferenceController {
     @Autowired
@@ -41,19 +45,8 @@ public class ConferenceController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam(required = false) Integer price
     ) throws IOException {
-        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
+        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
-    }
-
-    @GetMapping("conference-categories")
-    @ApiOperation(value = "방 카테고리 조회", notes = "방 카테고리들을 조회한다")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity<ConferenceCategoryRes> getCategories() {
-        System.out.println("test thumbnail_back");
-        Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
-        return ResponseEntity.status(200).body(ConferenceCategoryRes.of(categories));
     }
 
     @GetMapping(value = "conferences/{conference_id}")
@@ -78,7 +71,7 @@ public class ConferenceController {
             @RequestParam Long conferenceCategoryId, @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam Boolean isActive, @RequestParam Integer price) throws IOException {
-        conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
+        conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
@@ -92,6 +85,17 @@ public class ConferenceController {
             @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
         Optional<List<Conference>> conferences = conferenceService.getAllConference(title, sort, size, conferenceCategory);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
+    }
+
+    @DeleteMapping(value = "conferences")
+    @ApiOperation(value = "방 정보 삭제", notes = "방 정보를 삭제한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> deleteConference(
+            @RequestParam(required = true) Long conference_id) {
+        conferenceService.deleteConference(conference_id);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
     @PostMapping(value = "conference-categories")
@@ -126,5 +130,34 @@ public class ConferenceController {
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "non-existent category"));
         }
+    }
+
+    @GetMapping("conference-categories")
+    @ApiOperation(value = "방 카테고리 조회", notes = "방 카테고리들을 조회한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<ConferenceCategoryRes> getCategories() {
+        System.out.println("test thumbnail_back");
+        Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
+        return ResponseEntity.status(200).body(ConferenceCategoryRes.of(categories));
+    }
+
+    private String saveThumbnail(MultipartFile thumbnail) throws IOException {
+        String path = "images/";
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
+
+        String url = "";
+        if (thumbnail != null) {
+            String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
+            String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
+
+            url = "images" + File.separator + new_file_name;
+            Path pathabs = Paths.get(url).toAbsolutePath();
+            thumbnail.transferTo(pathabs.toFile());
+        }
+        return url;
     }
 }

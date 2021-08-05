@@ -4,7 +4,7 @@
 
 ### Branch
 
-`feature/{#jira-number}-{branch-name}`
+`feature/{#jira-number}_{branch-name}`
 
 ### Commit
 
@@ -27,7 +27,7 @@
 #   docs    : 문서 (문서 추가, 수정, 삭제)
 #   test    : 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음)
 #   perf    : 성능 개선
-#   
+#
 # ------------------
 #     제목 첫 글자를 대문자로
 #     제목은 명령문으로

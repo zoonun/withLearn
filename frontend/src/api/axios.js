@@ -2,7 +2,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 // import config from '../config'
 
-const BASE_URL = '/api/v1'
+const BASE_URL = 'https://i5d106.p.ssafy.io:8080/api/v1'
 const DEFAULT_ACCEPT_TYPE = 'application/json'
 const USER = JSON.parse(localStorage.getItem('user'))
 

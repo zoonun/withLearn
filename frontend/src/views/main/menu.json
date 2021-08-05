@@ -19,5 +19,26 @@
     "path" : "/",
     "icon" : "el-icon-switch-button",
     "children" : []
+  },
+  "lobby" : {
+    "name" : "그룹콜 로비",
+    "hidden" : false,
+    "path" : "/lobby",
+    "icon" : "el-icon-switch-button",
+    "children" : []
+  },
+  "websocket" : {
+    "name" : "웹소켓",
+    "hidden" : false,
+    "path" : "/websocket",
+    "icon" : "el-icon-switch-button",
+    "children" : []
+  },
+  "socketjs" : {
+    "name" : "웹소켓",
+    "hidden" : false,
+    "path" : "/socketjs",
+    "icon" : "el-icon-switch-button",
+    "children" : []
   }
 }

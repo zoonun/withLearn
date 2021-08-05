@@ -24,7 +24,6 @@
             <i :class="['ic', 'el-icon-key']"/>
             <span>로그인</span>
           </el-button>
-
         </div>
         <div class="button-wrapper" v-else>
           <el-button type="primary" @click="clickConference">
