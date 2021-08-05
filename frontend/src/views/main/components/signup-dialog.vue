@@ -58,22 +58,28 @@ export default {
         callback(new Error('필수 입력 항목입니다.'))
       } else if (value.length > 16) {
         callback(new Error('최대 16글자를 입력해야 합니다.'))
-      } else if (!state.isAvailableId) {
-        callback(new Error('이미 존재하는 아이디입니다.'))
       } else {
         callback()
       }
     }
 
+    // const validatePw = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('필수 입력 항목입니다.'))
+    //   } else if (value.length < 9) {
+    //     callback(new Error('최소 9글자를 입력해야 합니다.'))
+    //   } else if (value.length > 16) {
+    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
+    //   } else if (!pwRegExp.test(value)) {
+    //     callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
+
     const validatePw = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
-      } else if (value.length < 9) {
-        callback(new Error('최소 9글자를 입력해야 합니다.'))
-      } else if (value.length > 16) {
-        callback(new Error('최대 16글자를 입력해야 합니다.'))
-      } else if (!pwRegExp.test(value)) {
-        callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
       } else {
         callback()
       }
@@ -82,18 +88,25 @@ export default {
     const validatePw2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('필수 입력 항목입니다.'))
-      } else if (value.length < 9) {
-        callback(new Error('최소 9글자를 입력해야 합니다.'))
-      } else if (value.length > 16) {
-        callback(new Error('최대 16글자를 입력해야 합니다.'))
-      } else if (!pwRegExp.test(value)) {
-        callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
-      } else if (value !== state.form.password) {
-        callback(new Error('입력한 비밀번호와 일치하지 않습니다.'))
       } else {
         callback()
       }
     }
+    // const validatePw2 = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('필수 입력 항목입니다.'))
+    //   } else if (value.length < 9) {
+    //     callback(new Error('최소 9글자를 입력해야 합니다.'))
+    //   } else if (value.length > 16) {
+    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
+    //   } else if (!pwRegExp.test(value)) {
+    //     callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
+    //   } else if (value !== state.form.password) {
+    //     callback(new Error('입력한 비밀번호와 일치하지 않습니다.'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
 
     const state = reactive({
       form: {
@@ -156,7 +169,9 @@ export default {
       store.dispatch('root/requestAvailableId', state.form.id)
       .then(function () {
         if (state.isAvailableId) {
-          alert('사용가능한 아이디입니다.')
+          alert('사용 가능한 아이디입니다.')
+        } else {
+          alert('이미 사용 중인 아이디입니다.')
         }
       })
     }

@@ -49,6 +49,9 @@ export default {
   isLoggedIn: IsLoggedIn,
   loadingStatus: false,
   isAvailableId: false,
+  SortIndex:0,
+  conferenceData: null,
+  recentSearchValue:null,
+  profile: null,
   conferenceId: {},
-  profile: null
 }

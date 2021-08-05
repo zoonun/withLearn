@@ -144,11 +144,7 @@ public class ConferenceController {
     }
 
     private String saveThumbnail(MultipartFile thumbnail) throws IOException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
-//        String absolutePath = new File("").getAbsolutePath() + "\\";
-
-        String path = "images/" + current_date;
+        String path = "images/";
         File file = new File(path);
         if (!file.exists())
             file.mkdirs();
@@ -158,7 +154,7 @@ public class ConferenceController {
             String originalFileExtension = thumbnail.getOriginalFilename().substring(thumbnail.getOriginalFilename().lastIndexOf("."));
             String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
 
-            url = "images" + File.separator + current_date + File.separator + new_file_name;
+            url = "images" + File.separator + new_file_name;
             Path pathabs = Paths.get(url).toAbsolutePath();
             thumbnail.transferTo(pathabs.toFile());
         }

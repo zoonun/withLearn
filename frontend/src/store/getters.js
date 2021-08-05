@@ -29,6 +29,19 @@ export function getConferenceId (state) {
   return state.conferenceId
 }
 
+export function getSortIndex (state) {
+  console.log('getSortIndex')
+  return state.SortIndex
+}
+
+export function getConference (state) {
+  return state.conferenceData
+}
+
+export function getSearchValue (state) {
+  return state.recentSearchValue
+}
+
 export function getProfile (state) {
   return state.profile
 }

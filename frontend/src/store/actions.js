@@ -4,6 +4,7 @@ import $axios from 'axios'
 export function requestLogin ({ state }, payload) {
   console.log('requestLogin', state, payload)
   const url = '/auth/login'
+  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
@@ -11,6 +12,7 @@ export function requestLogin ({ state }, payload) {
 export function requestSignup ({ state }, payload) {
   console.log('requestSignup', state, payload)
   const url = '/users'
+  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
@@ -39,6 +41,17 @@ export function requestAvailableId({ commit }, id) {
   })
 }
 
+export function requestSearchTitle({ commit }, payload) {
+  const url = '/conferences'
+  const body = payload
+  commit('setSearchValue', body.title)
+  return $axios.get(url, body)
+  .then((res) => {
+    console.log(res.data.content)
+    console.log('request setConferenceData')
+    commit('setConferenceData', res.data.content)
+  })
+}
 // 컨퍼런스 액션
 export function requestConferenceCreate({ state }, payload) {
   const url = '/conferences'
