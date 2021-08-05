@@ -1,6 +1,5 @@
 const PARTICIPANT_MAIN_CLASS = 'participant main';
 const PARTICIPANT_CLASS = 'participant';
-import sendMessage from '../groupcall'
 
 /**
  * Creates a video element for a new participant
@@ -18,7 +17,6 @@ export default function Participant(pname) {
   var span = document.createElement('span');
   var video = document.createElement('video');
   var rtcPeer;
-
   container.appendChild(video);
   container.appendChild(span);
   container.onclick = switchContainerClass;
