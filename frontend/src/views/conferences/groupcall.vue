@@ -2,9 +2,9 @@
   <div id="container">
     <div id="room">
       <h2 id="room-header"></h2>
-      {{ $route.params.roomId + '번 그룹콜' }}
       <div id="participants"></div>
-      <button @click="leaveRoom">나가기</button>
+      <input type="button" id="button-leave" @click="leaveRoom"
+        value="Leave room">
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script>
 import { reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import Participant from './js/participant'
+import { Participant } from './js/participant'
 import kurentoUtils from 'kurento-utils'
 
 export default {
@@ -27,6 +27,7 @@ export default {
     // onMounted(() => {
       //   window.addEventListener('beforeunload', unloadEvent)
     // })
+
 
     // onBeforeRouteLeave((to, from, next) => {
       //   const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
@@ -83,6 +84,7 @@ export default {
 
     onBeforeMount(()=> {
       let curUrl = document.location.href.split('/').reverse()
+      console.log('현재 url', curUrl)
       state.room = curUrl[1]
       state.name = curUrl[0]
       const message = {
@@ -90,7 +92,6 @@ export default {
         name : state.name,
         room : state.room,
       }
-      console.log(message)
       sendMessage(message)
     })
 
@@ -112,8 +113,7 @@ export default {
     }
 
     const receiveVideo = function (sender) {
-      var participant = new Participant(sender);
-      console.log(sender)
+      var participant = new Participant(sender, sendMessage);
       state.participants[sender] = participant;
       var video = participant.getVideoElement();
 
@@ -122,9 +122,9 @@ export default {
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
 
-      state.participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
-        if (error) return console.error('rtcPeer Error in 126: ', error)
-        this.generateOffer (state.participant.offerToReceiveVideo.bind(participant));
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
+        if (error) return console.error(error)
+        this.generateOffer (participant.offerToReceiveVideo.bind(participant));
       })
     }
 
@@ -158,7 +158,7 @@ export default {
         }
       }
       console.log(state.name + ' registered in room ' + state.room)
-      var participant = new Participant(state.name)
+      var participant = new Participant(state.name, sendMessage)
       state.participants[state.name] = participant
       var video = participant.getVideoElement()
 
@@ -168,7 +168,7 @@ export default {
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
       participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-        if (error) return console.error('RtcPeerSendonlyError in 171: ', error)
+        if (error) return console.error(error)
         this.generateOffer(participant.offerToReceiveVideo.bind(participant))
       })
       message.data.forEach(receiveVideo)
@@ -185,7 +185,6 @@ export default {
       }
 
       ws.close();
-      window.location = '/lobby'
     }
 
     const onParticipantLeft = function (request) {
