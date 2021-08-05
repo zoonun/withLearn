@@ -45,10 +45,17 @@ export function requestAvailableId({ commit }, id) {
       icon: 'success',
       html: '사용 가능한 아이디입니다.',
       showConfirmButton: false,
+      timer: 1000
     })
   })
   .catch(() => {
     commit('setIsUnavailableId')
+    Swal.fire({
+      icon: 'warning',
+      html: '이미 사용 중인 아이디입니다.',
+      showConfirmButton: false,
+      timer: 1000
+    })
   })
 }
 

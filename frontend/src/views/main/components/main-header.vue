@@ -287,11 +287,10 @@ export default {
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
-    width: 55%;
+    width: 45%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 30%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;

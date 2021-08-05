@@ -12,11 +12,24 @@
   <el-button @click="clickSortOrderIndex">
     <i :class="['ic', state.sortOrderIconItem]"/>
   </el-button>
-  <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+  <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
       <Conference/>
     </li>
-  </ul>
+  </ul> -->
+  <el-carousel
+    trigger="click"
+    :autoplay="false"
+    :loop="false"
+  >
+    <el-carousel-item v-for="i in (state.count/3)" :key="i">
+      <ul class="infinite-list">
+        <li v-for="j in 3" @click="clickConference(j + (i - 1) * 3)" class="infinite-list-item" :key="j" >
+          <Conference/>
+        </li>
+      </ul>
+    </el-carousel-item>
+  </el-carousel>
 </template>
 <style>
 .infinite-list {
@@ -42,6 +55,14 @@
   display: inline-block;
   cursor: pointer;
 }
+.el-carousel {
+  height: 100%;
+}
+
+.is-animating {
+  height:350px;
+}
+
 
 </style>
 <script>
@@ -54,7 +75,7 @@ export default {
   name: 'Home',
 
   components: {
-    Conference
+    Conference,
   },
 
   setup () {

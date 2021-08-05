@@ -8,9 +8,12 @@
       </el-skeleton>
       </div>
     <div style="text-align: left; padding: 14px;">
-      <span class="title">{{ title }}</span>
+      <div class="header">
+        <span class="title">{{ title }}</span>
+        <span class="date"> {{ date }}</span>
+        <div class="category">{{ name }}</div>
+      </div>
       <div class="bottom">
-        <span>{{ desc }}</span>
       </div>
     </div>
   </el-card>
@@ -49,6 +52,10 @@
     height:60px;
   }
 }
+.el-card .header .date {
+  float:right;
+  margin-right:5%;
+}
 
 </style>
 <script>
@@ -63,6 +70,18 @@ export default {
     desc: {
       type: String,
       default: 'Lrsions of Lorem Ipsum.'
+    },
+    name: {
+      type: String,
+      default: '백준'
+    },
+    date: {
+      type: String,
+      default: '2021-08-05 ~ 2021-09-30'
+    },
+    isactive: {
+      type: Boolean,
+      default:true
     }
   },
 
