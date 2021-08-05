@@ -71,14 +71,13 @@ function Participant(name, sendMessage) {
 	}
 
 	function isPresentMainParticipant() {
-    // class name이 participant main인 것이 있을 경우
 		return ((document.getElementsByClassName(PARTICIPANT_MAIN_CLASS)).length != 0);
 	}
 
 	this.offerToReceiveVideo = function(error, offerSdp/*, wp*/){
-		if (error) return console.error ('sdp offer error')
+		if (error) return console.error ("sdp offer error")
 		console.log('Invoking SDP offer callback function');
-		var msg =  { id : 'receiveVideoFrom',
+		var msg =  { id : "receiveVideoFrom",
 				sender : name,
 				sdpOffer : offerSdp
 			};
@@ -87,7 +86,7 @@ function Participant(name, sendMessage) {
 
 
 	this.onIceCandidate = function (candidate/*, wp*/) {
-		console.log('Local candidate' + JSON.stringify(candidate));
+		console.log("Local candidate" + JSON.stringify(candidate));
 
 		var message = {
 			id: 'onIceCandidate',
