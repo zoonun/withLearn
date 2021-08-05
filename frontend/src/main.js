@@ -7,6 +7,8 @@ import VueAxios from './api/axios'
 import i18n from './api/i18n'
 import router from './router/vue-router'
 import 'element-plus/packages/theme-chalk/src/base.scss'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Element UI Components [시작]
 import {
@@ -197,6 +199,7 @@ app.use(VueAxios, axios)
 app.use(store)
 app.use(i18n)
 app.use(router)
+app.use(VueSweetalert2);
 
 components.forEach(component => {
   app.component(component.name, component)

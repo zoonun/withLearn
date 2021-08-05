@@ -45,3 +45,4 @@ export function getSearchValue (state) {
 export function getProfile (state) {
   return state.profile
 }
+

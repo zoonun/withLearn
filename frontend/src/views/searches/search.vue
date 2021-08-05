@@ -1,45 +1,32 @@
 <template>
-  <!-- <el-select
-    v-model="state.sortCurrentText">
-    <el-option
-      v-for="(item, index) in state.sortSelectLabelItems"
-      :key="index"
-      :index="index.toString()"
-      :label="item"
-      @click="clickSortSelectItem(index)">
-    </el-option>
-  </el-select>
-  <el-button @click="clickSortOrderIndex">
-    <i :class="['ic', state.sortOrderIconItem]"/>
-  </el-button> -->
-  <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+  <div class="filter-wrapper">
+    <ul class="filter-list">
+      <el-button v-for="(item, index) in state.filterItems" :key="index" :index="index.toString()" @click="clickFilterItem(index)">
+        {{ item.name }}
+      </el-button>
+    </ul>
+    <div class="sort-wrapper">
+      <el-select
+        v-model="state.sortCurrentText">
+        <el-option
+          v-for="(item, index) in state.sortSelectLabelItems"
+          :key="index"
+          :index="index.toString()"
+          :label="item"
+          @click="clickSortSelectItem(index)">
+        </el-option>
+      </el-select>
+      <el-button @click="clickSortOrderIndex">
+        <i :class="['ic', state.sortOrderIconItem]"/>
+      </el-button>
+    </div>
+  </div>
+  <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
       <Conference/>
     </li>
-  </ul> -->
-  <div class="guide">
-    더 많은 강의들을 확인해보세요!
-    <span>
-      <el-button class="guide-button" @click="clickGuideButton">
-        <i class="el-icon-arrow-right"></i>
-      </el-button>
-    </span>
-  </div>
-  <el-carousel
-    trigger="click"
-    :autoplay="false"
-    :loop="false"
-  >
-    <el-carousel-item v-for="i in (state.count/3)" :key="i">
-      <ul class="infinite-list">
-        <li v-for="j in 3" @click="clickConference(j + (i - 1) * 3)" class="infinite-list-item" :key="j" >
-          <Conference/>
-        </li>
-      </ul>
-    </el-carousel-item>
-  </el-carousel>
+  </ul>
 </template>
-
 <style>
 .infinite-list {
   padding-left: 0;
@@ -64,40 +51,44 @@
   display: inline-block;
   cursor: pointer;
 }
-.el-carousel {
-  height: 100%;
+.filter-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-right:11%;
+  padding-left:10%;
 }
-
-.is-animating {
-  height:380px;
-}
-.guide {
+.filter-list .el-button {
   display: block;
-  text-align: left;
-  margin-left: 125px;
+  background-color: #b8b8b8;
+  border-radius: 10px;
+  color:white;
   font-weight: bold;
-  font-size:120%;
-  margin-bottom: 10px;
+}
+.filter-list {
+  padding-inline-start: 0px;
+  margin:0px;
+}
+.el-input__inner {
+  font-weight: bold;
+}
+.el-select-dropdown__item {
+  font-weight: bold;
 }
 
-.guide .guide-button {
-  background-color: white;
-  font-weight:bold;
-}
 
 
 </style>
 <script>
-import Conference from './components/conference'
-import { reactive, computed } from 'vue'
+import Conference from '../home/components/conference'
+import { reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'Home',
+  name: 'search',
 
   components: {
-    Conference,
+    Conference
   },
 
   setup () {
@@ -117,7 +108,12 @@ export default {
       }),
       sortActiveSelectIndex: 0,
       sortSelectValueItems: ['title', 'recommend'],
-      searchState: computed(() => store.getters['root/getSearchStatus'])
+      filterItems: computed(() => store.getters['root/getConferenceId']),
+      filterColorArray: Array(10)
+    })
+
+    onMounted(() => {
+      store.dispatch('root/requestConferenceId')
     })
 
     const load = function () {
@@ -161,17 +157,21 @@ export default {
       store.dispatch('root/requestSearchTitle', payload)
     }
 
-    const clickGuideButton = async function () {
-
-      await router.push({
-        name: 'search',
-        params: {
-          searchValue: null,
-        }
-      })
+    const clickFilterItem = (index) => {
+      const filterList = document.querySelector('.filter-list')
+      const filterItem = filterList.children[index]
+      if (state.filterColorArray[index]) {
+        state.filterColorArray[index] = false
+        console.log(state.filterColorArray)
+        filterItem.style.backgroundColor='#b8b8b8'
+      } else {
+        state.filterColorArray[index] = true
+        console.log(state.filterColorArray)
+        filterItem.style.backgroundColor='#1dc078'
+      }
     }
 
-    return { state, load, clickConference, clickSortOrderIndex, clickSortSelectItem, clickGuideButton }
+    return { state, load, clickConference, clickSortOrderIndex, clickSortSelectItem, clickFilterItem }
   }
 }
 </script>
