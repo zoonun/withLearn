@@ -15,6 +15,7 @@
       <div class="bottom">
         <span class='category'> {{ category }} </span>
         <span v-if="isactive" class='isactive'> 수강신청중 </span>
+        <span v-else class='unactive'> 수강마감 </span>
       </div>
     </div>
   </el-card>
@@ -43,11 +44,13 @@
 .el-card .isactive {
   font-size:70%;
   display: block;
-  background-color: greenyellow;
+  background-color: rgb(7, 248, 47);
   padding:.75em;
   border-radius: 10px;
   margin-top:5px;
   float: right;
+  color:  white;
+  font-weight: bold;
 }
 .el-card .bottom {
   margin-top: 20px;
@@ -65,6 +68,17 @@
   border-radius: 10px;
   margin-top:5px;
   float: left;
+  color:white;
+  font-weight: bold;
+}
+.el-card .unactive {
+  font-size:70%;
+  display: block;
+  background-color: red;
+  padding:.75em;
+  border-radius: 10px;
+  margin-top:5px;
+  float: right;
   color:white;
   font-weight: bold;
 }
