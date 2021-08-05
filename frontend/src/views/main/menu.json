@@ -20,10 +20,10 @@
     "icon" : "el-icon-switch-button",
     "children" : []
   },
-  "groupcall" : {
-    "name" : "그룹콜",
+  "lobby" : {
+    "name" : "그룹콜 로비",
     "hidden" : false,
-    "path" : "/groupcall",
+    "path" : "/lobby",
     "icon" : "el-icon-switch-button",
     "children" : []
   },

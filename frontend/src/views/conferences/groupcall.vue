@@ -1,35 +1,16 @@
 <template>
   <div id="container">
-    <div id="wrapper">
-      <!-- join 부분을 컨퍼런스 목록쪽으로 빼면 된다 -->
-      <div id="join" class="animate join">
-        <h1>Join a Room</h1>
-        <form @onsubmit="register" accept-charset="UTF-8">
-          <p>
-            <input v-model="state.name" type="text" name="name" value="" id="name"
-              placeholder="Username" required>
-          </p>
-          <p>
-            <input v-model="state.room" type="text" name="room" value="" id="roomName"
-              placeholder="Room" required>
-          </p>
-          <p class="submit">
-            <input type="submit" name="commit" value="Join!">
-          </p>
-        </form>
-      </div>
-      <div id="room" style="display: none;">
-        <h2 id="room-header"></h2>
-        <div id="participants"></div>
-        <input type="button" id="button-leave" @click="leaveRoom"
-          value="Leave room">
-      </div>
+    <div id="room">
+      <h2 id="room-header"></h2>
+      <div id="participants"></div>
+      <input type="button" id="button-leave" @click="leaveRoom"
+        value="Leave room">
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, onMounted, onBeforeUnmount } from 'vue'
+import { reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import Participant from './js/participant'
 import kurentoUtils from 'kurento-utils'
@@ -43,35 +24,36 @@ export default {
       room: '',
       participants: {}
     })
+    // onMounted(() => {
+      //   window.addEventListener('beforeunload', unloadEvent)
+    // })
+
+
+    // onBeforeRouteLeave((to, from, next) => {
+      //   const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
+    //   if (answer) {
+      //     console.log('이동')
+    //     next()
+    //   } else {
+      //     next(false)
+    //   }
+    // })
+    // // conferenceroom.js
+    // const unloadEvent = function (event) {
+      //   ws.close()
+    //   // event.preventDefault()
+    //   // event.returnValue = ''
+    // }
+
     const ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
-    onMounted(() => {
-      window.addEventListener('beforeunload', unloadEvent)
-    })
-
     onBeforeUnmount(() => {
-      window.removeEventListener('beforeunload', unloadEvent)
-    })
-
-    onBeforeRouteLeave((to, from, next) => {
-      const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
-      if (answer) {
-        console.log('이동')
-        next()
-      } else {
-        next(false)
-      }
-    })
-
-    // conferenceroom.js
-    const unloadEvent = function (event) {
+      // window.removeEventListener('beforeunload', unloadEvent)
       ws.close()
-      // event.preventDefault()
-      // event.returnValue = ''
-    }
+    })
 
     ws.onmessage = function (message) {
-      const parsedMessage = JSON.parse(message.data)
+      var parsedMessage = JSON.parse(message.data)
       console.info('Received msg:' + message.data)
 
       switch (parsedMessage.id) {
@@ -100,19 +82,33 @@ export default {
       }
     }
 
-    const register = function () {
-      document.getElementById('room-header').innerText = 'ROOM ' + state.room
-      document.getElementById('join').style.display = 'none'
-      document.getElementById('room').style.display = 'block'
+    onBeforeMount(()=> {
+      let curUrl = document.location.href.split('/').reverse()
+      console.log('현재 url', curUrl)
+      state.room = curUrl[1]
+      state.name = curUrl[0]
       const message = {
-        id: 'joinRoom',
-        name: state.name,
-        room: state.room
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
       }
       sendMessage(message)
-    }
+    })
+
+    // const register = function () {
+    //   document.getElementById('room-header').innerText = 'ROOM ' + state.room
+    //   document.getElementById('join').style.display = 'none'
+    //   document.getElementById('room').style.display = 'block'
+    //   const message = {
+    //     id: 'joinRoom',
+    //     name: state.name,
+    //     room: state.room
+    //   }
+    //   sendMessage(message)
+    // }
 
     const onNewParticipant = function (request) {
+      console.log(request, '참여')
       receiveVideo(request.name)
     }
 
@@ -161,7 +157,7 @@ export default {
           }
         }
       }
-      console.log(state.name + ' registered in room ' + 'sample')
+      console.log(state.name + ' registered in room ' + state.room)
       var participant = new Participant(state.name)
       state.participants[state.name] = participant
       var video = participant.getVideoElement()
@@ -188,9 +184,6 @@ export default {
         state.participants[key].dispose()
       }
 
-      document.getElementById('join').style.display = 'block';
-      document.getElementById('room').style.display = 'none';
-
       ws.close();
     }
 
@@ -204,12 +197,12 @@ export default {
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
       console.log('Sending message: ' + jsonMessage);
-      ws.send(jsonMessage);
+      ws.onopen = () => ws.send(jsonMessage);
     }
 
-    return { state, unloadEvent,
+    return { state,
     // conferenceroom
-    register, onNewParticipant, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
+    onNewParticipant, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
   }
 }
 </script>
