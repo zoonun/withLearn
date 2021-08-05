@@ -54,16 +54,27 @@
 .filter-wrapper {
   display: flex;
   justify-content: space-between;
-  padding-right:10%;
+  padding-right:11%;
   padding-left:10%;
 }
 .filter-list .el-button {
   display: block;
   background-color: #b8b8b8;
-  padding:.75em;
   border-radius: 10px;
   color:white;
+  font-weight: bold;
 }
+.filter-list {
+  padding-inline-start: 0px;
+  margin:0px;
+}
+.el-input__inner {
+  font-weight: bold;
+}
+.el-select-dropdown__item {
+  font-weight: bold;
+}
+
 
 
 </style>

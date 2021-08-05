@@ -13,6 +13,7 @@
         <div class="name">{{ name }}</div>
       </div>
       <div class="bottom">
+        <span class='category'> {{ category }} </span>
         <span v-if="isactive" class='isactive'> 수강신청중 </span>
       </div>
     </div>
@@ -49,12 +50,23 @@
   float: right;
 }
 .el-card .bottom {
-  margin-top: 5px;
+  margin-top: 20px;
   display:-webkit-box;
   word-wrap:break-word;
   -webkit-box-orient:vertical;
   overflow:hidden;
   text-overflow:ellipsis;
+}
+.el-card .category {
+  font-size:70%;
+  display: block;
+  background-color: skyblue;
+  padding:.75em;
+  border-radius: 10px;
+  margin-top:5px;
+  float: left;
+  color:white;
+  font-weight: bold;
 }
 
 /* 테블릿, 모바일의 경우 두 줄 말줄임표시 */
@@ -89,6 +101,10 @@ export default {
     isactive: {
       type: Boolean,
       default:true
+    },
+    category: {
+      type: String,
+      default: '알고리즘'
     }
   },
 
