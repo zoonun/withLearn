@@ -4,6 +4,7 @@ import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
 import store from '@/api/store'
 import fullMenu from '@/views/main/menu.json'
+import Search from '@/views/searches/search'
 
 // const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
@@ -23,6 +24,11 @@ function makeRoutesFromMenu () {
     path: '/conferences/:conferenceId',
     name: 'conference-detail',
     component: ConferencesDetail
+  },
+  {
+    path:'/search/:searchValue',
+    name:'search',
+    component: Search
   })
   return routes
 }

@@ -47,10 +47,14 @@
 .login-dialog .dialog-footer .el-button {
   width: 120px;
 }
+.swal2-container {
+  z-index: 10000;
+}
 </style>
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'login-dialog',
@@ -128,16 +132,34 @@ export default {
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             store.dispatch('root/requestSaveJWT', result.data)
-            alert('로그인 되었습니다.')
             emit('closeLoginDialog')
-            document.location.reload()
+            Swal.fire({
+              icon: 'success',
+              html: '로그인되었습니다.',
+              showConfirmButton: false,
+              timer:1000
+            })
+            setTimeout(function(){
+              document.location.reload();
+            }, 1000);
+            // document.location.reload()
           })
           .catch(function (err) {
-            alert(err.response.data.message)
+            Swal.fire({
+              icon: 'error',
+              html: err.response.data.message,
+              showConfirmButton: false,
+              timer: 1000
+            })
           })
           .finally(store.commit('root/setSpinnerEnd'))
         } else {
-          alert('잘못된 입력입니다.')
+          Swal.fire({
+              icon: 'error',
+              html: '잘못된 입력입니다.',
+              showConfirmButton: false,
+              timer: 1000
+            })
         }
       });
     }
