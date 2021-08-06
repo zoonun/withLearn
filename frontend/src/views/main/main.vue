@@ -2,6 +2,7 @@
   <el-container class="main-wrapper">
     <main-header
       :height="`70px`"
+      @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
       @openConferenceDialog="onOpenConferenceDialog()"
@@ -24,6 +25,9 @@
   <signup-dialog
     :open="state.signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog()"/>
+  <search-dialog
+    :open="state.searchDialogOpen"
+    @closeSearchDialog="onCloseSearchDialog()"/>
   <conference-dialog
     :open="state.conferenceDialogOpen"
     @closeConferenceDialog="onCloseConferenceDialog()"/>
@@ -45,6 +49,7 @@ import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
+import SearchDialog from './components/search-dialog'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import ProfileDialog from './components/profile-dialog'
@@ -57,6 +62,7 @@ export default {
     MainFooter,
     LoginDialog,
     SignupDialog,
+    SearchDialog,
     ConferenceDialog,
     ProfileDialog,
     Spinner
@@ -67,6 +73,7 @@ export default {
     const state = reactive({
       loginDialogOpen: false,
       signupDialogOpen: false,
+      searchDialogOpen: false,
       conferenceDialogOpen: false,
       profileDialogOpen: false,
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
@@ -84,6 +91,12 @@ export default {
     const onCloseSignupDialog = () => {
       state.signupDialogOpen = false
     }
+    const onOpenSearchDialog = () => {
+      state.searchDialogOpen = true
+    }
+    const onCloseSearchDialog = () => {
+      state.searchDialogOpen = false
+    }
     const onOpenConferenceDialog = () => {
       state.conferenceDialogOpen = true
     }
@@ -97,7 +110,7 @@ export default {
       state.profileDialogOpen = false
     }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenConferenceDialog, onCloseConferenceDialog, onOpenProflieDialog, onCloseProfileDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog}
   }
 }
 </script>

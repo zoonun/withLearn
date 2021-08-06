@@ -39,6 +39,20 @@ export function setConferenceId (state, ids) {
   state.conferenceId = ids
 }
 
+export function setSortIndex (state) {
+  console.log('setSortIndex')
+  state.SortIndex = (state.SortIndex + 1) % 2
+}
+
+export function setConferenceData (state, conferenceData) {
+  state.conferenceData = conferenceData
+}
+
+export function setSearchValue (state, searchValue) {
+  console.log('setSearchValue')
+  state.recentSearchValue = searchValue
+}
+
 export function setProfile (state, profileItem) {
   state.profile = profileItem
 }

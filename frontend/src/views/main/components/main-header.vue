@@ -15,6 +15,9 @@
         </div>
         <!-- 로그인 메뉴헤더 분기 -->
         <div class="button-wrapper" v-if="!state.isLogin">
+          <el-button class="search-button" @click="clickSearch" style= width:10%;>
+            <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
           <el-button @click="clickSignup">
             <i :class="['ic', 'el-icon-circle-plus-outline']"/>
             <span>회원 가입</span>
@@ -25,6 +28,9 @@
           </el-button>
         </div>
         <div class="button-wrapper" v-else>
+          <el-button class="search-button" @click="clickSearch" style= width:10%;>
+            <i :class="['ic', 'el-icon-search']"/>
+          </el-button>
           <el-button type="primary" @click="clickConference">
             <i :class="['ic', 'el-icon-circle-plus-outline']"/>
             <span>컨퍼런스 생성</span>
@@ -39,7 +45,7 @@
     <div class="hide-on-big">
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
+      <div class="menu-icon-wrapper" @click="clickMobileSearch"><i class="el-icon-search"></i></div>
       <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
         <div class="mobile-sidebar">
           <div class="logo-wrapper"><div class="ic ic-logo"/></div>
@@ -97,6 +103,9 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
+      sort: 'title',
+      order: 'asc',
+      conference_category:null,
       searchValue: null,
       isCollapse: true,
       menuItems: computed(() => {
@@ -112,7 +121,7 @@ export default {
         return menuArray
       }),
       activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
-      isLogin: computed(() => store.getters['root/getIsLoggedIn'])
+      isLogin: computed(() => store.getters['root/getIsLoggedIn']),
     })
 
     if (state.activeIndex === -1) {
@@ -163,7 +172,24 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, clickConference, clickProfile, changeCollapse }
+    const clickSearch = () => {
+      console.log('clickSearch')
+      const payload = {
+        title: state.searchValue,
+        sort: [state.sort, state.order],
+        page: null,
+        size: 10,
+        conference_category: state.conference_category,
+      }
+      console.log(payload)
+      store.dispatch('root/requestSearchTitle', payload)
+    }
+
+    const clickMobileSearch = () => {
+      emit('openSearchDialog')
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile, clickConference }
   }
 }
 
@@ -261,15 +287,15 @@ export default {
     background-image: url('../../../assets/images/ssafy-logo.png');
   }
   .main-header .hide-on-small .tool-wrapper {
-    width: 50%;
+    width: 65%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
-    width: 45%;
+    width: 55%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 45%;
+    width: 30%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;
