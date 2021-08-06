@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +40,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
-            @RequestParam("conferenceDay") String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
+            @RequestParam(required = false) String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam(required = false) Integer price
     ) throws IOException {
