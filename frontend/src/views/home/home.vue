@@ -1,22 +1,4 @@
 <template>
-  <!-- <el-select
-    v-model="state.sortCurrentText">
-    <el-option
-      v-for="(item, index) in state.sortSelectLabelItems"
-      :key="index"
-      :index="index.toString()"
-      :label="item"
-      @click="clickSortSelectItem(index)">
-    </el-option>
-  </el-select>
-  <el-button @click="clickSortOrderIndex">
-    <i :class="['ic', state.sortOrderIconItem]"/>
-  </el-button> -->
-  <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
-      <Conference/>
-    </li>
-  </ul> -->
   <div class="guide">
     더 많은 강의들을 확인해보세요!
     <span>
@@ -25,66 +7,9 @@
       </el-button>
     </span>
   </div>
-  <el-carousel
-    trigger="click"
-    :autoplay="false"
-    :loop="false"
-  >
-    <el-carousel-item v-for="i in (state.count/3)" :key="i">
-      <ul class="infinite-list">
-        <li v-for="j in 3" @click="clickConference(j + (i - 1) * 3)" class="infinite-list-item" :key="j" >
-          <Conference/>
-        </li>
-      </ul>
-    </el-carousel-item>
-  </el-carousel>
 </template>
 
 <style>
-.infinite-list {
-  padding-left: 0;
-  max-height: calc(100% - 35px);
-}
-
-@media (min-width: 701px) and (max-width: 1269px) {
-  .infinite-list {
-    min-width: 700px;
-  }
-}
-
-@media (min-width: 1270px) {
-  .infinite-list {
-    min-width: 1021px;
-  }
-}
-
-.infinite-list .infinite-list-item {
-  min-width: 335px;
-  max-width: 25%;
-  display: inline-block;
-  cursor: pointer;
-}
-.el-carousel {
-  height: 100%;
-}
-
-.is-animating {
-  height:380px;
-}
-.guide {
-  display: block;
-  text-align: left;
-  margin-left: 125px;
-  font-weight: bold;
-  font-size:120%;
-  margin-bottom: 10px;
-}
-
-.guide .guide-button {
-  background-color: white;
-  font-weight:bold;
-}
-
 
 </style>
 <script>
@@ -95,11 +20,6 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'Home',
-
-  components: {
-    Conference,
-  },
-
   setup () {
     const store = useStore()
     const router = useRouter()

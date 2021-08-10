@@ -1,24 +1,18 @@
 <template>
-  <el-container class="main-wrapper">
-    <main-header
+  <container class="main-wrapper">
+    <MainHeader
       :height="`70px`"
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
       @openConferenceDialog="onOpenConferenceDialog()"
       @openProfileDialog="onOpenProflieDialog()"/>
-    <el-container class="main-container">
-      <el-aside class="hide-on-small" width="240px">
-        <main-sidebar
-          :width="`240px`"/>
-      </el-aside>
-      <el-main>
-        <router-view></router-view>
-        <Spinner :loading="state.isSpinning"/>
-      </el-main>
-    </el-container>
-    <main-footer :height="`110px`"/>
-  </el-container>
+    <container class="main-container">
+      <router-view></router-view>
+      <Spinner :loading="state.isSpinning"/>
+    </container>
+    <MainFooter :height="`110px`"/>
+  </container>
   <login-dialog
     :open="state.loginDialogOpen"
     @closeLoginDialog="onCloseLoginDialog()"/>
@@ -37,16 +31,14 @@
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
-  @import '../../assets/css/main.css';
   @import '../../assets/css/common.css';
-  @import '../../assets/css/element-plus.css';
 </style>
 <script>
 import LoginDialog from './components/login-dialog'
 import SignupDialog from './components/signup-dialog'
 import ConferenceDialog from './components/conference-dialog'
 import MainHeader from './components/main-header'
-import MainSidebar from './components/main-sidebar'
+// import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
 import SearchDialog from './components/search-dialog'
@@ -58,7 +50,7 @@ export default {
   name: 'Main',
   components: {
     MainHeader,
-    MainSidebar,
+    // MainSidebar,
     MainFooter,
     LoginDialog,
     SignupDialog,

@@ -1,55 +1,11 @@
 <template>
-  <el-dialog custom-class="login-dialog" title="로그인" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align" @keyup.enter="clickLogin">
-      <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.id" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer" @keyup.enter="clickLogin">
-        <el-button type="primary" @click="clickLogin">로그인</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <!-- modal -->
+  <div>
+
+  </div>
 </template>
 <style>
-.login-dialog {
-  width: 400px !important;
-  height: 300px;
-}
-.login-dialog .el-dialog__headerbtn {
-  float: right;
-}
-.login-dialog .el-form-item__content {
-  margin-left: 0 !important;
-  float: right;
-  width: 200px;
-  display: inline-block;
-}
-.login-dialog .el-form-item {
-  margin-bottom: 20px;
-}
-.login-dialog .el-form-item__error {
-  font-size: 12px;
-  color: red;
-}
-.login-dialog .el-input__suffix {
-  display: none;
-}
-.login-dialog .el-dialog__footer {
-  margin: 0 calc(50% - 80px);
-  padding-top: 0;
-  display: inline-block;
-}
-.login-dialog .dialog-footer .el-button {
-  width: 120px;
-}
-.swal2-container {
-  z-index: 10000;
-}
+
 </style>
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'

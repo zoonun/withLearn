@@ -1,40 +1,7 @@
 <template>
-  <el-dialog title="컨퍼런스 생성하기" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="conferenceForm" :label-position="state.form.align">
-      <el-form-item prop="conferenceCategoryId" label="카테고리" :label-width="state.formLabelWidth">
-        <el-select
-          v-model="state.form.conferenceCategoryId"
-          allow-create
-          filterable
-          default-first-option
-          clearable
-          placeholder="선택">
-          <el-option
-            v-for="item in state.conferenceIds"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="title" label="제목" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.title" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="description" label="설명" :label-width="state.formLabelWidth">
-        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 8 }" v-model="state.form.description" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="썸네일" :label-width="state.formLabelWidth">
-        <input
-          type="file"
-          @change="fileSelect"/>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="clickConference">생성</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div>
+
+  </div>
 </template>
 
 <script>
@@ -125,12 +92,15 @@ export default {
             .then(function (res) {
               console.log('컨퍼런스 생성 결과 : ', res)
               emit('closeConferenceDialog')
-              router.push({
-                name: 'conference-detail',
-                params: {
-                  conferenceId: res.data.conferenceId
-                }
+                Swal.fire({
+                icon: 'success',
+                html: '컨퍼런스가 생성되었습니다.',
+                showConfirmButton: false,
+                timer:1000
               })
+              setTimeout(function(){
+                document.location.reload();
+              }, 1000);
             })
             .catch(function (err) {
               Swal.fire({

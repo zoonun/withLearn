@@ -1,15 +1,7 @@
 <template>
-  <el-container>
-    <el-form class="lobby-form" :model="state.form" label-width="100px" label-position="left">
-        <h1 class="form-title">Meeting</h1>
-        <el-form-item label="Room">
-            <el-input v-model="state.form.roomId"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="join">join</el-button>
-        </el-form-item>
-    </el-form>
-  </el-container>
+  <div>
+    lobby
+  </div>
 </template>
 
 <script>

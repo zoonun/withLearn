@@ -1,32 +1,7 @@
 <template>
-  <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align" @keyup.enter="clickSignup">
-      <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.id" autocomplete="off"></el-input>
-        <el-button @click="checkAvailableId" style="margin-left:20px;">중복확인</el-button>
-      </el-form-item>
-      <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
-      </el-form-item>
-      <el-form-item prop="passwordConfirm" label="비밀번호 확인" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.passwordConfirm" autocomplete="off" show-password></el-input>
-      </el-form-item>
-      <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.name" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.department" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.position" autocomplete="off"></el-input>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="clickSignup" :disabled="state.buttonDisabled">회원가입</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div>
+
+  </div>
 </template>
 
 <script>
@@ -176,7 +151,7 @@ export default {
               html: '잘못된 입력입니다.',
               showConfirmButton: false,
               timer: 1000,
-            })
+          })
         }
       })
     }

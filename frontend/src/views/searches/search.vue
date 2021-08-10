@@ -65,6 +65,8 @@
   font-weight: bold;
 }
 .filter-list {
+  display: flex;
+  flex-flow: row wrap;
   padding-inline-start: 0px;
   margin:0px;
 }
