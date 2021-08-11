@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- kurento -->
     <script type="text/html" src="/webrtc-adapter/release/adapter.js"></script>
     <script type="text/html" src="/group-call/js/kurento/lib/kurento-utils.js"></script>
@@ -12,13 +13,7 @@
     <script type="text/html" src="/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/html" src="/sockjs-client/sockjs.min.js"></script>
     <script type="text/html" src="/stomp-websocket/stomp.min.js"></script>
-    <!-- Temporary -->
-    <!-- <script type="text/html" src="./conferenceroom.js"></script> -->
-    <!-- <script type="text/html" src="./participant.js"></script> -->
-    <!-- custom -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script> -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
@@ -28,4 +23,12 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>AOS.init()</script>
+  <script>
+    window.onload = function () {
+      setTimeout( function () {
+        scrollTo(0,0)
+      }, 10)
+    }
+  </script>
 </html>

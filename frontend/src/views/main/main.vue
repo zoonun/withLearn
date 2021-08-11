@@ -1,7 +1,6 @@
 <template>
   <container class="main-wrapper">
     <MainHeader
-      :height="`70px`"
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
@@ -11,9 +10,9 @@
       <router-view></router-view>
       <Spinner :loading="state.isSpinning"/>
     </container>
-    <MainFooter :height="`110px`"/>
+    <MainFooter/>
   </container>
-  <login-dialog
+  <LoginDialog
     :open="state.loginDialogOpen"
     @closeLoginDialog="onCloseLoginDialog()"/>
   <signup-dialog
@@ -32,13 +31,18 @@
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
   @import '../../assets/css/common.css';
+  @import '../../assets/css/tailwind.css';
+  @import '../../assets/css/button.css';
+  @import '../../assets/css/effect.css';
+  @import '../../assets/css/font.css';
+  @import '../../assets/css/modal.css';
 </style>
 <script>
 import LoginDialog from './components/login-dialog'
 import SignupDialog from './components/signup-dialog'
 import ConferenceDialog from './components/conference-dialog'
 import MainHeader from './components/main-header'
-// import MainSidebar from './components/main-sidebar'
+import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import Spinner from './components/spinner'
 import SearchDialog from './components/search-dialog'
@@ -50,7 +54,7 @@ export default {
   name: 'Main',
   components: {
     MainHeader,
-    // MainSidebar,
+    MainSidebar,
     MainFooter,
     LoginDialog,
     SignupDialog,
@@ -71,10 +75,14 @@ export default {
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
+    const body = document.querySelector('body')
+
     const onOpenLoginDialog = () => {
+      body.style.overflow = 'hidden'
       state.loginDialogOpen = true
     }
     const onCloseLoginDialog = () => {
+      body.style.overflow = 'auto'
       state.loginDialogOpen = false
     }
     const onOpenSignupDialog = () => {

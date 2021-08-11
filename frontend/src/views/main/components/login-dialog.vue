@@ -1,7 +1,24 @@
 <template>
-  <!-- modal -->
-  <div>
-
+  <div class="modal-mask" v-if="state.dialogVisible">
+    <div class="modal-container">
+      <div class="modal-header">
+        로그인
+      </div>
+      <hr class="modal-hr">
+      <div class="modal-body">
+        <div class="modal-input">
+          <input id="username" type="text" name="username" placeholder="아이디">
+          <label for="username">아이디</label>
+        </div>
+        <div class="modal-input">
+          <input id="password" type="password">
+          <label for="password">비밀번호</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        풋
+      </div>
+    </div>
   </div>
 </template>
 <style>
@@ -14,14 +31,12 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'login-dialog',
-
   props: {
     open: {
       type: Boolean,
       default: false
     }
   },
-
   setup(props, { emit }) {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>

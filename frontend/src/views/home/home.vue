@@ -1,19 +1,66 @@
 <template>
-  <div class="guide">
-    더 많은 강의들을 확인해보세요!
-    <span>
-      <el-button class="guide-button" @click="clickGuideButton">
-        <i class="el-icon-arrow-right"></i>
-      </el-button>
-    </span>
-  </div>
+  <container class="home">
+    <div class="home-banner">
+      <div class="home-banner-text">
+        <div data-aos="fade-right" data-aos-duration="1400">
+          <h1>보고 듣기만 하는 인터넷 강의는 이제 그만!</h1>
+          <br>
+          <h2>실시간 화상통화로 소통하는 ON택트 미팅 플랫폼 위드런에</h2>
+          <br>
+          <h2>지금 참여해 보세요.</h2>
+        </div>
+        <img id="home-banner-image-1" :src="state.images.home_1" alt="banner_image">
+      </div>
+    </div>
+    <div class="home-content">
+      <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
+      <div class="home-content-text">
+        <h1>With</h1>
+        <br>
+        <h2>보기만 하는 수동적 강의는 많습니다.</h2>
+        <h2>위드런은 듣고 말하며 능동적으로 참여하는 웹 플랫폼입니다.</h2>
+        <br>
+        <h1>Learn</h1>
+        <br>
+        <h2>실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</h2>
+        <h2>강사와 참여자 모두에게 배웁니다.</h2>
+      </div>
+    </div>
+    <div class="home-content" data-aos="fade-left" data-aos-duration="1400">
+      <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
+      <div class="home-content-text">
+        <h1>With</h1>
+        <br>
+        <h2>보기만 하는 수동적 강의는 많습니다.</h2>
+        <h2>위드런은 듣고 말하며 능동적으로 참여하는 웹 플랫폼입니다.</h2>
+        <br>
+        <h1>Learn</h1>
+        <br>
+        <h2>실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</h2>
+        <h2>강사와 참여자 모두에게 배웁니다.</h2>
+      </div>
+    </div>
+    <div class="home-content" data-aos="fade-up" data-aos-duration="1400">
+      <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
+      <div class="home-content-text">
+        <h1>With</h1>
+        <br>
+        <h2>보기만 하는 수동적 강의는 많습니다.</h2>
+        <h2>위드런은 듣고 말하며 능동적으로 참여하는 웹 플랫폼입니다.</h2>
+        <br>
+        <h1>Learn</h1>
+        <br>
+        <h2>실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</h2>
+        <h2>강사와 참여자 모두에게 배웁니다.</h2>
+      </div>
+    </div>
+  </container>
 </template>
 
 <style>
 
 </style>
 <script>
-import Conference from './components/conference'
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -25,6 +72,10 @@ export default {
     const router = useRouter()
 
     const state = reactive({
+      images: {
+        home_1: require('@/assets/images/home_1.svg'),
+        home_2: require('@/assets/images/home_2.svg'),
+      },
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
       count: 12,
       sortCurrentText:'제목순',

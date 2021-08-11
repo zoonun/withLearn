@@ -1,7 +1,22 @@
 <template>
   <nav>
-    Navbar
+    <!-- Website Logo -->
+    <div id="start" class="nav-items">
+      <img class="nav-logo" :src="state.images.logo" alt="">
+    </div>
+    <!-- Search Bar -->
+    <div id="middle" class="nav-items">
+
+    </div>
+    <div id="end" class="nav-items">
+      <button class="btn">강의</button>
+      <button class="btn">커뮤니티</button>
+      <button class="btn">위드런</button>
+      <button class="btn btn-orange" @click="clickLogin">로그인</button>
+      <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+    </div>
   </nav>
+
 </template>
 <script>
 import { reactive, computed, onMounted } from 'vue'
@@ -11,12 +26,7 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'main-header',
   props: {
-    height: {
-      type: String,
-      default: '70px'
-    }
   },
-
   setup(props, { emit }) {
     const store = useStore()
     const router = useRouter()
@@ -26,6 +36,9 @@ export default {
       conference_category:null,
       searchValue: null,
       isCollapse: true,
+      images: {
+        logo: require('@/assets/images/logo.png'),
+      },
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
         let keys = Object.keys(MenuItems)

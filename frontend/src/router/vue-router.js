@@ -50,30 +50,30 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  /**
-   * to: 이동할 url
-   * from: 현재 url
-   * next: to에서 지정한 url로 이동하기 위해 꼭 호출해야 하는 함수
-   * next()가 호출되기 전까진 화면 전환되지 않음
-   * refresh의 await 처리를 해야 한다면 async 사용할 것. 하지만 setTimeout과 겹치니 주의!
-   */
-  // refreshToken은 있고 accessToken이 없을 경우 토큰 재발급
-  // accessToken이 있을 경우
-  // 2개 토큰이 모두 없을 경우 로그인하라는 alert
-  const user = JSON.parse(localStorage.getItem('user'))
+// router.beforeEach((to, from, next) => {
+//   /**
+//    * to: 이동할 url
+//    * from: 현재 url
+//    * next: to에서 지정한 url로 이동하기 위해 꼭 호출해야 하는 함수
+//    * next()가 호출되기 전까진 화면 전환되지 않음
+//    * refresh의 await 처리를 해야 한다면 async 사용할 것. 하지만 setTimeout과 겹치니 주의!
+//    */
+//   // refreshToken은 있고 accessToken이 없을 경우 토큰 재발급
+//   // accessToken이 있을 경우
+//   // 2개 토큰이 모두 없을 경우 로그인하라는 alert
+//   const user = JSON.parse(localStorage.getItem('user'))
 
-  if (user && user.accessToken) {
-    store.commit('root/setSpinnerStart')
-    setTimeout(() => {
-      next()
-    }, 100)
-    console.log('routing success : \'' + to.path + '\'')
-  }
-})
+//   if (user && user.accessToken) {
+//     store.commit('root/setSpinnerStart')
+//     setTimeout(() => {
+//       next()
+//     }, 100)
+//     console.log('routing success : \'' + to.path + '\'')
+//   }
+// })
 
-router.afterEach(() => {
-  store.commit('root/setSpinnerEnd')
-})
+// router.afterEach(() => {
+//   store.commit('root/setSpinnerEnd')
+// })
 
 export default router

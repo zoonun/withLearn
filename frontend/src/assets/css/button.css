@@ -1,0 +1,30 @@
+.btn {
+  @apply m-1 py-1 px-4 rounded;
+  font-size: 1.8rem;
+  min-width: 90px;
+}
+
+.btn-orange {
+  background-color: #FF7A00;
+  color: white;
+  margin-right: 2rem;
+}
+
+.btn-orange:hover {
+  transition: 400ms;
+  background-color: white;
+  color: #FF7A00;
+  border: 1px solid #FF7A00;
+}
+
+.btn-transparent {
+  border: 1px solid #5A4AE3;
+  color: #5A4AE3;
+}
+
+.btn-transparent:hover {
+  transition: 400ms;
+  background-color: #5A4AE3;
+  color: white;
+  border: 1px solid white;
+}
