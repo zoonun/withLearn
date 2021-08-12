@@ -16,7 +16,6 @@ module.exports = {
     requireModuleExtension: false // import 시에 경로에 .module 포함 안해도 됨.
   },
   transpileDependencies: [
-    'element-plus'
   ],
   lintOnSave: false,
   outputDir: '../backend/src/main/resources/dist'
