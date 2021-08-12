@@ -8,6 +8,7 @@ import Groupcall from '@/views/conferences/groupcall'
 import Websocket from '@/views/conferences/websocket'
 import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
+import PageNotFound from '@/components/PageNotFound'
 import Search from '@/views/searches/search'
 
 // const fullMenu = require('@/views/main/menu.json')
@@ -41,7 +42,12 @@ function makeRoutesFromMenu () {
     path:'/search/:searchValue',
     name:'search',
     component: Search
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: PageNotFound
   })
+
   return routes
 }
 

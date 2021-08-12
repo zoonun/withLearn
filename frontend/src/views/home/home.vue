@@ -26,7 +26,7 @@
         <p>강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
-    <div class="home-content" data-aos="fade-left" data-aos-duration="1400">
+    <div class="home-content" data-aos="zoom-in-up" data-aos-duration="1300">
       <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="home-content-text">
         <h1>With</h1>
@@ -40,7 +40,7 @@
         <p>강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
-    <div class="home-content" data-aos="fade-up" data-aos-duration="1400">
+    <div class="home-content" data-aos="zoom-in-down" data-aos-duration="1300">
       <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="home-content-text">
         <h1>With</h1>

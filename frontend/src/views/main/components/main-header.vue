@@ -2,9 +2,9 @@
   <nav>
     <!-- Website Logo -->
     <div id="start" class="nav-items">
-      <router-link to="/">
+      <a href="/">
         <img class="nav-logo" :src="state.images.logo" alt="위드런 로고">
-      </router-link>
+      </a>
     </div>
     <!-- Search Bar -->
     <div id="middle" class="nav-items">
