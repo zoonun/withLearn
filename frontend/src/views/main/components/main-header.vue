@@ -5,7 +5,8 @@
       <img class="nav-logo" :src="state.images.logo" alt="">
     </div>
     <!-- Search Bar -->
-    <div id="middle" class="nav-items">
+    <div id="middle" class="nav-items" style="cursor: pointer;" @click="clickSearch">
+      <input type="text" placeholder="검색" v-model="state.searchValue" @keyup.enter="clickSearch">
 
     </div>
     <div id="end" class="nav-items">
@@ -104,22 +105,26 @@ export default {
     }
 
     const clickSearch = async () => {
+      store.commit('root/setSpinnerStart')
       console.log('clickSearch')
       const payload = {
         title: state.searchValue,
-        sort: [state.sort, state.order],
+        sort: state.order,
         page: null,
         size: 10,
         conference_category: state.conference_category,
       }
       console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
-      await router.push({
-        name: 'search',
-        params: {
-          searchValue: state.searchValue
-        }
+      .then(() => {
+        router.push({
+          name: 'search',
+          params: {
+            searchValue: state.searchValue
+          }
+        })
       })
+      .finally(store.commit('root/setSpinnerEnd'))
     }
 
     const clickMobileSearch = () => {
