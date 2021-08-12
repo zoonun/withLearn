@@ -88,14 +88,14 @@ export default {
     const enterRoom = function () {
       let curUrl = document.location.href.split('/').reverse()
       console.log('현재 url', curUrl)
-      state.room = curUrl[1]
+      state.room = curUrl[0]
       // name = curUrl[0]
       const message = {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
         // image : "",
-		    image : "/images/1335496638255773.jpg",
+        image : "/images/1335496638255773.jpg"
       }
       sendMessage(message)
     }
