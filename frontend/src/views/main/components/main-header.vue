@@ -2,7 +2,7 @@
   <nav>
     <!-- Website Logo -->
     <div id="start" class="nav-items">
-      <img class="nav-logo" :src="state.images.logo" alt="">
+      <img class="nav-logo" :src="state.images.logo" alt="위드런 로고">
     </div>
     <!-- Search Bar -->
     <div id="middle" class="nav-items">
@@ -12,8 +12,13 @@
       <button class="btn">강의</button>
       <button class="btn">커뮤니티</button>
       <button class="btn">위드런</button>
-      <button class="btn btn-orange" @click="clickLogin">로그인</button>
-      <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+      <div v-if="!state.isLogin">
+        <button class="btn btn-orange" @click="clickLogin">로그인</button>
+        <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+      </div>
+      <div v-else>
+        <button class="btn btn-transparent" @click="clickConference">강의개설</button>
+      </div>
     </div>
   </nav>
 

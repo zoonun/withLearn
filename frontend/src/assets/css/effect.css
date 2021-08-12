@@ -2,3 +2,20 @@
 .swal2-container {
   z-index: 10000;
 }
+
+/* input */
+select {
+  width:100px;
+  padding:5px;
+  border:1px solid #999;
+  font-family:'Nanumgothic';
+  background:url('https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg') no-repeat 95% 50%;
+  border-radius:3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance : none;
+}
+select::-ms-expand {
+display: none;
+}
+
