@@ -25,6 +25,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Websocket }
     } else if (key === 'socketjs'){
       return { path: fullMenu[key].path, name: key, component: Socketjs }
+    } else {
+      return null
     }
   })
   // 로그아웃 파싱한 부분 제거
@@ -71,7 +73,6 @@ const router = createRouter({
 //     console.log('routing success : \'' + to.path + '\'')
 //   }
 // })
-
 // router.afterEach(() => {
 //   store.commit('root/setSpinnerEnd')
 // })

@@ -2,22 +2,30 @@
   <nav>
     <!-- Website Logo -->
     <div id="start" class="nav-items">
-      <img class="nav-logo" :src="state.images.logo" alt="위드런 로고">
+      <router-link to="/">
+        <img class="nav-logo" :src="state.images.logo" alt="위드런 로고">
+      </router-link>
     </div>
     <!-- Search Bar -->
     <div id="middle" class="nav-items">
 
     </div>
     <div id="end" class="nav-items">
-      <button class="btn">강의</button>
+      <div class="dropdown">
+        <button class="btn dropbtn">강의
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <router-link to="/home">강의 목록으로</router-link>
+          <a @click="clickConference">강의 개설하기</a>
+          <a @click="clickConference">강의 참여하기</a>
+        </div>
+      </div>
       <button class="btn">커뮤니티</button>
       <button class="btn">위드런</button>
       <div v-if="!state.isLogin">
         <button class="btn btn-orange" @click="clickLogin">로그인</button>
         <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
-      </div>
-      <div v-else>
-        <button class="btn btn-transparent" @click="clickConference">강의개설</button>
       </div>
     </div>
   </nav>
