@@ -82,8 +82,8 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public Optional<List<Conference>> getAllConference(String title, String sort, Integer size, Long conferenceCategory) {
-        Optional<List<Conference>> conference = conferenceRepositorySupport.findAllConference(title, sort, size, conferenceCategory);
+    public Optional<List<Conference>> getConferences(String title, String sort, Integer size, Long conferenceCategory, String userName) {
+        Optional<List<Conference>> conference = conferenceRepositorySupport.findConferences(title, sort, size, conferenceCategory, userName);
         return conference;
     }
 

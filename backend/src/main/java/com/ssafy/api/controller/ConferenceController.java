@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +40,8 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
-            @RequestParam("conferenceDay") String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
-            @RequestParam(required = false) Integer price
+            @RequestParam(required = false) String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam(required = false) Integer price,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime
     ) throws IOException {
         Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
@@ -67,9 +65,9 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> patchConferenceInfo(
-            @PathVariable Long conference_id, @RequestParam String description, @RequestParam String title,
-            @RequestParam Long conferenceCategoryId, @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @PathVariable Long conference_id, @RequestParam String description, @RequestParam String title, @RequestParam Long conferenceCategoryId,
+            @RequestParam MultipartFile thumbnail, @RequestParam String conferenceDay, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @RequestParam Boolean isActive, @RequestParam Integer price) throws IOException {
         conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
@@ -81,9 +79,9 @@ public class ConferenceController {
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceListPostRes> getConferenceList(
-            @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort,
+            @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort, @RequestParam(required = false) String userName,
             @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
-        Optional<List<Conference>> conferences = conferenceService.getAllConference(title, sort, size, conferenceCategory);
+        Optional<List<Conference>> conferences = conferenceService.getConferences(title, sort, size, conferenceCategory, userName);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
     }
 
