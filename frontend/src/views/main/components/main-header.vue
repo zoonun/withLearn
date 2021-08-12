@@ -1,7 +1,35 @@
 <template>
   <nav>
-    Navbar
+    <!-- Website Logo -->
+    <div id="start" class="nav-items">
+      <a href="/">
+        <img class="nav-logo" :src="state.images.logo" alt="위드런 로고">
+      </a>
+    </div>
+    <!-- Search Bar -->
+    <div id="middle" class="nav-items">
+
+    </div>
+    <div id="end" class="nav-items">
+      <div class="dropdown">
+        <button class="btn dropbtn">강의
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <router-link to="/home">강의 목록으로</router-link>
+          <a @click="clickConference">강의 개설하기</a>
+          <a @click="clickConference">강의 참여하기</a>
+        </div>
+      </div>
+      <button class="btn">커뮤니티</button>
+      <button class="btn">위드런</button>
+      <div v-if="!state.isLogin">
+        <button class="btn btn-orange" @click="clickLogin">로그인</button>
+        <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+      </div>
+    </div>
   </nav>
+
 </template>
 <script>
 import { reactive, computed, onMounted } from 'vue'
@@ -11,12 +39,7 @@ import { useRouter } from 'vue-router'
 export default {
   name: 'main-header',
   props: {
-    height: {
-      type: String,
-      default: '70px'
-    }
   },
-
   setup(props, { emit }) {
     const store = useStore()
     const router = useRouter()
@@ -26,6 +49,9 @@ export default {
       conference_category:null,
       searchValue: null,
       isCollapse: true,
+      images: {
+        logo: require('@/assets/images/logo.png'),
+      },
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
         let keys = Object.keys(MenuItems)
