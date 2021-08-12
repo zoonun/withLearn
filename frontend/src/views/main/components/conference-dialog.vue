@@ -41,6 +41,7 @@
 import { reactive, ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'conference-dialog',
@@ -132,12 +133,23 @@ export default {
               })
             })
             .catch(function (err) {
-              alert(err.response.data.message)
+              Swal.fire({
+              icon: 'error',
+              html: err.response.data.message,
+              showConfirmButton: false,
+              timer: 1000
+            })
+
             })
             .finally(store.commit('root/setSpinnerEnd'))
           }
         } else {
-          alert('잘못된 입력입니다.')
+          Swal.fire({
+              icon: 'error',
+              html: '잘못된 입력입니다.',
+              showConfirmButton: false,
+              timer: 1000
+            })
         }
       })
     }
@@ -160,5 +172,8 @@ export default {
 </script>
 
 <style>
+.swal2-container {
+  z-index: 10000;
+}
 
 </style>

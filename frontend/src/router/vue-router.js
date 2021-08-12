@@ -8,6 +8,7 @@ import Groupcall from '@/views/conferences/groupcall'
 import Websocket from '@/views/conferences/websocket'
 import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
+import Search from '@/views/searches/search'
 
 // const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
@@ -33,6 +34,11 @@ function makeRoutesFromMenu () {
     path: '/conferences/:roomId',
     name: 'groupcall',
     component: Groupcall
+  },
+  {
+    path:'/search/:searchValue',
+    name:'search',
+    component: Search
   })
   return routes
 }

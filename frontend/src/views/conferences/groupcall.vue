@@ -3,8 +3,13 @@
     <div id="room">
       <h2 id="room-header"></h2>
       <div id="participants"></div>
-      <input type="button" id="button-leave" @click="leaveRoom"
-        value="Leave room">
+      <div>
+        <input type="text" v-model="state.name">
+        <button @click="enterRoom">입장하기</button>
+      </div>
+      <div>
+        <button @click="leaveRoom">나가기</button>
+      </div>
     </div>
   </div>
 </template>
@@ -22,13 +27,12 @@ export default {
     const state = reactive({
       name: '',
       room: '',
-      participants: {}
+      participants: {},
+      ws: {}
     })
     // onMounted(() => {
       //   window.addEventListener('beforeunload', unloadEvent)
     // })
-
-
     // onBeforeRouteLeave((to, from, next) => {
       //   const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
     //   if (answer) {
@@ -45,14 +49,14 @@ export default {
     //   // event.returnValue = ''
     // }
 
-    const ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
+    state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
       // window.removeEventListener('beforeunload', unloadEvent)
-      ws.close()
+      state.ws.close()
     })
 
-    ws.onmessage = function (message) {
+    state.ws.onmessage = function (message) {
       var parsedMessage = JSON.parse(message.data)
       console.info('Received msg:' + message.data)
 
@@ -81,12 +85,11 @@ export default {
           console.error('미등록 메시지: ', parsedMessage)
       }
     }
-
-    onBeforeMount(()=> {
+    const enterRoom = function () {
       let curUrl = document.location.href.split('/').reverse()
       console.log('현재 url', curUrl)
       state.room = curUrl[1]
-      state.name = curUrl[0]
+      // name = curUrl[0]
       const message = {
         id : 'joinRoom',
         name : state.name,
@@ -95,19 +98,7 @@ export default {
 		    image : "/images/1335496638255773.jpg",
       }
       sendMessage(message)
-    })
-
-    // const register = function () {
-    //   document.getElementById('room-header').innerText = 'ROOM ' + state.room
-    //   document.getElementById('join').style.display = 'none'
-    //   document.getElementById('room').style.display = 'block'
-    //   const message = {
-    //     id: 'joinRoom',
-    //     name: state.name,
-    //     room: state.room
-    //   }
-    //   sendMessage(message)
-    // }
+    }
 
     const onNewParticipant = function (request) {
       console.log(request, '참여')
@@ -126,7 +117,7 @@ export default {
 
       participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function (error) {
         if (error) return console.error(error)
-        this.generateOffer (participant.offerToReceiveVideo.bind(participant));
+        this.generateOffer(participant.offerToReceiveVideo.bind(participant));
       })
     }
 
@@ -186,7 +177,8 @@ export default {
         state.participants[key].dispose()
       }
 
-      ws.close();
+      state.ws.close();
+      window.location = '/lobby'
     }
 
     const onParticipantLeft = function (request) {
@@ -199,12 +191,12 @@ export default {
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
       console.log('Sending message: ' + jsonMessage);
-      ws.onopen = () => ws.send(jsonMessage);
+      state.ws.send(jsonMessage);
     }
 
     return { state,
     // conferenceroom
-    onNewParticipant, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
   }
 }
 </script>
