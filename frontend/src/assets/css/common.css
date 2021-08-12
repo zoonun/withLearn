@@ -1,4 +1,16 @@
 /* 공통으로 적용되어야할 css */
+:root {
+  --primary-color: #0071fe;
+  --error-color: #f23648;
+  --error-bg-color: #fddfe2;
+  --success-color: #21a67a;
+  --success-bg-color: #e0eee4;
+  --white-color: #ffffff;
+  --indigo-color: #5A4AE3;
+  --orange-color: #FF7A00;
+  --footer-bg-color: #454545;
+}
+
 html, body {
   height: 100vh;
   font-size: 62.5%;
@@ -7,6 +19,7 @@ html, body {
 body {
   margin: 0;
   font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* main */
@@ -24,8 +37,8 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  font-family: 'Noto Sans KR', sans-serif;
 }
+
 .nav-items {
   height: 54px;
   align-items: center;
@@ -58,7 +71,7 @@ nav {
   justify-content: center;
   width: 100%;
   height: 426px;
-  background-color: #5A4AE3;
+  background-color: var(--indigo-color);
 }
 
 .home-banner-text {
@@ -71,17 +84,16 @@ nav {
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
-  font-family: 'Noto Sans KR', sans-serif;
-  color: white;
+  color: var(--white-color);
 }
 
 .home-banner-text h1 {
-  font-size: 4rem;
-  font-weight: bold;
+  font-size: 3.4rem;
 }
 
-.home-banner-text h2 {
-  font-size: 2.4rem;
+.home-banner-text p {
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 #home-banner-image-1 {
@@ -107,16 +119,16 @@ nav {
   flex-flow: column wrap;
 }
 
-.home-content-text h1 {
-  font-size: 3rem;
-  font-weight: medium;
-  font-weight: bold;
+.home-content-text > h1, p {
+  margin: 4px 0;
 }
 
-.home-content-text h2 {
+.home-content-text h1 {
+  font-size: 3.4rem;
+}
+
+.home-content-text p {
   font-size: 2rem;
-  font-weight: medium;
-  font-weight: lighter;
 }
 
 #home-content-image-1 {
@@ -131,7 +143,5 @@ footer {
   position: sticky;
   width: 100%;
   height: 200px;
-  background-color: #454545;
+  background-color: var(--footer-bg-color);
 }
-
-

@@ -1,30 +1,43 @@
 .btn {
-  @apply m-1 py-1 px-4 rounded;
   font-size: 1.8rem;
+  font-weight: bold;
   min-width: 90px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--white-color);
+  border: 0;
+  cursor: pointer;
 }
 
 .btn-orange {
-  background-color: #FF7A00;
+  background-color: var(--orange-color);
   color: white;
-  margin-right: 2rem;
 }
 
 .btn-orange:hover {
   transition: 400ms;
   background-color: white;
-  color: #FF7A00;
-  border: 1px solid #FF7A00;
+  color: var(--orange-color);
+  border: 1px solid var(--orange-color);
 }
 
 .btn-transparent {
-  border: 1px solid #5A4AE3;
-  color: #5A4AE3;
+  border: 1px solid var(--indigo-color);
+  color: var(--indigo-color);
 }
 
 .btn-transparent:hover {
   transition: 400ms;
-  background-color: #5A4AE3;
-  color: white;
-  border: 1px solid white;
+  background-color: var(--indigo-color);
+  color: var(--white-color);
+  border: 1px solid var(--white-color);
+}
+
+.btn-submit {
+  width: 100%;
+  height: 50px;
+  margin: 20px 0;
+  background-color: var(--indigo-color);
+  color: var(--white-color);
 }

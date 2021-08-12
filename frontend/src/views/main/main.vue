@@ -1,17 +1,17 @@
 <template>
-  <container class="main-wrapper">
+  <div class="main-wrapper">
     <MainHeader
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
       @openConferenceDialog="onOpenConferenceDialog()"
       @openProfileDialog="onOpenProflieDialog()"/>
-    <container class="main-container">
+    <div class="main-container">
       <router-view></router-view>
       <Spinner :loading="state.isSpinning"/>
-    </container>
+    </div>
     <MainFooter/>
-  </container>
+  </div>
   <LoginDialog
     :open="state.loginDialogOpen"
     @closeLoginDialog="onCloseLoginDialog()"/>
@@ -31,7 +31,6 @@
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
   @import '../../assets/css/common.css';
-  @import '../../assets/css/tailwind.css';
   @import '../../assets/css/button.css';
   @import '../../assets/css/effect.css';
   @import '../../assets/css/font.css';
@@ -86,9 +85,11 @@ export default {
       state.loginDialogOpen = false
     }
     const onOpenSignupDialog = () => {
+      body.style.overflow = 'hidden'
       state.signupDialogOpen = true
     }
     const onCloseSignupDialog = () => {
+      body.style.overflow = 'auto'
       state.signupDialogOpen = false
     }
     const onOpenSearchDialog = () => {

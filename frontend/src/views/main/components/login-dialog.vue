@@ -1,22 +1,28 @@
-<template>
+<template @keyup.esc="handleClose">
   <div class="modal-mask" v-if="state.dialogVisible">
     <div class="modal-container">
       <div class="modal-header">
         로그인
       </div>
       <hr class="modal-hr">
-      <div class="modal-body">
-        <div class="modal-input">
-          <input id="username" type="text" name="username" placeholder="아이디">
-          <label for="username">아이디</label>
-        </div>
-        <div class="modal-input">
-          <input id="password" type="password">
-          <label for="password">비밀번호</label>
-        </div>
-      </div>
+      <Form @submit="clickLogin" :validation-schema="schema">
+        <TextInput
+          name="id"
+          type="text"
+          v-model="state.form.id"
+          placeholder="아이디"
+        />
+        <TextInput
+          name="password"
+          type="password"
+          v-model="state.form.password"
+          placeholder="비밀번호"
+        />
+        <button class="btn btn-submit" type="submit">로그인</button>
+      </Form>
+      <hr class="modal-hr">
       <div class="modal-footer">
-        풋
+        소셜로그인
       </div>
     </div>
   </div>
@@ -27,6 +33,9 @@
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
+import TextInput from '@/components/TextInput'
 import Swal from 'sweetalert2'
 
 export default {
@@ -37,72 +46,33 @@ export default {
       default: false
     }
   },
+  components: {
+    TextInput,
+    Form
+  },
   setup(props, { emit }) {
     const store = useStore()
-    // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null)
-
-    /*
-      // Element UI Validator
-      // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
-      //
-    */
-   const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*\(\)]).{9,}$/
-
-    const validateId = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('필수 입력 항목입니다.'))
-      } else {
-        callback()
-      }
-    }
-    // const validateId = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('필수 입력 항목입니다.'))
-    //   } else if (value.length > 16) {
-    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-
-    // const validatePw = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('필수 입력 항목입니다.'))
-    //   } else if (value.length < 9) {
-    //     callback(new Error('최소 9글자를 입력해야 합니다.'))
-    //   } else if (value.length > 16) {
-    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
-    //   } else if (!pwRegExp.test(value)) {
-    //     callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-    const validatePw = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('필수 입력 항목입니다.'))
-      } else {
-        callback()
-      }
-    }
-
+    const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()]).{9,}$/
     const state = reactive({
       form: {
         id: '',
         password: '',
         align: 'left'
       },
-      rules: {
-        id: [
-          { required: true, validator: validateId, trigger: 'blur' },
-        ],
-        password: [
-          { required: true, validator: validatePw, trigger: 'blur' }
-        ],
-      },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
+    })
+
+    let schema = Yup.object().shape({
+      id: Yup
+        .string()
+        .required('필수 입력 항목입니다.'),
+      password: Yup.string()
+        // .matches(pwRegExp, '비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.')
+        // .min(9, '최소 9글자를 입력해야 합니다.')
+        // .max(16, '최대 16글자를 입력해야 합니다.')
+        .required('필수 입력 항목입니다.'),
     })
 
     onMounted(() => {
@@ -155,7 +125,7 @@ export default {
       emit('closeLoginDialog')
     }
 
-    return { loginForm, state, clickLogin, handleClose }
+    return { loginForm, state, clickLogin, handleClose, schema }
   }
 }
 </script>
