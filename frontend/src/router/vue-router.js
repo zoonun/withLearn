@@ -8,10 +8,10 @@ import Groupcall from '@/views/conferences/groupcall'
 import Websocket from '@/views/conferences/websocket'
 import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
-import PageNotFound from '@/components/PageNotFound'
 import Search from '@/views/searches/search'
+import Dashboard from '@/views/dashboard/dashboard.vue'
+import PageNotFound from '@/components/PageNotFound'
 
-// const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
   let routes = Object.keys(fullMenu).map((key) => {
     if (key === 'home') {
@@ -33,8 +33,14 @@ function makeRoutesFromMenu () {
   // 로그아웃 파싱한 부분 제거
   routes = routes.filter(item => item)
   // menu 자체에는 나오지 않는 페이지 라우터에 추가(방 상세보기)
-  routes.push({
-    path: '/conferences/:roomId',
+  routes.push(
+  {
+    path: '/conferences/:conferenceRoomId',
+    name: 'confenrenceDetail',
+    component: ConferencesDetail
+  },
+  {
+    path: '/groupcall/:groupcallRoomId',
     name: 'groupcall',
     component: Groupcall
   },
@@ -44,9 +50,15 @@ function makeRoutesFromMenu () {
     component: Search
   },
   {
+    path:'/dashboard',
+    name:'dashboard',
+    component: Dashboard
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: PageNotFound
-  })
+  }
+  )
 
   return routes
 }

@@ -37,7 +37,6 @@
       </Form>
       <hr class="modal-hr">
       <div class="modal-footer">
-        소셜로그인
       </div>
     </div>
   </div>

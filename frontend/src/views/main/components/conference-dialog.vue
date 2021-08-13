@@ -161,10 +161,10 @@ export default {
           setTimeout(function(){
             emit('closeConferenceDialog')
             router.push({
-            name: 'conference-detail',
-            params: {
-              conferenceId: res.data.conferenceId
-            }
+              name: 'conference-detail',
+              params: {
+                conferenceId: res.data.conferenceId
+              }
             })
           }, 1000);
         })

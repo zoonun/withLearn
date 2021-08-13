@@ -58,14 +58,14 @@ nav {
 }
 
 /* home */
-.home {
+.wrap {
   display: flex;
   flex-flow: column;
   align-items: center;
   margin-bottom: 50px;
 }
 
-.home-banner {
+.banner {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -74,39 +74,52 @@ nav {
   background-color: var(--indigo-color);
 }
 
-.home-banner-text {
+.banner-text {
   position: relative;
   width: 720px;
   height: 180px;
   top: 120px;
   left: -180px;
-  margin: 0 50px;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
   color: var(--white-color);
 }
 
-.home-banner-text h1 {
+.banner-text .banner-big {
   font-size: 3.4rem;
+  font-weight: bold;
 }
 
-.home-banner-text p {
+.banner-text .banner-small {
   font-size: 2rem;
   font-weight: bold;
 }
 
-#home-banner-image-1 {
+#banner-image-1 {
   position: relative;
   top: 130px;
   width: 497px;
   height: 371px;
 }
 
-.home-content {
+.small-banner {
+  width: 100%;
+  background-color: var(--indigo-color);
+  color: var(--white-color);
+  padding-left: 140px;
+}
+
+.small-banner-text {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.content {
   width: 80%;
   margin: 13rem 0 0 0;
-  padding: 8rem;
+  padding: 4rem;
   border: 1px solid grey;
   border-radius: 1rem;
   display: flex;
@@ -114,27 +127,51 @@ nav {
   align-items: center;
 }
 
-.home-content-text {
+.content-text {
   display: flex;
   flex-flow: column wrap;
 }
 
-.home-content-text > h1, p {
-  margin: 4px 0;
+.content-text p {
+  margin-bottom: 30px;
 }
 
-.home-content-text h1 {
+.content-text .content-big {
+  margin-top: 0;
+  font-weight: 600;
   font-size: 3.4rem;
 }
 
-.home-content-text p {
+.content-text .content-small {
+  font-weight: 500;
   font-size: 2rem;
+  margin: 0;
 }
 
-#home-content-image-1 {
+#content-image-1 {
   width: 360px;
   height: 292px;
   margin-right: 12rem;
+}
+
+.grid-wrapper {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.grid-box {
+  border: 1px solid #bbb;
+  background-color: white;
+  width: 360px;
+  height: 240px;
+}
+
+.grid-box .one {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 /* footer */
