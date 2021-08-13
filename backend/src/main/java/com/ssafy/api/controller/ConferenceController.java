@@ -136,7 +136,6 @@ public class ConferenceController {
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceCategoryRes> getCategories() {
-        System.out.println("test thumbnail_back");
         Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
         return ResponseEntity.status(200).body(ConferenceCategoryRes.of(categories));
     }

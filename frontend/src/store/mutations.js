@@ -60,3 +60,4 @@ export function setProfile (state, profileItem) {
 export function setUpdate (state, profileItem) {
   state.profile = profileItem
 }
+

@@ -3,9 +3,7 @@
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align" @keyup.enter="clickSignup">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="checkAvailableId">중복확인</el-button>
+        <el-button @click="checkAvailableId" style="margin-left:20px;">중복확인</el-button>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
@@ -16,10 +14,10 @@
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.name" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth">
+      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
         <el-input v-model="state.form.department" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth">
+      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
         <el-input v-model="state.form.position" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
@@ -34,6 +32,7 @@
 <script>
 import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'signup-dialog',
@@ -151,16 +150,33 @@ export default {
           store.commit('root/setSpinnerStart')
           store.dispatch('root/requestSignup', { id: state.form.id, password: state.form.password, name: state.form.name, department: state.form.department, position: state.form.position })
           .then(function () {
-            alert('회원가입 되었습니다.')
             emit('closeSignupDialog')
-            document.location.reload()
+            Swal.fire({
+              icon: 'success',
+              html: '회원가입 되었습니다.',
+              showConfirmButton: false,
+              timer: 1000,
+            })
+            setTimeout(function(){
+              document.location.reload();
+            }, 1000);
           })
           .catch(function (err) {
-            alert(err.response.data.message)
+            Swal.fire({
+              icon: 'warning',
+              html: err.response.data.message,
+              showConfirmButton: false,
+              timer: 1000,
+            })
           })
           .finally(store.commit('root/setSpinnerEnd'))
         } else {
-          alert('잘못된 입력입니다.')
+          Swal.fire({
+              icon: 'warning',
+              html: '잘못된 입력입니다.',
+              showConfirmButton: false,
+              timer: 1000,
+            })
         }
       })
     }
@@ -168,11 +184,6 @@ export default {
     const checkAvailableId = function () {
       store.dispatch('root/requestAvailableId', state.form.id)
       .then(function () {
-        if (state.isAvailableId) {
-          alert('사용 가능한 아이디입니다.')
-        } else {
-          alert('이미 사용 중인 아이디입니다.')
-        }
       })
     }
 
@@ -192,5 +203,13 @@ export default {
 </script>
 
 <style>
+
+.swal2-container {
+  z-index: 10000;
+}
+.el-dialog .el-form .el-form-item .el-input {
+  width:80%;
+}
+
 
 </style>
