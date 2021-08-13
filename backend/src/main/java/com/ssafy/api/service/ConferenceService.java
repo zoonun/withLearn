@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface ConferenceService {
 	Optional<List<ConferenceCategory>> getCategories();
 	Conference getConferenceByConferenceId(Long conferenceId);
-	Optional<List<Conference>> getConferences(String title, String sort, Integer size, Long conferenceCategory, String userName);
+	Optional<List<Conference>> getConferences(String title, String sort, Integer size, String conferenceCategory, String userName);
 	void createConferenceCategory(ConferenceCategoryPostReq categoryInfo);
 	Optional<ConferenceCategory> getConferenceCategoryByName(String name);
 	void deleteConferenceCategory(long categoryId);
