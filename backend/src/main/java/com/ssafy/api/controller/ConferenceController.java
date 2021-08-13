@@ -88,7 +88,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceListPostRes> getConferenceList(
             @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort, @RequestParam(required = false) String userName,
-            @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
+            @RequestParam(required = false) Integer size, @RequestParam(required = false) String conferenceCategory) {
         Optional<List<Conference>> conferences = conferenceService.getConferences(title, sort, size, conferenceCategory, userName);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
     }
