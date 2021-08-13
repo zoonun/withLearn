@@ -71,6 +71,7 @@ export default {
 .TextInput {
   position: relative;
   margin: 20px 0;
+  font-size: 14px;
 }
 
 input:focus {

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="home-wrap">
     <div class="banner">
       <div class="banner-text">
         <div data-aos="fade-right" data-aos-duration="1400">

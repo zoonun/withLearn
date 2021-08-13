@@ -19,25 +19,19 @@
           ></path>
         </svg>
       </div>
-      <hr class="modal-hr">
       <Form @submit="clickLogin" :validation-schema="schema" class="modal-body">
         <TextInput
           name="id"
           type="text"
-          v-model="state.form.id"
           placeholder="아이디"
         />
         <TextInput
           name="password"
           type="password"
-          v-model="state.form.password"
           placeholder="비밀번호"
         />
         <button class="btn btn-submit" type="submit">로그인</button>
       </Form>
-      <hr class="modal-hr">
-      <div class="modal-footer">
-      </div>
     </div>
   </div>
 </template>
@@ -69,13 +63,7 @@ export default {
     const loginForm = ref(null)
     const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()]).{9,}$/
     const state = reactive({
-      form: {
-        id: '',
-        password: '',
-        align: 'left'
-      },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px'
     })
 
     let schema = Yup.object().shape({
@@ -91,32 +79,32 @@ export default {
       // console.log(loginForm.value)
     })
 
-    const clickLogin = function () {
+    const clickLogin = function (value) {
       store.commit('root/setSpinnerStart')
-      store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
-        .then(function (result) {
-          store.dispatch('root/requestSaveJWT', result.data)
-          emit('closeLoginDialog')
-          Swal.fire({
-            icon: 'success',
-            html: '로그인되었습니다.',
-            showConfirmButton: false,
-            timer:1000
-          })
-          setTimeout(function(){
-            document.location.reload();
-          }, 1000);
-          // document.location.reload()
+      store.dispatch('root/requestLogin', value)
+      .then(function (result) {
+        store.dispatch('root/requestSaveJWT', result.data)
+        emit('closeLoginDialog')
+        Swal.fire({
+          icon: 'success',
+          html: '로그인되었습니다.',
+          showConfirmButton: false,
+          timer:1000
         })
-        .catch(function (err) {
-          Swal.fire({
-            icon: 'error',
-            html: err.response.data.message,
-            showConfirmButton: false,
-            timer: 1000
-          })
+        setTimeout(function(){
+          document.location.reload();
+        }, 1000);
+        // document.location.reload()
+      })
+      .catch(function (err) {
+        Swal.fire({
+          icon: 'error',
+          html: err.response.data.message,
+          showConfirmButton: false,
+          timer: 1000
         })
-        .finally(store.commit('root/setSpinnerEnd'))
+      })
+      .finally(store.commit('root/setSpinnerEnd'))
     }
 
     const handleClose = function () {

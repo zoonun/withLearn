@@ -23,6 +23,11 @@ body {
 }
 
 /* main */
+.main-container {
+  min-height: 100%;
+  padding-bottom: 200px;
+}
+
 .main-wrapper {
   display: flex;
   flex-flow: column;
@@ -34,7 +39,7 @@ nav {
   background-color: #FFFFFF;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 8px 12px;
 }
@@ -58,11 +63,10 @@ nav {
 }
 
 /* home */
-.wrap {
+.home-wrap {
   display: flex;
   flex-flow: column;
   align-items: center;
-  margin-bottom: 50px;
 }
 
 .banner {
@@ -103,19 +107,6 @@ nav {
   height: 371px;
 }
 
-.small-banner {
-  width: 100%;
-  background-color: var(--indigo-color);
-  color: var(--white-color);
-  padding-left: 140px;
-}
-
-.small-banner-text {
-  margin: 10px 0;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .content {
   width: 80%;
   margin: 13rem 0 0 0;
@@ -154,31 +145,65 @@ nav {
   margin-right: 12rem;
 }
 
-.grid-wrapper {
-  height: 100vh;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
+/* sub page */
+.sub-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  height: 100%;
+  background-color: #ECECEC;
+}
+
+.small-banner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: var(--indigo-color);
+  color: var(--white-color);
+  padding-left: 15%;
+  margin-bottom: 20px;
+}
+
+.small-banner-text {
+  margin: 10px 0;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .grid-box {
-  border: 1px solid #bbb;
   background-color: white;
+  border-radius: 5px;
   width: 360px;
   height: 240px;
+  padding: 15px;
+  margin: 10px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-.grid-box .one {
-  grid-column: 1;
-  grid-row: 1;
+.sub-body {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  margin: 40px;
+  justify-content: center;
+}
+
+.sub-menu {
+  background-color: white;
+  padding: 15px;
+  margin: 10px;
+  width: 200px;
+  height: 700px;
+  font-size: 18px;
 }
 
 /* footer */
 footer {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   width: 100%;
   height: 200px;
+  bottom: 0;
   background-color: var(--footer-bg-color);
 }
