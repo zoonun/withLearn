@@ -4,6 +4,7 @@ import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserConference;
 import com.ssafy.db.repository.ConferenceCategoryRepository;
 import com.ssafy.db.repository.ConferenceRepository;
@@ -27,6 +28,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Autowired
     ConferenceService conferenceService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     ConferenceCategoryRepository conferenceCategoryRepository;
@@ -53,11 +57,13 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public Conference createConference(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
+    public Conference createConference(String userId, String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
         Conference conference = new Conference();
+        User user = userService.getUserByUserId(userId);
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
         conference = setConference(conference, conferenceCategory, description, title, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);
         conference.setIs_active(false);
+        conference.setUser(user);
         return conferenceRepository.save(conference);
     }
 
@@ -90,7 +96,6 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Override
     public void createConferenceCategory(ConferenceCategoryPostReq categoryInfo) {
         ConferenceCategory conferenceCategory = new ConferenceCategory();
-        System.out.println("serviceImpl" + categoryInfo.getName());
         conferenceCategory.setName(categoryInfo.getName());
         conferenceCategoryRepository.save(conferenceCategory);
     }

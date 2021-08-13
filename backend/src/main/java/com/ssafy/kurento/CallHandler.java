@@ -73,7 +73,6 @@ public class CallHandler extends TextWebSocketHandler {
     }
 
     private void joinRoom(JsonObject params, WebSocketSession session) throws IOException {
-        System.out.println("joinRoom");
         log.info("joinRoom : {session}",  session);
         log.info("joinRoom : {params}",  params);
         final String roomName = params.get("room").getAsString();

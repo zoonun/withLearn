@@ -100,7 +100,6 @@ public class UserSession implements Closeable {
                 .build();
         String appServerUrl = "https://i5d106.p.ssafy.io";
         chromaFilter.setBackground(appServerUrl + this.image);
-        System.out.println(this.image+ " : img");
         if (sender.getName().equals(name)) {
             log.debug("PARTICIPANT {}: configuring loopback", this.name);
             if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(outgoingMedia);

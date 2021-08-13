@@ -47,8 +47,6 @@ public class KurentoController {
             String[] imageInfo = saveImage(image).split(",");
             String imageUrl = imageInfo[0];
             String imageName = imageInfo[1];
-            System.out.println(imageUrl + " : imageUrl");
-            System.out.println(imageName + " : imageName");
             chromaImage = kurentoService.registImage(imageUrl, imageName, userId);
             return ResponseEntity.status(201).body(KurentoChromaPostRes.of(201, "success.", chromaImage));
         } catch (IOException e) {
@@ -82,7 +80,6 @@ public class KurentoController {
     public ResponseEntity<? extends BaseResponseBody> deleteImage(
             @RequestParam("userId") String userId, @RequestParam("imageName") String imageName) {
         try {
-            System.out.println(userId + " "+ imageName);
             kurentoService.deleteImage(userId, imageName);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success."));
         } catch (Exception e) {
