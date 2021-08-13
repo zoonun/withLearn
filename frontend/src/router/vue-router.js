@@ -12,20 +12,30 @@ import Search from '@/views/searches/search'
 import Dashboard from '@/views/dashboard/dashboard.vue'
 import PageNotFound from '@/components/PageNotFound'
 
+const beforeAuth = isAuth => (from, to, next) => {
+  const isAuthenticated = store.getters['root/getIsLoggedIn']
+  if ((isAuth && isAuthenticated) || (!isAuth && !isAuthenticated)) {
+    return next()
+  } else {
+    alert('로그인이 필요한 페이지입니다.')
+    next('/')
+  }
+}
+
 function makeRoutesFromMenu () {
   let routes = Object.keys(fullMenu).map((key) => {
     if (key === 'home') {
       return { path: fullMenu[key].path, name: key, component: Home  }
     } else if (key === 'history') {
-      return { path: fullMenu[key].path, name: key, component: History }
+      return { path: fullMenu[key].path, name: key, component: History, beforeEnter: beforeAuth(true)}
     } else if (key === 'logout'){
-      return { path: fullMenu[key].path, name: key, component: Home }
+      return { path: fullMenu[key].path, name: key, component: Home, beforeEnter: beforeAuth(true) }
     } else if (key === 'lobby'){
-      return { path: fullMenu[key].path, name: key, component: Lobby }
+      return { path: fullMenu[key].path, name: key, component: Lobby, beforeEnter: beforeAuth(true) }
     } else if (key === 'websocket'){
-      return { path: fullMenu[key].path, name: key, component: Websocket }
+      return { path: fullMenu[key].path, name: key, component: Websocket, beforeEnter: beforeAuth(true) }
     } else if (key === 'socketjs'){
-      return { path: fullMenu[key].path, name: key, component: Socketjs }
+      return { path: fullMenu[key].path, name: key, component: Socketjs, beforeEnter: beforeAuth(true) }
     } else {
       return null
     }
@@ -37,29 +47,32 @@ function makeRoutesFromMenu () {
   {
     path: '/conferences/:conferenceRoomId',
     name: 'confenrenceDetail',
-    component: ConferencesDetail
+    component: ConferencesDetail,
+    beforeEnter: beforeAuth(true)
   },
   {
     path: '/groupcall/:groupcallRoomId',
     name: 'groupcall',
-    component: Groupcall
+    component: Groupcall,
+    beforeEnter: beforeAuth(true)
   },
   {
     path:'/search/:searchValue',
     name:'search',
-    component: Search
+    component: Search,
+    beforeEnter: beforeAuth(true)
   },
   {
     path:'/dashboard',
     name:'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: beforeAuth(true)
   },
   {
     path: '/:pathMatch(.*)*',
     component: PageNotFound
   }
   )
-
   return routes
 }
 
