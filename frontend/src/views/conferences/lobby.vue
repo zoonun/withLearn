@@ -1,6 +1,7 @@
 <template>
   <div>
-    lobby
+    <input type="text" v-model="state.form.roomId">
+    <button @click="join">join</button>
   </div>
 </template>
 

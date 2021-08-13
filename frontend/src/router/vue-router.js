@@ -8,6 +8,7 @@ import Groupcall from '@/views/conferences/groupcall'
 import Websocket from '@/views/conferences/websocket'
 import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
+import PageNotFound from '@/components/PageNotFound'
 import Search from '@/views/searches/search'
 
 // const fullMenu = require('@/views/main/menu.json')
@@ -25,6 +26,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Websocket }
     } else if (key === 'socketjs'){
       return { path: fullMenu[key].path, name: key, component: Socketjs }
+    } else {
+      return null
     }
   })
   // 로그아웃 파싱한 부분 제거
@@ -39,7 +42,12 @@ function makeRoutesFromMenu () {
     path:'/search/:searchValue',
     name:'search',
     component: Search
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: PageNotFound
   })
+
   return routes
 }
 
@@ -71,7 +79,6 @@ const router = createRouter({
 //     console.log('routing success : \'' + to.path + '\'')
 //   }
 // })
-
 // router.afterEach(() => {
 //   store.commit('root/setSpinnerEnd')
 // })

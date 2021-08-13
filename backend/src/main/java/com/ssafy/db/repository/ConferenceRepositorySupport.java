@@ -17,6 +17,7 @@ public class ConferenceRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QConference qConference = QConference.conference;
+    QUser quser = QUser.user;
     QUserConference qUserConference = QUserConference.userConference;
     QConferenceCategory qConferenceCategory = QConferenceCategory.conferenceCategory;
 
@@ -32,13 +33,17 @@ public class ConferenceRepositorySupport {
         return Optional.ofNullable(conference);
     }
 
-    public Optional<List<Conference>> findAllConference(String title, String sort, Integer size, Long conferenceCategory) {
+    public Optional<List<Conference>> findConferences(String title, String sort, Integer size, Long conferenceCategory, String userName) {
         JPAQuery<Conference> conferences = jpaQueryFactory.select(qConference).from(qConference);
 
         // where 절
-        if ( title != null && conferenceCategory == null) conferences.where(qConference.title.eq(title));
-        else if ( title == null && conferenceCategory != null) conferences.where(qConference.conferenceCategory.id.eq(conferenceCategory));
-        else if ( title != null && conferenceCategory != null) conferences.where(qConference.title.eq(title), qConference.conferenceCategory.id.eq(conferenceCategory));
+        if ( title != null && conferenceCategory == null && userName == null) conferences.where(qConference.title.eq(title));
+        else if ( title == null && conferenceCategory != null && userName == null) conferences.where(qConference.conferenceCategory.id.eq(conferenceCategory));
+        else if ( title == null && conferenceCategory == null && userName != null) conferences.where(quser.name.eq(userName));
+        else if ( title != null && conferenceCategory != null && userName == null) conferences.where(qConference.title.eq(title), qConference.conferenceCategory.id.eq(conferenceCategory));
+        else if ( title == null && conferenceCategory != null && userName != null) conferences.where(qConference.conferenceCategory.id.eq(conferenceCategory), quser.name.eq(userName));
+        else if ( title != null && conferenceCategory == null && userName != null) conferences.where(qConference.title.eq(title), quser.name.eq(userName));
+        else if ( title != null && conferenceCategory != null && userName != null) conferences.where(qConference.title.eq(title), qConference.conferenceCategory.id.eq(conferenceCategory), quser.name.eq(userName));
 
         // 정렬
         if(sort!=null) {

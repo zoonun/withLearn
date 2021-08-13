@@ -26,7 +26,7 @@
         <p>강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
-    <div class="home-content" data-aos="fade-left" data-aos-duration="1400">
+    <div class="home-content" data-aos="zoom-in-up" data-aos-duration="1300">
       <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="home-content-text">
         <h1>With</h1>
@@ -40,18 +40,18 @@
         <p>강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
-    <div class="home-content" data-aos="fade-up" data-aos-duration="1400">
+    <div class="home-content" data-aos="zoom-in-down" data-aos-duration="1300">
       <img id="home-content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="home-content-text">
         <h1>With</h1>
         <br>
-        <h2>보기만 하는 수동적 강의는 많습니다.</h2>
-        <h2>위드런은 듣고 말하며 능동적으로 참여하는 웹 플랫폼입니다.</h2>
+        <p>보기만 하는 수동적 강의는 많습니다.</p>
+        <p>위드런은 듣고 말하며 능동적으로 참여하는 웹 플랫폼입니다.</p>
         <br>
         <h1>Learn</h1>
         <br>
-        <h2>실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</h2>
-        <h2>강사와 참여자 모두에게 배웁니다.</h2>
+        <p>실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</p>
+        <p>강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
   </div>

@@ -1,11 +1,26 @@
 <template>
-  <div class="modal-mask" v-if="state.dialogVisible" @keypress.esc="handleClose">
-    <div class="modal-container">
+  <div class="modal-mask" v-if="state.dialogVisible">
+    <div class="modal-container" @keyup.esc="handleClose">
       <div class="modal-header">
         회원가입
+        <svg
+          class="btn-modal-close"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          @click="handleClose"
+        >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
       </div>
       <hr class="modal-hr">
-      <Form @submit="clickSignup" :validation-schema="schema">
+      <Form @submit="clickSignup" :validation-schema="schema" class="modal-body">
         <TextInput
           name="id"
           type="text"

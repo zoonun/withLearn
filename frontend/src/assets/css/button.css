@@ -16,22 +16,23 @@
 }
 
 .btn-orange:hover {
-  transition: 400ms;
+  transition: 600ms;
   background-color: white;
   color: var(--orange-color);
   border: 1px solid var(--orange-color);
 }
 
 .btn-transparent {
-  border: 1px solid var(--indigo-color);
-  color: var(--indigo-color);
-}
-
-.btn-transparent:hover {
-  transition: 400ms;
   background-color: var(--indigo-color);
   color: var(--white-color);
   border: 1px solid var(--white-color);
+}
+
+.btn-transparent:hover {
+  transition: 600ms;
+  background-color: var(--white-color);
+  border: 1px solid var(--indigo-color);
+  color: var(--indigo-color);
 }
 
 .btn-submit {
@@ -40,4 +41,46 @@
   margin: 20px 0;
   background-color: var(--indigo-color);
   color: var(--white-color);
+}
+
+.btn-submit:hover {
+  transition: 600ms;
+  background-color: var(--white-color);
+  border: 1px solid var(--indigo-color);
+  color: var(--indigo-color);
+}
+
+.btn-modal-close {
+  position: absolute;
+  cursor: pointer;
+  width: 20px;
+  top: 10px;
+  right: 10px;
+}
+
+/* label */
+.label-modal-thumbnail {
+  cursor: pointer;
+  background-color: var(--orange-color);
+  border: 1px solid var(--white-color);
+  color: var(--white-color);
+  border-radius: 5px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.label-modal-thumbnail:hover {
+  transition: 600ms;
+  border: 1px solid var(--orange-color);
+  background-color: var(--white-color);
+  color: var(--orange-color);
+}
+
+.modal-thumbnail-selected-title {
+  position: absolute;
+  font-size: 14px;
+  margin-top: 14px;
+  left: 2px;
+  bottom: 70px;
 }
