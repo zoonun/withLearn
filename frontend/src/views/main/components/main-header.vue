@@ -5,8 +5,11 @@
       <img class="nav-logo" :src="state.images.logo" alt="">
     </div>
     <!-- Search Bar -->
-    <div id="middle" class="nav-items" style="cursor: pointer;" @click="clickSearch">
-      <input type="text" placeholder="검색" v-model="state.searchValue" @keyup.enter="clickSearch">
+    <div class="search-items">
+      <input type="text" placeholder="검색" v-model="state.searchValue" @keyup.enter="clickSearch" class="search-bar">
+      <button class="search-btn" @click="clickSearch">
+        <i class="el-icon-search"></i>
+      </button>
 
     </div>
     <div id="end" class="nav-items">
@@ -115,7 +118,7 @@ export default {
         conference_category: state.conference_category,
       }
       console.log(payload)
-      store.dispatch('root/requestSearchTitle', payload)
+      await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({
           name: 'search',
@@ -137,4 +140,35 @@ export default {
 
 </script>
 <style>
+.search-bar {
+  font-size: 1.8rem;
+  font-weight: bold;
+  min-width: 90px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--white-color);
+  margin-top:11px;
+}
+.search-btn {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top:11px;
+  background-color: var(--indigo-color);
+  border: 0;
+  cursor: pointer;
+  color: white;
+}
+.search-items {
+  height: 54px;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  justify-content: center;
+  border-width: 4px;
+}
 </style>
