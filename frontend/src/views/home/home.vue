@@ -22,6 +22,7 @@
         <p class="content-small">강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
+    <!-- 팀원 소개 -->
     <div class="content" data-aos="zoom-in-up" data-aos-duration="1300">
       <img id="content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="content-text">
@@ -34,6 +35,7 @@
         <p class="content-small">강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
+    <!-- 문서 링크 -->
     <div class="content" data-aos="zoom-in-down" data-aos-duration="1300">
       <img id="content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="content-text">

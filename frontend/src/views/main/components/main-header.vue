@@ -12,19 +12,18 @@
     </div>
     <div id="end" class="nav-items">
       <div class="nav-dropdown">
-        <button class="btn dropbtn">강의
+        <a class="btn nav-end-item dropbtn">강의
           <i class="fa fa-caret-down"></i>
-        </button>
+        </a>
         <div class="nav-dropdown-content">
           <router-link to="/home">강의 목록으로</router-link>
           <a @click="clickConference">강의 개설하기</a>
           <a @click="clickConference">강의 참여하기</a>
         </div>
       </div>
-      <button class="btn">커뮤니티</button>
-      <button class="btn">위드런</button>
-      <router-link to="/dashboard">
-        <button class="btn">대시보드</button>
+      <a class="btn nav-end-item">커뮤니티</a>
+      <a class="btn nav-end-item">위드런</a>
+      <router-link to="/dashboard" class="btn nav-end-item">대시보드
       </router-link>
       <div v-if="!state.isLogin">
         <button class="btn btn-orange" @click="clickLogin">로그인</button>

@@ -53,7 +53,7 @@
           파일명: {{ state.form.thumbnail.name }}
         </p>
         <p class="modal-thumbnail-selected-title" v-else>
-          파일이 선택되지 않았습니다.
+          썸네일을 위한 사진 파일을 선택해 주세요.
         </p>
       </Form>
     </div>

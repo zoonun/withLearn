@@ -12,12 +12,13 @@
 }
 
 html, body {
-  height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   font-size: 62.5%;
 }
 
 body {
-  margin: 0;
   font-weight: 400;
   font-family: 'Roboto', sans-serif;
 }
@@ -25,7 +26,7 @@ body {
 /* main */
 .main-container {
   min-height: 100%;
-  padding-bottom: 200px;
+  margin-bottom: 200px;
 }
 
 .main-wrapper {
@@ -41,7 +42,7 @@ nav {
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  padding: 8px 12px;
+  padding: 8px 25px;
 }
 
 .nav-items {
@@ -52,6 +53,40 @@ nav {
 .nav-logo {
   height: 54px;
   width: 100%;
+}
+
+.nav-end-item {
+  text-decoration: none;
+  position: relative;
+  display: block;
+  font-family: "Lato";
+  font-size: 2rem;
+  color: black;
+  text-transform: uppercase;
+  padding: 4px 0;
+  transition: 0.5s;
+}
+
+.nav-end-item::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 3px;
+  top: 100%;
+  left: 0;
+  background: var(--indigo-color);
+  transition: transform 0.5s;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+.nav-end-item:hover {
+  color: #5A4AE3;
+}
+
+.nav-end-item:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 #end {
@@ -67,6 +102,7 @@ nav {
   display: flex;
   flex-flow: column;
   align-items: center;
+  padding-bottom: 200px;
 }
 
 .banner {
@@ -108,7 +144,7 @@ nav {
 }
 
 .content {
-  width: 80%;
+  width: 70%;
   margin: 13rem 0 0 0;
   padding: 4rem;
   border: 1px solid grey;
@@ -150,7 +186,6 @@ nav {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  height: 100%;
   background-color: #ECECEC;
 }
 
@@ -162,12 +197,11 @@ nav {
   background-color: var(--indigo-color);
   color: var(--white-color);
   padding-left: 15%;
-  margin-bottom: 20px;
 }
 
 .small-banner-text {
   margin: 10px 0;
-  font-size: 2rem;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -192,7 +226,7 @@ nav {
 
 .sub-menu {
   background-color: white;
-  padding: 15px;
+  padding: 20px;
   margin: 10px;
   width: 200px;
   height: 700px;
