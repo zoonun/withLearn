@@ -125,7 +125,7 @@ export default {
       console.log('clickSearch')
       const payload = {
         title: state.searchValue,
-        sort: state.order,
+        order: state.order,
         page: null,
         size: 10,
         conference_category: state.conference_category,
