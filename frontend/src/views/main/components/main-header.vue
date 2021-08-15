@@ -26,8 +26,24 @@
       <router-link to="/dashboard" class="btn nav-end-item">대시보드
       </router-link>
       <div v-if="!state.isLogin">
-        <button class="btn btn-orange" @click="clickLogin">로그인</button>
-        <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+        <button class="btn btn-orange" @click="clickLogin">
+          로그인
+        </button>
+        <button class="btn btn-transparent" @click="clickSignup">
+          회원가입
+        </button>
+      </div>
+      <div v-else>
+        <div class="nav-dropdown">
+          <img class="nav-icon-dropbtn" :src="state.images.icon" alt="유저 아이콘">
+          <div class="nav-dropdown-content-right">
+            <a>설정</a>
+            <a class="btn-icon" @click="clickLogout">
+              로그아웃
+              <i :class="['ic', 'el-icon-switch-button']"/>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -53,6 +69,7 @@ export default {
       isCollapse: true,
       images: {
         logo: require('@/assets/images/logo.png'),
+        icon: require('@/assets/images/icon.jpeg')
       },
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
@@ -140,7 +157,11 @@ export default {
       emit('openSearchDialog')
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile, clickConference }
+    const clickLogout = function (param) {
+      store.dispatch('root/requestLogout', param)
+    }
+
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile, clickConference, clickLogout }
   }
 }
 

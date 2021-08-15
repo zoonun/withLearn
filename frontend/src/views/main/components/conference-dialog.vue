@@ -185,10 +185,6 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.title = ''
-      state.form.conferenceCategoryId = ''
-      state.form.description = ''
-      state.form.thumbnail = null
       emit('closeConferenceDialog')
     }
 
@@ -196,10 +192,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.swal2-container {
-  z-index: 10000;
-}
-
-</style>

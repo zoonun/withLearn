@@ -10,20 +10,46 @@
         <div class="sub-menu col-md-4 col-12">
           <p class="sub-menu-label">Home</p>
             <ul class="sub-menu-list">
-              <a href="" class="btn-wrap">홈</a>
+              <li>
+                <a href="" class="btn-wrap">대시보드</a>
+              </li>
+              <li>
+                <a href="" class="btn-wrap">알림</a>
+              </li>
             </ul>
-          <p class="sub-menu-label">강의</p>
-          <p class="sub-menu-label">커뮤니티</p>
-          <p class="sub-menu-label">대시보드</p>
-          <p class="sub-menu-label">위시리스트</p>
+          <p class="sub-menu-label">스터디에서 멘티</p>
+            <ul class="sub-menu-list">
+              <li>
+                <a href="" class="btn-wrap">참여한 스터디</a>
+              </li>
+              <li>
+                <a href="" class="btn-wrap">구매 내역</a>
+              </li>
+              <li>
+                <a href="" class="btn-wrap">위시리스트</a>
+              </li>
+            </ul>
+          <p class="sub-menu-label">스터디에서 멘토</p>
+            <ul class="sub-menu-list">
+              <li>
+                <a href="" class="btn-wrap">스터디 관리</a>
+              </li>
+            </ul>
           <p class="sub-menu-label">설정</p>
-          <p class="sub-menu-label">로그아웃</p>
+            <ul class="sub-menu-list">
+              <li>
+                <a href="" class="btn-wrap">설정</a>
+              </li>
+              <li>
+                <a href="" class="btn-wrap" @click="clickLogout">로그아웃</a>
+              </li>
+            </ul>
         </div>
         <div class="grid-wrapper container col-md-8 col-12">
           <div class="row">
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                프로필
+                🤩 프로필
               </p>
               <p class="grid-box-body">
                 {{ state.user.name }}님, 안녕하세요! 👋
@@ -31,42 +57,41 @@
             </div>
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                지금 듣는 강의
+                👩‍💻 최근 참여한 스터디
               </p>
               <p class="grid-box-body">
-                {{ state.user.name }}님, 안녕하세요! 👋
               </p>
             </div>
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                위시리스트
+                👏 나의 스터디 한줄평
               </p>
               <p class="grid-box-body">
-                {{ state.user.name }}님, 안녕하세요! 👋
+
               </p>
             </div>
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                구매 내역
+                📊 스터디 통계
               </p>
               <p class="grid-box-body">
-                {{ state.user.name }}님, 안녕하세요! 👋
+
               </p>
             </div>
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                내 강의
+                🙆 이 팀장님이 좋아요
               </p>
               <p class="grid-box-body">
-                {{ state.user.name }}님, 안녕하세요! 👋
+
               </p>
             </div>
             <div class="grid-box col-md-6">
               <p class="grid-box-header">
-                즐겨찾기
+                🌟 스터디 즐겨찾기
               </p>
               <p class="grid-box-body">
-                {{ state.user.name }}님, 안녕하세요! 👋
+
               </p>
             </div>
           </div>
@@ -78,15 +103,23 @@
 
 <script>
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'dashboard',
   setup() {
+    const store = useStore()
     const state = reactive({
       user: {
         name: '',
       }
     })
-    return { state }
+
+    const clickLogout = function (param) {
+      store.dispatch('root/requestLogout', param)
+    }
+
+    return { state, clickLogout }
   }
 }
 </script>

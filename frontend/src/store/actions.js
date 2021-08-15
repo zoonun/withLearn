@@ -15,8 +15,7 @@ export function requestSignup ({ state }, payload) {
   return $axios.post(url, body)
 }
 
-export function requestLogout ({ commit }) {
-  console.log('requestLogout')
+export function requestLogout ({ commit }, param) {
   localStorage.removeItem('user')
   Swal.fire({
     icon:'warning',

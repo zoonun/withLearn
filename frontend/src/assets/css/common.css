@@ -59,7 +59,6 @@ nav {
   text-decoration: none;
   position: relative;
   display: block;
-  font-family: "Lato";
   font-size: 2rem;
   color: black;
   text-transform: uppercase;
@@ -205,6 +204,35 @@ nav {
   font-weight: bold;
 }
 
+.sub-body {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  margin: 40px;
+  justify-content: center;
+}
+
+.sub-menu {
+  padding: 20px;
+  margin: 10px;
+  width: 200px;
+  height: 700px;
+}
+.sub-menu-label {
+  font-size: 1.4rem;
+  color: #837f7f;
+}
+
+.sub-menu-list li {
+  font-size: 1.8rem;
+  list-style-type: none;
+}
+
+.sub-menu-list li a:hover, a:link, a:visited {
+  color: black;
+  text-decoration: none;
+}
+
 .grid-box {
   background-color: white;
   border-radius: 5px;
@@ -216,21 +244,8 @@ nav {
   font-weight: bold;
 }
 
-.sub-body {
-  display: flex;
-  flex-flow: row nowrap;
-  height: 100%;
-  margin: 40px;
-  justify-content: center;
-}
-
-.sub-menu {
-  background-color: white;
-  padding: 20px;
-  margin: 10px;
-  width: 200px;
-  height: 700px;
-  font-size: 18px;
+.grid-box-header {
+  font-size: 1.8rem;
 }
 
 /* footer */
