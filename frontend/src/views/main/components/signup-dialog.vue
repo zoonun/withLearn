@@ -127,10 +127,6 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.id = ''
-      state.form.password = ''
-      state.form.passwordConfirm = ''
-      state.form.name = ''
       emit('closeSignupDialog')
     }
 

@@ -4,7 +4,7 @@
       <div class="banner-text">
         <div data-aos="fade-right" data-aos-duration="1400">
           <p class="banner-big">보고 듣기만 하는 인터넷 강의는 이제 그만!</p>
-          <p class="banner-small">실시간 화상통화로 소통하는 ON택트 미팅 플랫폼 위드런에</p>
+          <p class="banner-small">실시간 화상통화로 소통하는 ON택트 스터디 플랫폼 위드런에</p>
           <p class="banner-small">지금 참여해 보세요.</p>
         </div>
         <img id="banner-image-1" :src="state.images.home_1" alt="banner_image">
