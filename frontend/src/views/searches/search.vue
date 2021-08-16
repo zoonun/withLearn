@@ -163,7 +163,6 @@ export default {
       })
     }
     const clickSortOrderIndex = () => {
-      console.log(state.activeSortIndex)
       store.commit('root/setSortIndex')
       const payload = {
         title: state.recentSearchValue,
@@ -173,7 +172,6 @@ export default {
         size: 20,
         conference_category: state.conference_category,
       }
-      console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
   }
 
@@ -196,11 +194,9 @@ export default {
       const filterItem = filterList.children[index]
       if (state.filterColorArray[index]) {
         state.filterColorArray[index] = false
-        console.log(state.filterColorArray)
         filterItem.style.backgroundColor='#b8b8b8'
       } else {
         state.filterColorArray[index] = true
-        console.log(state.filterColorArray)
         filterItem.style.backgroundColor='#1dc078'
       }
       var Newarr = [];
