@@ -20,7 +20,7 @@
           <i class="fa fa-caret-down"></i>
         </a>
         <div class="nav-dropdown-content">
-          <router-link to="/home">강의 목록으로</router-link>
+          <a @click="clickConferenceList">강의 목록으로</a>
           <a @click="clickConference">강의 개설하기</a>
           <a @click="clickConference">강의 참여하기</a>
         </div>
@@ -71,6 +71,7 @@ export default {
         icon: require('@/assets/images/user_icon.png')
       },
       isLogin: computed(() => store.getters['root/getIsLoggedIn']),
+      searchValue:null,
     })
 
     const clickLogin = () => {
@@ -118,7 +119,18 @@ export default {
       store.dispatch('root/requestLogout')
     }
 
-    return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch }
+    const clickConferenceList = async function () {
+
+      await router.push({
+        name: 'search',
+        params: {
+          searchValue: null,
+        }
+      })
+    }
+
+
+    return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch, clickConferenceList }
   }
 }
 
