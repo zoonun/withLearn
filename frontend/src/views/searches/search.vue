@@ -1,83 +1,106 @@
 <template>
-  <div class="filter-wrapper">
-    <ul class="filter-list">
-      <el-button v-for="(item, index) in state.filterItems" :key="index" :index="index.toString()" @click="clickFilterItem(index)">
-        {{ item.name }}
-      </el-button>
-    </ul>
+  <div class="search-header">
     <div class="sort-wrapper">
-      <el-select
-        v-model="state.sortCurrentText">
-        <el-option
-          v-for="(item, index) in state.sortSelectLabelItems"
-          :key="index"
-          :index="index.toString()"
-          :label="item"
-          @click="clickSortSelectItem(index)">
-        </el-option>
-      </el-select>
-      <el-button @click="clickSortOrderIndex">
+      <select class="sort-button" @change="clickSortSelectItem">
+        <option v-for="(item, index) in state.sortSelectItems" :key="index" class="sort-button" :value="index"> {{ item.label }}</option>
+      </select>
+      <button @click="clickSortOrderIndex" class="sort-order-button">
         <i :class="['ic', state.sortOrderIconItem]"/>
-      </el-button>
+      </button>
+
+    </div>
+    <div class="filter-wrapper">
+      <ul class="filter-list">
+        <button v-for="(item, index) in state.filterItems" :key="index" :index="index.toString()" @click="clickFilterItem(index)" class="btn">
+          {{ item.name }}
+        </button>
+      </ul>
+    </div>
+
+  </div>
+  <div class="card-body">
+    <div v-for="(conference, idx) in state.conferences" :key="idx" @click="clickConference(idx)">
+      <Conference
+        :conference="conference"
+      />
     </div>
   </div>
-  <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
-      <Conference/>
-    </li>
-  </ul>
+
 </template>
 <style>
-.infinite-list {
-  padding-left: 0;
-  max-height: calc(100% - 35px);
-}
 
-@media (min-width: 701px) and (max-width: 1269px) {
-  .infinite-list {
-    min-width: 700px;
-  }
-}
-
-@media (min-width: 1270px) {
-  .infinite-list {
-    min-width: 1021px;
-  }
-}
-
-.infinite-list .infinite-list-item {
-  min-width: 335px;
-  max-width: 25%;
-  display: inline-block;
-  cursor: pointer;
-}
 .filter-wrapper {
-  display: flex;
-  justify-content: space-between;
-  padding-right:11%;
-  padding-left:10%;
+  margin-bottom:1%;
+  padding-left: 4%;
 }
-.filter-list .el-button {
-  display: block;
+.filter-list button {
   background-color: #b8b8b8;
   border-radius: 10px;
   color:white;
   font-weight: bold;
+  margin-left: 1rem;
 }
 .filter-list {
-  display: flex;
-  flex-flow: row wrap;
   padding-inline-start: 0px;
-  margin:0px;
+  justify-content: flex-start;
 }
-.el-input__inner {
-  font-weight: bold;
-}
-.el-select-dropdown__item {
-  font-weight: bold;
+@media (min-width: 1024px) {
+  .card-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+    grid-template-rows: repeat(5, minmax(50px,auto));
+    grid-auto-flow: dense;
+    padding-left:4%;
+    padding-right:4%;
+    }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .card-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+    grid-template-rows: repeat(5, minmax(50px,auto));
+    grid-auto-flow: dense;
+    padding-left:4%;
+    padding-right:4%;
+  }
+}
+@media (max-width: 767px) {
+  .card-body{
+    display: grid;
+    padding-left:4%;
+    padding-right:4%;
 
+  }
+}
+.sort-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5%;
+}
+.sort-button {
+  font-size: 1.8rem;
+  min-width: 90px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--white-color);
+  cursor: pointer;
+  border-color: #dbdbdb;
+}
+.sort-order-button {
+  font-size: 1.8rem;
+  background-color: var(--white-color);
+  border-color: #dbdbdb;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.card-body {
+  border-color: #dbdbdb;
+}
+.search-header {
+  margin-bottom: 4rem;
+}
 
 </style>
 <script>
@@ -98,10 +121,9 @@ export default {
     const router = useRouter()
 
     const state = reactive({
+      conferences: computed(() =>store.getters['root/getConference']),
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
-      count: 12,
-      sortCurrentText:'제목순',
-      sortSelectLabelItems: ['제목순', '추천순'],
+
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -109,17 +131,26 @@ export default {
         return state.sortOrderIconItems[state.sortActiveOrderIndex]
       }),
       sortActiveSelectIndex: 0,
-      sortSelectValueItems: ['title', 'recommend'],
+      sortSelectValueItems: ['title', 'price'],
       filterItems: computed(() => store.getters['root/getConferenceId']),
-      filterColorArray: Array(10)
+      filterColorArray: Array(10),
+      conference_category:null,
+      sortSelectItems: [{label: '제목순', value: 'title'}, {label: '가격순', value: 'price'}]
     })
 
+
     onMounted(() => {
-      store.dispatch('root/requestConferenceId')
+      const payload = {
+        title: null,
+        sort: null,
+        page: null,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      store.dispatch('root/requestSearchTitle', payload)
     })
 
     const load = function () {
-      state.count += 4
     }
 
     const clickConference = async function (id) {
@@ -132,30 +163,29 @@ export default {
       })
     }
     const clickSortOrderIndex = () => {
-      console.log(state.activeSortIndex)
       store.commit('root/setSortIndex')
       const payload = {
         title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
+        order: state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
         conference_category: state.conference_category,
       }
-      console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
   }
 
-    const clickSortSelectItem = (index) => {
-      state.sortCurrentText = state.sortSelectLabelItems[index]
+    const clickSortSelectItem = (event) => {
+      const index = event.target.value
       state.sortActiveSelectIndex = index
       const payload = {
         title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
+        order:state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
         conference_category: state.conference_category,
       }
-      console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
     }
 
@@ -164,14 +194,29 @@ export default {
       const filterItem = filterList.children[index]
       if (state.filterColorArray[index]) {
         state.filterColorArray[index] = false
-        console.log(state.filterColorArray)
         filterItem.style.backgroundColor='#b8b8b8'
       } else {
         state.filterColorArray[index] = true
-        console.log(state.filterColorArray)
         filterItem.style.backgroundColor='#1dc078'
       }
+      var Newarr = [];
+      state.filterColorArray.forEach((value, index, array) => {
+        if (value) {
+          Newarr.push(Number(index) + 1)
+        }
+      })
+      state.conference_category = Newarr.join(',')
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
+        order:state.sortOrderValueItems[state.sortActiveOrderIndex],
+        page: null,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      store.dispatch('root/requestSearchTitle', payload)
     }
+
 
     return { state, load, clickConference, clickSortOrderIndex, clickSortSelectItem, clickFilterItem }
   }

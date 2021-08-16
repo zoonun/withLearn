@@ -34,7 +34,7 @@ function makeRoutesFromMenu () {
   routes = routes.filter(item => item)
   // menu 자체에는 나오지 않는 페이지 라우터에 추가(방 상세보기)
   routes.push({
-    path: '/conferences/:roomId',
+    path: '/groupcall/:roomId',
     name: 'groupcall',
     component: Groupcall
   },
@@ -46,6 +46,11 @@ function makeRoutesFromMenu () {
   {
     path: '/:pathMatch(.*)*',
     component: PageNotFound
+  },
+  {
+    path: '/conferences/:conferenceId',
+    name: 'conference-detail',
+    component: ConferencesDetail
   })
 
   return routes
