@@ -47,3 +47,6 @@ export function getProfile (state) {
   return state.profile
 }
 
+export function getConferenceDetail (state) {
+  return state.conferenceDetailData
+}

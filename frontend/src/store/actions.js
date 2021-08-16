@@ -123,3 +123,12 @@ export function requestUpdate({ commit }, payload) {
     commit('setUpdate', body)
   })
 }
+
+export function requestConferenceDetail({ commit }, conference_id) {
+  const url = `/conferences/${conference_id}`
+  return $axios.get(url)
+  .then((res) => {
+    console.log(res.data)
+    commit('setConferenceDetail', res.data)
+  })
+}

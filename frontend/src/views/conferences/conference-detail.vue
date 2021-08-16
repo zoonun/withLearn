@@ -104,7 +104,7 @@
 </style>
 
 <script>
-import { reactive, onMounted, onUnmounted } from 'vue'
+import { reactive, onMounted, onUnmounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -116,6 +116,7 @@ export default {
     const store = useStore()
     const state = reactive({
       conferenceId: '',
+      conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
       images: {
         image: require('@/assets/images/music.png'),
       },
@@ -124,7 +125,7 @@ export default {
     // 페이지 진입시 불리는 훅
     onMounted(() => {
       state.conferenceId = route.params.conferenceId
-      store.commit('root/setMenuActiveMenuName', 'home')
+      store.dispatch('root/requestConferenceDetail', state.conferenceId)
     })
 
     // 페이지 이탈시 불리는 훅

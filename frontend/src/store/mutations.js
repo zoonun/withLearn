@@ -61,3 +61,7 @@ export function setUpdate (state, profileItem) {
   state.profile = profileItem
 }
 
+export function setConferenceDetail (state, conferenceDetailData) {
+  state.conferenceDetailData = conferenceDetailData
+}
+

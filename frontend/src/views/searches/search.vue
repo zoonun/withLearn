@@ -2,7 +2,7 @@
   <div class="search-header">
     <div class="sort-wrapper">
       <select v-model="state.sortCurrentText" class="sort-button">
-        <option v-for="(item, index) in state.sortSelectLabelItems" :key="index" class="sort-button"> {{ item }}</option>
+        <option v-for="(item, index) in state.sortSelectLabelItems" :key="index" class="sort-button" @click="clickSortSelectItem(index)"> {{ item }}</option>
       </select>
       <button @click="clickSortOrderIndex" class="sort-order-button">
         <i :class="['ic', state.sortOrderIconItem]"/>
@@ -167,7 +167,7 @@ export default {
       store.commit('root/setSortIndex')
       const payload = {
         title: state.recentSearchValue,
-        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
         order: state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
@@ -178,11 +178,12 @@ export default {
   }
 
     const clickSortSelectItem = (index) => {
+      console.log('clickSortSelectItem')
       state.sortCurrentText = state.sortSelectLabelItems[index]
       state.sortActiveSelectIndex = index
       const payload = {
         title: state.recentSearchValue,
-        sort: state.sortSelectValueItems[state.sortActiveSelectIndex],
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
         order:state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
@@ -191,6 +192,7 @@ export default {
       console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
     }
+
     const clickFilterItem = (index) => {
       const filterList = document.querySelector('.filter-list')
       const filterItem = filterList.children[index]
@@ -209,10 +211,10 @@ export default {
           Newarr.push(Number(index) + 1)
         }
       })
-      state.conference_category = Newarr
+      state.conference_category = Newarr.join(',')
       const payload = {
         title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
         order:state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
