@@ -118,7 +118,7 @@ export default {
       conferenceId: '',
       conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
       images: {
-        image: require('@/assets/images/music.png'),
+        image: require('@/assets/images/music.jpg'),
       },
     })
 
