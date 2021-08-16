@@ -55,88 +55,19 @@
 
 </style>
 <script>
-import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { reactive } from 'vue'
 
 export default {
   name: 'Home',
   setup () {
-    const store = useStore()
-    const router = useRouter()
-
     const state = reactive({
       images: {
         home_1: require('@/assets/images/home_1.svg'),
         home_2: require('@/assets/images/home_2.svg'),
-      },
-      recentSearchValue: computed(() => store.getters['root/getSearchValue']),
-      count: 12,
-      sortCurrentText:'제목순',
-      sortSelectLabelItems: ['제목순', '추천순'],
-      sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
-      sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
-      sortOrderValueItems: ['asc', 'desc'],
-      sortOrderIconItem: computed(() => {
-        return state.sortOrderIconItems[state.sortActiveOrderIndex]
-      }),
-      sortActiveSelectIndex: 0,
-      sortSelectValueItems: ['title', 'recommend'],
-      searchState: computed(() => store.getters['root/getSearchStatus'])
+      }
     })
 
-    const load = function () {
-      state.count += 4
-    }
-
-    const clickConference = async function (id) {
-
-      await router.push({
-        name: 'conference-detail',
-        params: {
-          conferenceId: id
-        }
-      })
-    }
-    const clickSortOrderIndex = () => {
-      console.log(state.activeSortIndex)
-      store.commit('root/setSortIndex')
-      const payload = {
-        title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
-        page: null,
-        size: 20,
-        conference_category: state.conference_category,
-      }
-      console.log(payload)
-      store.dispatch('root/requestSearchTitle', payload)
-  }
-
-    const clickSortSelectItem = (index) => {
-      state.sortCurrentText = state.sortSelectLabelItems[index]
-      state.sortActiveSelectIndex = index
-      const payload = {
-        title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
-        page: null,
-        size: 20,
-        conference_category: state.conference_category,
-      }
-      console.log(payload)
-      store.dispatch('root/requestSearchTitle', payload)
-    }
-
-    const clickGuideButton = async function () {
-
-      await router.push({
-        name: 'search',
-        params: {
-          searchValue: null,
-        }
-      })
-    }
-
-    return { state, load, clickConference, clickSortOrderIndex, clickSortSelectItem, clickGuideButton }
+    return { state }
   }
 }
 </script>

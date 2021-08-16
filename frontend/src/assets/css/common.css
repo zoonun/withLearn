@@ -73,14 +73,14 @@ nav {
   height: 3px;
   top: 100%;
   left: 0;
-  background: var(--indigo-color);
+  background: var(--orange-color);
   transition: transform 0.5s;
   transform: scaleX(0);
   transform-origin: right;
 }
 
 .nav-end-item:hover {
-  color: #5A4AE3;
+  color: rgb(134, 128, 128);
 }
 
 .nav-end-item:hover::after {
@@ -224,7 +224,7 @@ nav {
 }
 
 .sub-menu-list li {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   list-style-type: none;
 }
 

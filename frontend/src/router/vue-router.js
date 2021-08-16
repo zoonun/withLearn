@@ -15,12 +15,13 @@ import PageNotFound from '@/components/PageNotFound'
 const beforeAuth = isAuth => (from, to, next) => {
   const isAuthenticated = store.getters['root/getIsLoggedIn']
   if ((isAuth && isAuthenticated) || (!isAuth && !isAuthenticated)) {
-    return next()
+    store.dispatch('root/requestProfile')
+    next()
   } else {
     alert('로그인이 필요한 페이지입니다.')
     setTimeout(() => {
       next('/')
-    }, 1500)
+    }, 1000)
   }
 }
 

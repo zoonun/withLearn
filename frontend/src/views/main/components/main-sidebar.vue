@@ -69,8 +69,8 @@ export default {
       })
     }
 
-    const clickLogout = function (param) {
-      store.dispatch('root/requestLogout', param)
+    const clickLogout = function () {
+      store.dispatch('root/requestLogout')
     }
 
     return { state, menuSelect, clickLogout }

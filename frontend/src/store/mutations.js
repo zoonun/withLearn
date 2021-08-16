@@ -3,7 +3,6 @@ export function setPlatform (state, isDesktop) {
 }
 
 export function setMenuActive (state, index) {
-	console.log('setMenuActive', state,index)
 	const keys = Object.keys(state.menus)
 	state.activeMenu = keys[index]
 }
@@ -40,7 +39,6 @@ export function setConferenceId (state, ids) {
 }
 
 export function setSortIndex (state) {
-  console.log('setSortIndex')
   state.SortIndex = (state.SortIndex + 1) % 2
 }
 
@@ -49,7 +47,6 @@ export function setConferenceData (state, conferenceData) {
 }
 
 export function setSearchValue (state, searchValue) {
-  console.log('setSearchValue')
   state.recentSearchValue = searchValue
 }
 
