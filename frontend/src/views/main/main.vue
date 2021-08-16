@@ -15,16 +15,16 @@
   <LoginDialog
     :open="state.loginDialogOpen"
     @closeLoginDialog="onCloseLoginDialog()"/>
-  <signup-dialog
+  <SignupDialog
     :open="state.signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog()"/>
-  <search-dialog
+  <SearchDialog
     :open="state.searchDialogOpen"
     @closeSearchDialog="onCloseSearchDialog()"/>
-  <conference-dialog
+  <ConferenceDialog
     :open="state.conferenceDialogOpen"
     @closeConferenceDialog="onCloseConferenceDialog()"/>
-  <profile-dialog
+  <ProfileDialog
     :open="state.profileDialogOpen"
     @closeProfileDialog="onCloseProfileDialog()"/>
 </template>
@@ -37,17 +37,17 @@
   @import '../../assets/css/modal.css';
 </style>
 <script>
-import LoginDialog from './components/login-dialog'
-import SignupDialog from './components/signup-dialog'
-import ConferenceDialog from './components/conference-dialog'
 import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
-import Spinner from './components/spinner'
+import LoginDialog from './components/login-dialog'
+import SignupDialog from './components/signup-dialog'
 import SearchDialog from './components/search-dialog'
+import ConferenceDialog from './components/conference-dialog'
+import ProfileDialog from './components/profile-dialog'
+import Spinner from './components/spinner'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
-import ProfileDialog from './components/profile-dialog'
 
 export default {
   name: 'Main',

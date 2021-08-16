@@ -21,7 +21,6 @@ export default {
 
   setup(props, { emit }) {
     const store = useStore()
-
     const profileForm = ref(null)
 
     const validateName = (rule, value, callback) => {
@@ -49,9 +48,6 @@ export default {
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
-    })
-
-    onMounted(() => {
     })
 
     const clickSave = function () {

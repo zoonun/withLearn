@@ -15,21 +15,39 @@
 
     </div>
     <div id="end" class="nav-items">
-      <div class="dropdown">
-        <button class="btn dropbtn">강의
+      <div class="nav-dropdown">
+        <a class="btn nav-end-item dropbtn">강의
           <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
+        </a>
+        <div class="nav-dropdown-content">
           <router-link to="/home">강의 목록으로</router-link>
           <a @click="clickConference">강의 개설하기</a>
           <a @click="clickConference">강의 참여하기</a>
         </div>
       </div>
-      <button class="btn">커뮤니티</button>
-      <button class="btn">위드런</button>
+      <a class="btn nav-end-item">커뮤니티</a>
+      <a class="btn nav-end-item">위드런</a>
+      <router-link to="/dashboard" class="btn nav-end-item">대시보드
+      </router-link>
       <div v-if="!state.isLogin">
-        <button class="btn btn-orange" @click="clickLogin">로그인</button>
-        <button class="btn btn-transparent" @click="clickSignup">회원가입</button>
+        <button class="btn btn-orange" @click="clickLogin">
+          로그인
+        </button>
+        <button class="btn btn-transparent" @click="clickSignup">
+          회원가입
+        </button>
+      </div>
+      <div v-else>
+        <div class="nav-dropdown">
+          <img class="nav-icon-dropbtn" :src="state.images.icon" alt="유저 아이콘">
+          <div class="nav-dropdown-content-right">
+            <a>설정</a>
+            <a class="btn-icon" @click="clickLogout">
+              로그아웃
+              <i :class="['ic', 'el-icon-switch-button']"/>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -48,55 +66,11 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
-      sort: 'title',
-      order: 'asc',
-      conference_category:null,
-      searchValue: null,
-      isCollapse: true,
       images: {
         logo: require('@/assets/images/logo.png'),
+        icon: require('@/assets/images/user_icon.png')
       },
-      menuItems: computed(() => {
-        const MenuItems = store.getters['root/getMenus']
-        let keys = Object.keys(MenuItems)
-        let menuArray = []
-        for (let i = 0; i < keys.length; ++i) {
-          let menuObject = {}
-          menuObject.icon = MenuItems[keys[i]].icon
-          menuObject.title = MenuItems[keys[i]].name
-          menuArray.push(menuObject)
-        }
-        return menuArray
-      }),
-      activeIndex: computed(() => store.getters['root/getActiveMenuIndex']),
       isLogin: computed(() => store.getters['root/getIsLoggedIn']),
-    })
-
-    if (state.activeIndex === -1) {
-      state.activeIndex = 0
-      store.commit('root/setMenuActive', 0)
-    }
-
-    const menuSelect = function (param) {
-      store.commit('root/setMenuActive', param)
-      const MenuItems = store.getters['root/getMenus']
-      let keys = Object.keys(MenuItems)
-      router.push({
-        name: keys[param]
-      })
-    }
-
-    const clickLogo = () => {
-      store.commit('root/setMenuActive', 0)
-      const MenuItems = store.getters['root/getMenus']
-      let keys = Object.keys(MenuItems)
-      router.push({
-        name: keys[0]
-      })
-    }
-
-    onMounted(() => {
-
     })
 
     const clickLogin = () => {
@@ -112,12 +86,8 @@ export default {
     }
 
     const clickProfile = () => {
-      emit('openProfileDialog')
       store.dispatch('root/requestProfile')
-    }
-
-    const changeCollapse = () => {
-      state.isCollapse = !state.isCollapse
+      emit('openProfileDialog')
     }
 
     const clickSearch = async () => {
@@ -144,11 +114,11 @@ export default {
       .finally(store.commit('root/setSpinnerEnd'))
     }
 
-    const clickMobileSearch = () => {
-      emit('openSearchDialog')
+    const clickLogout = () => {
+      store.dispatch('root/requestLogout')
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickSearch, clickMobileSearch, clickProfile, clickConference }
+    return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch }
   }
 }
 

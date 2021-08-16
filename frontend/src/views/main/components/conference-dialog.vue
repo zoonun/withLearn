@@ -53,7 +53,7 @@
           파일명: {{ state.form.thumbnail.name }}
         </p>
         <p class="modal-thumbnail-selected-title" v-else>
-          파일이 선택되지 않았습니다.
+          썸네일을 위한 사진 파일을 선택해 주세요.
         </p>
       </Form>
     </div>
@@ -161,10 +161,10 @@ export default {
           setTimeout(function(){
             emit('closeConferenceDialog')
             router.push({
-            name: 'conference-detail',
-            params: {
-              conferenceId: res.data.conferenceId
-            }
+              name: 'conference-detail',
+              params: {
+                conferenceId: res.data.conferenceId
+              }
             })
           }, 1000);
         })
@@ -185,10 +185,6 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.title = ''
-      state.form.conferenceCategoryId = ''
-      state.form.description = ''
-      state.form.thumbnail = null
       emit('closeConferenceDialog')
     }
 
@@ -196,10 +192,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.swal2-container {
-  z-index: 10000;
-}
-
-</style>

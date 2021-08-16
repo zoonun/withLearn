@@ -12,17 +12,23 @@
 }
 
 html, body {
-  height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   font-size: 62.5%;
 }
 
 body {
-  margin: 0;
   font-weight: 400;
   font-family: 'Roboto', sans-serif;
 }
 
 /* main */
+.main-container {
+  min-height: 100%;
+  margin-bottom: 200px;
+}
+
 .main-wrapper {
   display: flex;
   flex-flow: column;
@@ -34,9 +40,9 @@ nav {
   background-color: #FFFFFF;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  padding: 8px 12px;
+  padding: 8px 25px;
 }
 
 .nav-items {
@@ -49,6 +55,39 @@ nav {
   width: 100%;
 }
 
+.nav-end-item {
+  text-decoration: none;
+  position: relative;
+  display: block;
+  font-size: 2rem;
+  color: black;
+  text-transform: uppercase;
+  padding: 4px 0;
+  transition: 0.5s;
+}
+
+.nav-end-item::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 3px;
+  top: 100%;
+  left: 0;
+  background: var(--orange-color);
+  transition: transform 0.5s;
+  transform: scaleX(0);
+  transform-origin: right;
+}
+
+.nav-end-item:hover {
+  color: rgb(134, 128, 128);
+}
+
+.nav-end-item:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 #end {
   display: flex;
   flex-flow: row nowrap;
@@ -58,14 +97,14 @@ nav {
 }
 
 /* home */
-.home {
+.home-wrap {
   display: flex;
   flex-flow: column;
   align-items: center;
-  margin-bottom: 50px;
+  padding-bottom: 200px;
 }
 
-.home-banner {
+.banner {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -74,39 +113,39 @@ nav {
   background-color: var(--indigo-color);
 }
 
-.home-banner-text {
+.banner-text {
   position: relative;
   width: 720px;
   height: 180px;
   top: 120px;
   left: -180px;
-  margin: 0 50px;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
   color: var(--white-color);
 }
 
-.home-banner-text h1 {
+.banner-text .banner-big {
   font-size: 3.4rem;
+  font-weight: bold;
 }
 
-.home-banner-text p {
+.banner-text .banner-small {
   font-size: 2rem;
   font-weight: bold;
 }
 
-#home-banner-image-1 {
+#banner-image-1 {
   position: relative;
   top: 130px;
   width: 497px;
   height: 371px;
 }
 
-.home-content {
-  width: 80%;
+.content {
+  width: 70%;
   margin: 13rem 0 0 0;
-  padding: 8rem;
+  padding: 4rem;
   border: 1px solid grey;
   border-radius: 1rem;
   display: flex;
@@ -114,34 +153,106 @@ nav {
   align-items: center;
 }
 
-.home-content-text {
+.content-text {
   display: flex;
   flex-flow: column wrap;
 }
 
-.home-content-text > h1, p {
-  margin: 4px 0;
+.content-text p {
+  margin-bottom: 30px;
 }
 
-.home-content-text h1 {
+.content-text .content-big {
+  margin-top: 0;
+  font-weight: 600;
   font-size: 3.4rem;
 }
 
-.home-content-text p {
+.content-text .content-small {
+  font-weight: 500;
   font-size: 2rem;
+  margin: 0;
 }
 
-#home-content-image-1 {
+#content-image-1 {
   width: 360px;
   height: 292px;
   margin-right: 12rem;
 }
 
+/* sub page */
+.sub-wrap {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  background-color: #ECECEC;
+}
+
+.small-banner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: var(--indigo-color);
+  color: var(--white-color);
+  padding-left: 15%;
+}
+
+.small-banner-text {
+  margin: 10px 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sub-body {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+  margin: 40px;
+  justify-content: center;
+}
+
+.sub-menu {
+  padding: 20px;
+  margin: 10px;
+  width: 200px;
+  height: 700px;
+}
+.sub-menu-label {
+  font-size: 1.4rem;
+  color: #837f7f;
+}
+
+.sub-menu-list li {
+  font-size: 1.6rem;
+  list-style-type: none;
+}
+
+.sub-menu-list li a:hover, a:link, a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.grid-box {
+  background-color: white;
+  border-radius: 5px;
+  width: 360px;
+  height: 240px;
+  padding: 15px;
+  margin: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.grid-box-header {
+  font-size: 1.8rem;
+}
+
 /* footer */
 footer {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   width: 100%;
   height: 200px;
+  bottom: 0;
   background-color: var(--footer-bg-color);
 }

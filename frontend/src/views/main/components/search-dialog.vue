@@ -36,7 +36,6 @@ export default {
     }
 
     const clickSearch = () => {
-      console.log('clickSearch')
       const payload = {
         title: state.searchValue,
         sort: state.sort,
@@ -44,7 +43,6 @@ export default {
         size: 10,
         conference_category: state.conference_category,
       }
-      console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
     }
 

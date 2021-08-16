@@ -2,13 +2,13 @@
 import $axios from 'axios'
 import Swal from 'sweetalert2'
 
-export function requestLogin ({ state }, payload) {
+export function requestLogin ({}, payload) {
   const url = '/auth/login'
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestSignup ({ state }, payload) {
+export function requestSignup ({}, payload) {
   const url = '/users'
   let body = payload
   return $axios.post(url, body)
@@ -28,7 +28,7 @@ export function requestLogout ({ commit }) {
   return commit('setLogout')
 }
 
-export function requestSaveJWT({ state }, user) {
+export function requestSaveJWT({}, user) {
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
@@ -64,7 +64,7 @@ export function requestSearchTitle({ commit }, payload) {
 }
 
 // 컨퍼런스 액션
-export function requestConferenceCreate({ state }, payload) {
+export function requestConferenceCreate({}, payload) {
   const url = '/conferences'
   let body = payload
   let config = {
@@ -82,13 +82,13 @@ export function requestConferenceId({ commit }) {
   .catch(err => console.log(err))
 }
 
-export function requestConferenceIdCreate({ state }, payload) {
+export function requestConferenceIdCreate({}, payload) {
   const url = '/conference-categories'
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestConferenceIdDelete({ state }, payload) {
+export function requestConferenceIdDelete({}, payload) {
   const url = '/conference-categories'
   let body = payload
   return $axios.delete(url, {data: body})

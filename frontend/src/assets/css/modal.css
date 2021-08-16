@@ -49,6 +49,10 @@
   justify-content: space-between;
 }
 
+.modal-thumbnail-selected-title {
+  margin-left: 10px;
+}
+
 .modal-footer {
 
 }
@@ -58,12 +62,16 @@ form {
   width: 70%;
 }
 
+form select {
+  font-size: 1.4rem;
+}
+
 .form-input {
-  width: calc(100% - 10px);
+  width: 100%;
   height: 50px;
-  padding: 0 5px;
   border-radius: 5px;
   border: 1px solid transparent;
+  padding-left: 1.2rem;
   outline: none;
   background-color: #f2f5f7;
   transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out,

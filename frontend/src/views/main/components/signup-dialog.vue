@@ -19,39 +19,30 @@
           ></path>
         </svg>
       </div>
-      <hr class="modal-hr">
       <Form @submit="clickSignup" :validation-schema="schema" class="modal-body">
         <TextInput
           name="id"
           type="text"
-          v-model="state.form.id"
           placeholder="아이디"
         />
         <TextInput
           name="name"
           type="text"
-          v-model="state.form.name"
           placeholder="이름"
         />
         <TextInput
           name="password"
           type="password"
-          v-model="state.form.password"
           placeholder="비밀번호"
           success-message="사용 가능한 비밀번호입니다."
         />
         <TextInput
           name="passwordConfirm"
           type="password"
-          v-model="state.form.passwordConfirm"
           placeholder="비밀번호 확인"
         />
         <button class="btn btn-submit" type="submit">회원가입</button>
       </Form>
-      <hr class="modal-hr">
-      <div class="modal-footer">
-        소셜로그인
-      </div>
     </div>
   </div>
 </template>
@@ -105,26 +96,13 @@ export default {
     })
 
     const state = reactive({
-      form: {
-        name: '',
-        id: '',
-        password: '',
-        passwordConfirm: '',
-        align: 'left'
-      },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px',
       isAvailableId: computed(() => store.getters['root/getIsAvailableId'])
     })
 
-    const onSubmit = function (values) {
-      console.log(values)
-      alert(JSON.stringify(values, null, 2));
-    }
-
-    const clickSignup = function () {
+    const clickSignup = function (value) {
       store.commit('root/setSpinnerStart')
-      store.dispatch('root/requestSignup', { id: state.form.id, password: state.form.password, name: state.form.name })
+      store.dispatch('root/requestSignup', value)
       .then(function () {
         emit('closeSignupDialog')
         Swal.fire({
@@ -148,16 +126,11 @@ export default {
       .finally(store.commit('root/setSpinnerEnd'))
     }
 
-
     const handleClose = function () {
-      state.form.id = ''
-      state.form.password = ''
-      state.form.passwordConfirm = ''
-      state.form.name = ''
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, checkAvailableId, schema, onSubmit }
+    return { signupForm, state, clickSignup, handleClose, checkAvailableId, schema }
   }
 }
 </script>
