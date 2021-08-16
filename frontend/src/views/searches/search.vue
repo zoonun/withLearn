@@ -123,6 +123,7 @@ export default {
     const state = reactive({
       conferences: computed(() =>store.getters['root/getConference']),
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
+
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -187,7 +188,6 @@ export default {
         size: 20,
         conference_category: state.conference_category,
       }
-      console.log(payload)
       store.dispatch('root/requestSearchTitle', payload)
     }
 

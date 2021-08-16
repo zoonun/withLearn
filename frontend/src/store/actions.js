@@ -116,10 +116,8 @@ export function requestUpdate({ commit }, payload) {
   const id = payload.id
   const url = `/users/${id}`
   let body = payload
-  console.log('requestUpdate')
   return $axios.patch(url, body)
-  .then((res) =>{
-    console.log('requestUpdate', res.status)
+  .then(() =>{
     commit('setUpdate', body)
   })
 }
@@ -128,7 +126,6 @@ export function requestConferenceDetail({ commit }, conference_id) {
   const url = `/conferences/${conference_id}`
   return $axios.get(url)
   .then((res) => {
-    console.log(res.data)
     commit('setConferenceDetail', res.data)
   })
 }

@@ -184,5 +184,6 @@ export default {
   border-radius: 5px;
   justify-content: center;
   border-width: 4px;
+
 }
 </style>
