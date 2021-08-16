@@ -1,8 +1,8 @@
 <template>
   <div class="search-header">
     <div class="sort-wrapper">
-      <select v-model="state.sortCurrentText" class="sort-button">
-        <option v-for="(item, index) in state.sortSelectLabelItems" :key="index" class="sort-button" @click="clickSortSelectItem(index)"> {{ item }}</option>
+      <select class="sort-button" @change="clickSortSelectItem">
+        <option v-for="(item, index) in state.sortSelectItems" :key="index" class="sort-button" :value="index"> {{ item.label }}</option>
       </select>
       <button @click="clickSortOrderIndex" class="sort-order-button">
         <i :class="['ic', state.sortOrderIconItem]"/>
@@ -123,8 +123,6 @@ export default {
     const state = reactive({
       conferences: computed(() =>store.getters['root/getConference']),
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
-      sortCurrentText:'제목순',
-      sortSelectLabelItems: ['제목순', '가격순'],
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -135,7 +133,8 @@ export default {
       sortSelectValueItems: ['title', 'price'],
       filterItems: computed(() => store.getters['root/getConferenceId']),
       filterColorArray: Array(10),
-      conference_category:null
+      conference_category:null,
+      sortSelectItems: [{label: '제목순', value: 'title'}, {label: '가격순', value: 'price'}]
     })
 
 
@@ -177,9 +176,8 @@ export default {
       store.dispatch('root/requestSearchTitle', payload)
   }
 
-    const clickSortSelectItem = (index) => {
-      console.log('clickSortSelectItem')
-      state.sortCurrentText = state.sortSelectLabelItems[index]
+    const clickSortSelectItem = (event) => {
+      const index = event.target.value
       state.sortActiveSelectIndex = index
       const payload = {
         title: state.recentSearchValue,
