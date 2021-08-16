@@ -124,7 +124,7 @@ export default {
       conferences: computed(() =>store.getters['root/getConference']),
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
       sortCurrentText:'제목순',
-      sortSelectLabelItems: ['제목순', '추천순'],
+      sortSelectLabelItems: ['제목순', '가격순'],
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -132,10 +132,10 @@ export default {
         return state.sortOrderIconItems[state.sortActiveOrderIndex]
       }),
       sortActiveSelectIndex: 0,
-      sortSelectValueItems: ['title', 'recommend'],
+      sortSelectValueItems: ['title', 'price'],
       filterItems: computed(() => store.getters['root/getConferenceId']),
-      filterColorArray: Array(10)
-
+      filterColorArray: Array(10),
+      conference_category:null
     })
 
 
@@ -167,7 +167,8 @@ export default {
       store.commit('root/setSortIndex')
       const payload = {
         title: state.recentSearchValue,
-        sort: state.sortOrderValueItems[state.sortActiveOrderIndex],
+        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        order: state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
         conference_category: state.conference_category,
@@ -181,7 +182,8 @@ export default {
       state.sortActiveSelectIndex = index
       const payload = {
         title: state.recentSearchValue,
-        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex], state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        sort: state.sortSelectValueItems[state.sortActiveSelectIndex],
+        order:state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
         conference_category: state.conference_category,
@@ -201,6 +203,22 @@ export default {
         console.log(state.filterColorArray)
         filterItem.style.backgroundColor='#1dc078'
       }
+      var Newarr = [];
+      state.filterColorArray.forEach((value, index, array) => {
+        if (value) {
+          Newarr.push(Number(index) + 1)
+        }
+      })
+      state.conference_category = Newarr
+      const payload = {
+        title: state.recentSearchValue,
+        sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]],
+        order:state.sortOrderValueItems[state.sortActiveOrderIndex],
+        page: null,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      store.dispatch('root/requestSearchTitle', payload)
     }
 
 

@@ -125,10 +125,11 @@ export default {
       console.log('clickSearch')
       const payload = {
         title: state.searchValue,
-        order: state.order,
+        sort:null,
+        order: null,
         page: null,
-        size: 10,
-        conference_category: state.conference_category,
+        size: 20,
+        conference_category: null,
       }
       console.log(payload)
       await store.dispatch('root/requestSearchTitle', payload)

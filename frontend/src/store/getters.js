@@ -26,6 +26,7 @@ export function getIsAvailableId (state) {
 }
 
 export function getConferenceId (state) {
+  console.log(state.conferenceId)
   return state.conferenceId
 }
 

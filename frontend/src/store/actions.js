@@ -61,7 +61,8 @@ export function requestSearchTitle({ commit }, payload) {
   commit('setSearchValue', body.title)
   return $axios.get(url, { params: {
     title: body.title,
-    // sort: body.sort
+    sort: body.sort,
+    conference_category: body.conference_category
   }})
   .then((res) => {
     console.log('requestSearchTitle', res.data.conferenceList)
