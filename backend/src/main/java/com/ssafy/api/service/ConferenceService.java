@@ -27,4 +27,6 @@ public interface ConferenceService {
 	void patchConferenceInfo(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Boolean isActive, Integer price, Long conference_id);
 	Conference setConference(Conference conference, ConferenceCategory conferenceCategory, String description, String title, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price);
 	void deleteConference(Long conference_id);
+
+	void joinConference(String userId, Long conferenceId);
 }
