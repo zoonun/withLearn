@@ -89,7 +89,7 @@ public class KurentoController {
 
 
     private String saveImage(MultipartFile chroma) throws IOException {
-        String path = "kurento/";
+        String path = "kurentos/";
         File file = new File(path);
         if (!file.exists())
             file.mkdirs();
@@ -101,7 +101,7 @@ public class KurentoController {
             String originalFileExtension = imageName.substring(chroma.getOriginalFilename().lastIndexOf("."));
             String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
 
-            url = "kurento" + File.separator + new_file_name;
+            url = "kurentos" + File.separator + new_file_name;
             Path pathabs = Paths.get(url).toAbsolutePath();
             chroma.transferTo(pathabs.toFile());
         }
