@@ -17,9 +17,6 @@
       <button class="live-button" @click="onClickLive">
         라이브 참여하기
       </button>
-      <button class="live-button" @click="onClickLive2">
-        라이브 참여하기2
-      </button>
     </div>
   </div>
   <div class="detail-bottom">
