@@ -16,9 +16,6 @@ dist/
 # Log files
 *.log
 
-# Package files
-*.jar
-
 # Maven
 target/
 dist/
@@ -51,6 +48,5 @@ Thumbs.db
 .gradle
 .settings
 bin
-build
 .project
 .classpath
