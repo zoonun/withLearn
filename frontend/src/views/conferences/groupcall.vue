@@ -160,8 +160,19 @@ export default {
       message.data.forEach(receiveVideo)
     }
 
+    const readyWsConnection = function () {
+      setTimeout(function () {
+        if (state.ws.readyState === 1) {
+          console.log('화상채팅방 연결 완료!')
+          enterRoom()
+        } else {
+          console.log('화상채팅방에 연결중입니다...')
+          readyWsConnection()
+        }
+      }, 5)
+    }
+
     const enterRoom = function () {
-      console.log(`${state.name} ${state.room}방입장`)
       const message = {
         id : 'joinRoom',
         name : state.name,
@@ -197,12 +208,12 @@ export default {
 
     // 페이지 진입 시 자동으로 화상채팅방에 참여하기
     onMounted(() => {
-      // enterRoom()
+      readyWsConnection()
     })
 
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection }
   }
 }
 </script>
