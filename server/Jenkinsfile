@@ -26,8 +26,8 @@ pipeline {
     stage('Docker build') {
       agent any
         steps {
-          sh 'docker build -t frontend:latest ./frontend/'
           sh 'docker build -t backend:latest ./backend/'
+          sh 'docker build -t frontend:latest ./frontend/'
         }
       }
     stage('Docker run') {
@@ -52,8 +52,8 @@ pipeline {
         sh 'docker images -f "dangling=true" -q \
         | xargs -r docker rmi'
         // docker container 실행
-        sh 'docker run -d --name frontend -v /etc/letsencrypt/live/i5d106.p.ssafy.io/fullchain.pem:/etc/letsencrypt/live/i5d106.p.ssafy.io/fullchain.pem -v /etc/letsencrypt/live/i5d106.p.ssafy.io/privkey.pem:/etc/letsencrypt/live/i5d106.p.ssafy.io/privkey.pem -v /etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf -v /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem -v /home/ubuntu/images:/images --network i5d106 -p 80:80 -p 443:443 frontend'
-        sh 'docker run -d --name backend --network i5d106 -p 8080:8080 -e JAVA_TOOL_OPTIONS="-Dkms.url=ws://3.35.0.121:8888/kurento" backend'
+        sh 'docker run -d --name backend --network i5d106 -v /home/ubuntu/images:/images -v /home/ubuntu/kurentos:/kurentos -p 8080:8080 -e JAVA_TOOL_OPTIONS="-Dkms.url=ws://3.35.0.121:8888/kurento" backend'
+        sh 'docker run -d --name frontend -v /etc/letsencrypt/live/i5d106.p.ssafy.io/fullchain.pem:/etc/letsencrypt/live/i5d106.p.ssafy.io/fullchain.pem -v /etc/letsencrypt/live/i5d106.p.ssafy.io/privkey.pem:/etc/letsencrypt/live/i5d106.p.ssafy.io/privkey.pem -v /etc/letsencrypt/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf -v /etc/letsencrypt/ssl-dhparams.pem:/etc/letsencrypt/ssl-dhparams.pem -v /home/ubuntu/images:/images -v /home/ubuntu/kurentos:/kurentos --network i5d106 -p 80:80 -p 443:443 frontend'
       }
     }
   }

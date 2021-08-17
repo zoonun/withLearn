@@ -151,11 +151,11 @@ export default {
       var video = participant.getVideoElement()
 
       var options = {
-        localVideo: video,
+        remoteVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
-      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
         if (error) return console.error(error)
         this.generateOffer(participant.offerToReceiveVideo.bind(participant))
       })
