@@ -52,7 +52,22 @@ public class ConferenceController {
         String userId = userDetails.getUsername();
 
         Conference conference = conferenceService.createConference(userId, description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
+        joinConference(authentication, conference.getId());
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
+    }
+
+    @PostMapping("conferences/join")
+    @ApiOperation(value = "방 참가", notes = "방에 참가다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> joinConference(
+            @ApiIgnore Authentication authentication, @RequestParam("conferenceId") Long conferenceId){
+        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        conferenceService.joinConference(userId, conferenceId);
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "success."));
     }
 
     @GetMapping(value = "conferences/{conference_id}")

@@ -35,8 +35,6 @@ public class ConferenceDetailRes {
 	boolean is_free;
 	String conference_day;
 	Date conference_time;
-	Date apply_end_time;
-	Date apply_start_time;
 	Integer price;
 	List<DetailUser> users = new ArrayList<>();
 	

@@ -6,9 +6,7 @@ import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserConference;
-import com.ssafy.db.repository.ConferenceCategoryRepository;
-import com.ssafy.db.repository.ConferenceRepository;
-import com.ssafy.db.repository.ConferenceRepositorySupport;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +28,13 @@ public class ConferenceServiceImpl implements ConferenceService {
     ConferenceService conferenceService;
 
     @Autowired
+    UserConferenceRepository userConferenceRepository;
+
+    @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ConferenceCategoryRepository conferenceCategoryRepository;
@@ -54,6 +58,14 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Override
     public void deleteConference(Long conference_id) {
         conferenceRepository.deleteById(conference_id);
+    }
+
+    @Override
+    public void joinConference(String userId, Long conferenceId) {
+        UserConference userConference = new UserConference();
+        userConference.setUser(userRepository.findByUserId(userId).get());
+        userConference.setConference(conferenceRepository.findById(conferenceId).get());
+        userConferenceRepository.save(userConference);
     }
 
     @Override
