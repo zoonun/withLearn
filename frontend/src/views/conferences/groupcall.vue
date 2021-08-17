@@ -41,24 +41,6 @@ export default {
       participants: {},
       ws: {}
     })
-    // onMounted(() => {
-      //   window.addEventListener('beforeunload', unloadEvent)
-    // })
-    // onBeforeRouteLeave((to, from, next) => {
-    //   console.log('라우트 변경')
-    //   if (state.ws.close()) {
-    //     next()
-    //   } else {
-    //     state.ws.close()
-    //     next()
-    //   }
-    // })
-    // // conferenceroom.js
-    // const unloadEvent = function (event) {
-      //   ws.close()
-    //   // event.preventDefault()
-    //   // event.returnValue = ''
-    // }
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
@@ -155,7 +137,7 @@ export default {
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
-      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
         if (error) return console.error(error)
         this.generateOffer(participant.offerToReceiveVideo.bind(participant))
       })
@@ -178,7 +160,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
-        image: ''
+        image: 'images/1335496638255773.jpg'
       }
       sendMessage(message)
     }
