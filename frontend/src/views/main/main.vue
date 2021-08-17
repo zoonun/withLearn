@@ -36,6 +36,7 @@
   @import '../../assets/css/font.css';
   @import '../../assets/css/modal.css';
   @import '../../assets/css/search.css';
+  @import '../../assets/css/detail.css';
 </style>
 <script>
 import MainHeader from './components/main-header'

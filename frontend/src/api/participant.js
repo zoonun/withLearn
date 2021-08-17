@@ -14,9 +14,9 @@
  * limitations under the License.
  *
  */
-
-var PARTICIPANT_MAIN_CLASS = 'participant main';
-var PARTICIPANT_CLASS = 'participant';
+// 클릭한 participant
+var PARTICIPANT_MAIN_CLASS = 'participant main col-md-4';
+var PARTICIPANT_CLASS = 'participant col-md-4';
 
 /**
  * Creates a video element for a new participant
@@ -87,7 +87,7 @@ function Participant(name, sendMessage) {
 
 
 	this.onIceCandidate = function (candidate/*, wp*/) {
-		console.log('Local candidate' + JSON.stringify(candidate));
+		console.log('새로운 화상채팅 참가자: ' + JSON.stringify(candidate));
 
 		var message = {
 			id: 'onIceCandidate',
@@ -100,7 +100,7 @@ function Participant(name, sendMessage) {
 	Object.defineProperty(this, 'rtcPeer', { writable: true});
 
 	this.dispose = function() {
-		console.log('Disposing participant ' + this.name);
+		console.log(this.name + ' 화상채팅 종료');
 		this.rtcPeer.dispose();
 		container.parentNode.removeChild(container);
 	};

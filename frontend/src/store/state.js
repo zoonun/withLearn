@@ -53,6 +53,8 @@ export default {
   conferenceData: null,
   recentSearchValue:null,
   profile: null,
+  userName: '',
+  userId: '',
   conferenceId: {},
   conferenceDetailData: null,
 }

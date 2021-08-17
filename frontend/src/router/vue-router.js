@@ -5,6 +5,7 @@ import History from '@/views/history/history'
 import store from '@/api/store'
 import Lobby from '@/views/conferences/lobby'
 import Groupcall from '@/views/conferences/groupcall'
+import Groupcall2 from '@/views/conferences/groupcall2'
 import Websocket from '@/views/conferences/websocket'
 import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
@@ -14,6 +15,7 @@ import PageNotFound from '@/components/PageNotFound'
 
 const beforeAuth = isAuth => (from, to, next) => {
   const isAuthenticated = store.getters['root/getIsLoggedIn']
+
   if ((isAuth && isAuthenticated) || (!isAuth && !isAuthenticated)) {
     store.dispatch('root/requestProfile')
     next()
@@ -41,7 +43,7 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Socketjs, beforeEnter: beforeAuth(true) }
     } else if (key == 'search'){
       return { path: fullMenu[key].path, name: key, component: Search }
-    }else {
+    } else {
       return null
     }
   })
@@ -52,6 +54,16 @@ function makeRoutesFromMenu () {
     path: '/groupcall/:roomId',
     name: 'groupcall',
     component: Groupcall,
+    // props: {
+    //   aa: aa
+    // },
+    beforeEnter: beforeAuth(true)
+  },
+  // 작동하던 그룹콜
+  {
+    path: '/groupcall2/:roomId',
+    name: 'groupcall2',
+    component: Groupcall2,
     beforeEnter: beforeAuth(true)
   },
   {
