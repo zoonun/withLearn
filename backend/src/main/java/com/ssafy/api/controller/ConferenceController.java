@@ -7,7 +7,6 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
-import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserConference;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class ConferenceController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
             @ApiIgnore Authentication authentication
     ) throws IOException {
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
 
         Conference conference = conferenceService.createConference(userId, description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
@@ -62,8 +61,8 @@ public class ConferenceController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> joinConference(
-            @ApiIgnore Authentication authentication, @RequestParam("conferenceId") Long conferenceId){
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+            @ApiIgnore Authentication authentication, @RequestParam("conferenceId") Long conferenceId) {
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
         String userId = userDetails.getUsername();
 
         conferenceService.joinConference(userId, conferenceId);
@@ -94,6 +93,18 @@ public class ConferenceController {
             @RequestParam Boolean isActive, @RequestParam Integer price) throws IOException {
         conferenceService.patchConferenceInfo(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, isActive, price, conference_id);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+    }
+
+    @PatchMapping(value = "conferences/onBoarding")
+    @ApiOperation(value = "방송 상태 변경", notes = "방송상태를 변경한다")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<ConferenceOnboardStatusRes> changeOnboardStates(
+            @RequestParam Long conferenceId) {
+
+        Conference conference = conferenceService.changeOnboardStates(conferenceId);
+        return ResponseEntity.status(201).body(ConferenceOnboardStatusRes.of(201, "Success",conference));
     }
 
     @GetMapping(value = "conferences")

@@ -1,7 +1,6 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
 import com.ssafy.db.entity.User;
@@ -9,11 +8,7 @@ import com.ssafy.db.entity.UserConference;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -48,8 +43,6 @@ public class ConferenceServiceImpl implements ConferenceService {
         conference.setConferenceCategory(conferenceCategory);
         conference.setConference_day(conferenceDay);
         conference.setConference_time(conferenceTime);
-        conference.setApply_start_time(applyStartTime);
-        conference.setApply_end_time(applyEndTime);
         conference.setPrice(price);
         conference.setThumbnail(thumbnail);
         return conference;
@@ -66,6 +59,16 @@ public class ConferenceServiceImpl implements ConferenceService {
         userConference.setUser(userRepository.findByUserId(userId).get());
         userConference.setConference(conferenceRepository.findById(conferenceId).get());
         userConferenceRepository.save(userConference);
+    }
+
+    @Override
+    public Conference changeOnboardStates(Long conferenceId) {
+        System.out.println(conferenceId);
+        Conference conference = conferenceRepository.findById(conferenceId).get();
+        System.out.println("conference : "+conference);
+        if(conference.getIs_active() == true) conference.setIs_active(false);
+        else conference.setIs_active(true);
+        return conferenceRepository.save(conference);
     }
 
     @Override
