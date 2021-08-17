@@ -2,11 +2,11 @@
 module.exports = {
   devServer: {
     https: true,
-    port: 8083,
+    port: 80,
     open: true,
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:8080/'
+        target: 'https://i5d106.p.ssafy.io/'
       }
     },
     historyApiFallback: true,
@@ -19,5 +19,5 @@ module.exports = {
     'element-plus'
   ],
   lintOnSave: false,
-  outputDir: '../backend/src/main/resources/dist'
+  outputDir: '../frontend/homepage/dist'
 }
