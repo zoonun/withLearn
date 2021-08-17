@@ -27,7 +27,7 @@ public class ConferenceDetailRes {
 	long id;
 	String conference_category;
 	int joinUsersNum; //
-	String owner;
+	User owner;
 	String thumbnail_url;
 	String title;
 	String description;
@@ -44,6 +44,7 @@ public class ConferenceDetailRes {
 		res.set_active(conference.getIs_active());
 		res.setDescription(conference.getDescription());
 		res.setId(conference.getId());
+		res.setOwner(conference.getUser());
 		res.setConference_category(conference.getConferenceCategory().getName());
 		res.setThumbnail_url(conference.getThumbnail());
 		res.setTitle(conference.getTitle());
