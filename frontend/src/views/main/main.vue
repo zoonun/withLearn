@@ -35,6 +35,7 @@
   @import '../../assets/css/effect.css';
   @import '../../assets/css/font.css';
   @import '../../assets/css/modal.css';
+  @import '../../assets/css/search.css';
 </style>
 <script>
 import MainHeader from './components/main-header'

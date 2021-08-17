@@ -20,7 +20,7 @@
           <i class="fa fa-caret-down"></i>
         </a>
         <div class="nav-dropdown-content">
-          <router-link to="/home">강의 목록으로</router-link>
+          <a @click="clickConferenceList">강의 목록으로</a>
           <a @click="clickConference">강의 개설하기</a>
           <a @click="clickConference">강의 참여하기</a>
         </div>
@@ -71,6 +71,7 @@ export default {
         icon: require('@/assets/images/user_icon.png')
       },
       isLogin: computed(() => store.getters['root/getIsLoggedIn']),
+      searchValue:null,
     })
 
     const clickLogin = () => {
@@ -118,7 +119,18 @@ export default {
       store.dispatch('root/requestLogout')
     }
 
-    return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch }
+    const clickConferenceList = async function () {
+
+      await router.push({
+        name: 'search',
+        params: {
+          searchValue: null,
+        }
+      })
+    }
+
+
+    return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch, clickConferenceList }
   }
 }
 
@@ -128,32 +140,35 @@ export default {
   font-size: 1.8rem;
   font-weight: bold;
   min-width: 90px;
-  margin: 0 5px;
-  padding: 5px;
   border-radius: 5px;
   background-color: var(--white-color);
-  margin-top:11px;
+  height:100%;
+  border:0;
 }
 .search-btn {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin: 0 5px;
-  padding: 5px;
   border-radius: 5px;
-  margin-top:11px;
   background-color: var(--indigo-color);
   border: 0;
   cursor: pointer;
   color: white;
+  height: 100%;
+  width:4rem;
 }
 .search-items {
-  height: 54px;
+  height: 50px;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   border-radius: 5px;
   justify-content: center;
   border-width: 4px;
-
+  border:0;
+  border: 3px solid var(--indigo-color);
+}
+input[type="text"]:focus {
+  border-color: var(--indigo-color);
+  outline: 0 none;
 }
 </style>

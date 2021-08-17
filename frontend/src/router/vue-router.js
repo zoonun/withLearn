@@ -39,7 +39,9 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Websocket, beforeEnter: beforeAuth(true) }
     } else if (key === 'socketjs'){
       return { path: fullMenu[key].path, name: key, component: Socketjs, beforeEnter: beforeAuth(true) }
-    } else {
+    } else if (key == 'search'){
+      return { path: fullMenu[key].path, name: key, component: Search }
+    }else {
       return null
     }
   })
