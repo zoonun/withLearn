@@ -12,6 +12,9 @@
     </div>
     <div>
       <button @click="leaveRoom">나가기</button>
+      <button @click="checkState">참가자 체크</button>
+      <button @click="stopMic">마이크 끄기</button>
+      <button @click="stopVideo">비디오 끄기</button>
     </div>
   </div>
 </template>
@@ -65,7 +68,7 @@ export default {
 
     state.ws.onmessage = function (message) {
       var parsedMessage = JSON.parse(message.data)
-      console.info('Received msg:' + message.data)
+      // console.info('Received msg:' + message.data)
 
       switch (parsedMessage.id) {
         case 'existingParticipants':
@@ -137,12 +140,12 @@ export default {
         video: {
           mandatory: {
             maxWidth: 320,
+            maxHeight: 300,
             maxFrameRate: 15,
             minFrameRate: 15
           }
         }
       }
-      console.log(`${state.userName}, ${state.room}번 화상채팅방에 참여했습니다.`)
       var participant = new Participant(state.name, sendMessage)
       state.participants[state.name] = participant
       var video = participant.getVideoElement()
@@ -162,10 +165,8 @@ export default {
     const readyWsConnection = function () {
       setTimeout(function () {
         if (state.ws.readyState === 1) {
-          console.log('화상채팅방 연결 완료!')
           enterRoom()
         } else {
-          console.log('화상채팅방에 연결중입니다...')
           readyWsConnection()
         }
       }, 5)
@@ -193,7 +194,6 @@ export default {
     }
 
     const onParticipantLeft = function (request) {
-      console.log('Participant ' + request.name + ' left');
       const participant = state.participants[request.name];
       participant.dispose();
       delete state.participants[request.name];
@@ -201,7 +201,7 @@ export default {
 
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
-      console.log('Sending message: ' + jsonMessage);
+      // console.log('Sending message: ' + jsonMessage);
       state.ws.send(jsonMessage);
     }
 
@@ -210,9 +210,24 @@ export default {
       readyWsConnection()
     })
 
+    const checkState = function () {
+      const participant = state.participants[state.name];
+      console.log(participant.rtcPeer)
+    }
+
+    const stopMic = function () {
+      const participant = state.participants[state.name];
+      participant.rtcPeer.audioEnabled = participant.rtcPeer.audioEnabled ? false : true
+    }
+
+    const stopVideo = function () {
+      const participant = state.participants[state.name];
+      participant.rtcPeer.videoEnabled = participant.rtcPeer.videoEnabled ? false : true
+    }
+
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, stopMic, stopVideo }
   }
 }
 </script>

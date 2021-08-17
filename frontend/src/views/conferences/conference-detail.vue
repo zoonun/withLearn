@@ -1,9 +1,11 @@
 <template>
-  <div class="detail-header">
-    강의 상세 페이지
+  <div class="small-banner">
+    <p class="small-banner-text">
+      강의 상세 페이지
+    </p>
   </div>
-  <div class="detail-thumbnail-wrapper">
-    <img :src="state.images.image" alt="" class="datail-thumbnail">
+  <div class="banner-detail">
+    <img :src="state.images.detail_banner" alt="banner_image">
   </div>
   <div class="detail-information">
     <div class="detail-description">
@@ -48,7 +50,7 @@ export default {
       conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
       userInfo: computed(() => store.getters['root/getProfile']),
       images: {
-        image: require('@/assets/images/music.jpg'),
+        detail_banner: require('@/assets/images/music.jpg'),
       },
     })
 
