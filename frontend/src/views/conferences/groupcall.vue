@@ -160,7 +160,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
-        image: 'images/1335496638255773.jpg'
+        image: '/images/1335496638255773.jpg'
       }
       sendMessage(message)
     }
