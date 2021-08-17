@@ -26,6 +26,7 @@ export function getIsAvailableId (state) {
 }
 
 export function getConferenceId (state) {
+  console.log(state.conferenceId)
   return state.conferenceId
 }
 
@@ -46,3 +47,6 @@ export function getProfile (state) {
   return state.profile
 }
 
+export function getConferenceDetail (state) {
+  return state.conferenceDetailData
+}

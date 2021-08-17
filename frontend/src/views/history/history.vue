@@ -1,7 +1,7 @@
 <template>
-  <el-container>
-    지난 회의 이력 페이지
-  </el-container>
+  <div>
+
+  </div>
 </template>
 
 <script>

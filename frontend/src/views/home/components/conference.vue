@@ -1,47 +1,51 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }">
-    <div class="image-wrapper">
-      <el-skeleton style="width: 100%">
-        <template #template>
-          <el-skeleton-item variant="image" style="width: 100%; height: 190px" />
-        </template>
-      </el-skeleton>
-      </div>
-    <div class="content-wrapper" style="text-align: left; padding:14px;">
-      <div class="header">
-        <span class="title">{{ title }}</span>
-        <div class="name">{{ name }}</div>
+  <div class="card">
+    <div>
+      <img :src="'https://i5d106.p.ssafy.io/' + conference.thumbnail" alt="" class="thumbnail">
+    </div>
+    <div class="text-wrapper" style="text-align: left; padding: 14px;">
+      <div class="top">
+        <span class="title">{{ conference.title }}</span>
+        <div class="name" v-if="conference.user.name">{{ conference.user.name }}</div>
+
       </div>
       <div class="bottom">
-        <span class='category'> {{ category }} </span>
-        <span v-if="isactive" class='isactive'> 수강신청중 </span>
+        <span class='category'> {{ conference.conferenceCategory.name }} </span>
+        <span v-if="conference.is-active" class='isactive'> 수강신청중 </span>
         <span v-else class='unactive'> 수강마감 </span>
       </div>
     </div>
-  </el-card>
+
+  </div>
+
+
 </template>
 <style>
-.el-card {
+ .thumbnail {
+   background-size: cover;
+   width: 100%;
+   height: 250px;
+   cursor: pointer;
+ }
+ .card {
+  font-size: 1.8rem;
   margin: 0 8px;
   margin-bottom: 40px;
-}
-.el-card .image-wrapper {
-  width: 100%;
-  height: 190px;
-}
-.el-card .title {
+  border-radius: 0.25rem;
+ }
+  .card .title {
   font-weight: bold;
   width:100%;
   display:block;
   font-size:130%;
   margin-bottom: 5px;
 }
-.el-card .name {
-  color: #7D7D7D;
-
+.bottom {
+  margin-top:5rem;
+  display: flex;
+  justify-content: space-between;
 }
-
-.el-card .isactive {
+.isactive {
   font-size:70%;
   display: block;
   background-color: rgb(7, 248, 47);
@@ -52,26 +56,7 @@
   color:  white;
   font-weight: bold;
 }
-.el-card .bottom {
-  margin-top: 20px;
-  display:-webkit-box;
-  word-wrap:break-word;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.el-card .category {
-  font-size:70%;
-  display: block;
-  background-color: skyblue;
-  padding:.75em;
-  border-radius: 10px;
-  margin-top:5px;
-  float: left;
-  color:white;
-  font-weight: bold;
-}
-.el-card .unactive {
+.unactive {
   font-size:70%;
   display: block;
   background-color: red;
@@ -82,21 +67,24 @@
   color:white;
   font-weight: bold;
 }
+.text-wrapper .top {
+  height: 4rem;
+}
+.category {
+  font-size:70%;
+  display: block;
+  background-color: skyblue;
+  padding:.75em;
+  border-radius: 10px;
+  margin-top:5px;
+  float: left;
+  color:white;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
 
-/* 테블릿, 모바일의 경우 두 줄 말줄임표시 */
-@media (max-width: 1269px) {
-  .el-card .bottom {
-    -webkit-line-clamp: 2;
-    height:42px;
-  }
-}
-/* 데스크탑의 경우 세 줄 말줄임표시 */
-@media (min-width: 1270px) {
-  .el-card .bottom {
-    -webkit-line-clamp: 3;
-    height:60px;
-  }
-}
+
 
 </style>
 <script>
@@ -104,21 +92,8 @@ export default {
   name: 'Home',
 
   props: {
-    title: {
-      type: String,
-      default: '제목'
-    },
-    name: {
-      type: String,
-      default: '백준'
-    },
-    isactive: {
-      type: Boolean,
-      default:true
-    },
-    category: {
-      type: String,
-      default: '알고리즘'
+    conference: {
+      type: Object
     }
   },
 

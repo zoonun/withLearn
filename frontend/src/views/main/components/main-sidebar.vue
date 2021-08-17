@@ -1,46 +1,9 @@
 <template>
-  <el-row
-    class="main-sidebar"
-    :gutter="10"
-    :style="{ 'width': width }">
-    <div class="hide-on-small">
-      <el-menu
-        :default-active="String(state.activeIndex)"
-        active-text-color="#ffd04b"
-        class="el-menu-vertical-demo"
-        @select="menuSelect">
-        <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-          <div v-if="item.title === '로그아웃'" @click="clickLogout">
-            <i v-if="item.icon" :class="['ic', item.icon]"/>
-            <span>{{ item.title }}</span>
-          </div>
-          <div v-else>
-            <i v-if="item.icon" :class="['ic', item.icon]"/>
-            <span>{{ item.title }}</span>
-          </div>
-        </el-menu-item>
-      </el-menu>
-    </div>
-  </el-row>
+  <div>
+
+  </div>
 </template>
 <style>
-.main-sidebar .el-menu {
-  margin-top: 0;
-  padding-left: 0;
-}
-.main-sidebar .hide-on-small {
-  height: 100%;
-}
-.main-sidebar .hide-on-small .el-menu {
-  height: 100%;
-}
-.main-sidebar .el-menu .el-menu-item {
-  cursor: pointer;
-  border-right: none;
-}
-.main-sidebar .el-menu .el-menu-item .ic {
-  margin-right: 5px;
-}
 </style>
 <script>
 import { reactive, computed } from 'vue'
@@ -106,8 +69,8 @@ export default {
       })
     }
 
-    const clickLogout = function (param) {
-      store.dispatch('root/requestLogout', param)
+    const clickLogout = function () {
+      store.dispatch('root/requestLogout')
     }
 
     return { state, menuSelect, clickLogout }

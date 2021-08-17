@@ -2,24 +2,19 @@
 import $axios from 'axios'
 import Swal from 'sweetalert2'
 
-export function requestLogin ({ state }, payload) {
-  console.log('requestLogin', state, payload)
+export function requestLogin ({}, payload) {
   const url = '/auth/login'
-  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestSignup ({ state }, payload) {
-  console.log('requestSignup', state, payload)
+export function requestSignup ({}, payload) {
   const url = '/users'
-  console.log(payload)
   let body = payload
   return $axios.post(url, body)
 }
 
 export function requestLogout ({ commit }) {
-  console.log('requestLogout')
   localStorage.removeItem('user')
   Swal.fire({
     icon:'warning',
@@ -33,8 +28,7 @@ export function requestLogout ({ commit }) {
   return commit('setLogout')
 }
 
-export function requestSaveJWT({ state }, user) {
-  console.log('requestSaveJWT', state, user)
+export function requestSaveJWT({}, user) {
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
@@ -43,12 +37,6 @@ export function requestAvailableId({ commit }, id) {
   return $axios.get(url)
   .then(() => {
     commit('setIsAvailableId')
-    Swal.fire({
-      icon: 'success',
-      html: '사용 가능한 아이디입니다.',
-      showConfirmButton: false,
-      timer: 1000
-    })
   })
   .catch(() => {
     commit('setIsUnavailableId')
@@ -65,14 +53,18 @@ export function requestSearchTitle({ commit }, payload) {
   const url = '/conferences'
   const body = payload
   commit('setSearchValue', body.title)
-  return $axios.get(url, body)
+  return $axios.get(url, { params: {
+    title: body.title,
+    sort: body.sort,
+    conference_category: body.conference_category
+  }})
   .then((res) => {
-    console.log(res.data)
-    commit('setConferenceData', res.data)
+    commit('setConferenceData', res.data.conferenceList)
   })
 }
+
 // 컨퍼런스 액션
-export function requestConferenceCreate({ state }, payload) {
+export function requestConferenceCreate({}, payload) {
   const url = '/conferences'
   let body = payload
   let config = {
@@ -90,25 +82,22 @@ export function requestConferenceId({ commit }) {
   .catch(err => console.log(err))
 }
 
-export function requestConferenceIdCreate({ state }, payload) {
+export function requestConferenceIdCreate({}, payload) {
   const url = '/conference-categories'
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestConferenceIdDelete({ state }, payload) {
+export function requestConferenceIdDelete({}, payload) {
   const url = '/conference-categories'
   let body = payload
-  console.log(body)
   return $axios.delete(url, {data: body})
 }
 
 export function requestProfile( { commit }) {
-  console.log('requestProfile')
   const url = '/users/me'
   return $axios.get(url)
   .then((res) => {
-    console.log('requestProfile', res.data)
     commit('setProfile', res.data)
   })
 }
@@ -117,10 +106,16 @@ export function requestUpdate({ commit }, payload) {
   const id = payload.id
   const url = `/users/${id}`
   let body = payload
-  console.log('requestUpdate')
   return $axios.patch(url, body)
-  .then((res) =>{
-    console.log('requestUpdate', res.status)
+  .then(() =>{
     commit('setUpdate', body)
+  })
+}
+
+export function requestConferenceDetail({ commit }, conference_id) {
+  const url = `/conferences/${conference_id}`
+  return $axios.get(url)
+  .then((res) => {
+    commit('setConferenceDetail', res.data)
   })
 }

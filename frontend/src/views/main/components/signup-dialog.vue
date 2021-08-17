@@ -1,38 +1,59 @@
 <template>
-  <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align" @keyup.enter="clickSignup">
-      <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.id" autocomplete="off"></el-input>
-        <el-button @click="checkAvailableId" style="margin-left:20px;">중복확인</el-button>
-      </el-form-item>
-      <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
-      </el-form-item>
-      <el-form-item prop="passwordConfirm" label="비밀번호 확인" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.passwordConfirm" autocomplete="off" show-password></el-input>
-      </el-form-item>
-      <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.name" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.department" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.position" autocomplete="off"></el-input>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="clickSignup" :disabled="state.buttonDisabled">회원가입</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div class="modal-mask" v-if="state.dialogVisible">
+    <div class="modal-container" @keyup.esc="handleClose">
+      <div class="modal-header">
+        회원가입
+        <svg
+          class="btn-modal-close"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          @click="handleClose"
+        >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </div>
+      <Form @submit="clickSignup" :validation-schema="schema" class="modal-body">
+        <TextInput
+          name="id"
+          type="text"
+          placeholder="아이디"
+        />
+        <TextInput
+          name="name"
+          type="text"
+          placeholder="이름"
+        />
+        <TextInput
+          name="password"
+          type="password"
+          placeholder="비밀번호"
+          success-message="사용 가능한 비밀번호입니다."
+        />
+        <TextInput
+          name="passwordConfirm"
+          type="password"
+          placeholder="비밀번호 확인"
+        />
+        <button class="btn btn-submit" type="submit">회원가입</button>
+      </Form>
+    </div>
+  </div>
 </template>
 
 <script>
 import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import Swal from 'sweetalert2'
+import { Form } from 'vee-validate'
+import * as Yup from 'yup'
+import TextInput from '@/components/TextInput'
 
 export default {
   name: 'signup-dialog',
@@ -43,173 +64,76 @@ export default {
       default: false
     }
   },
-
+  components: {
+    TextInput,
+    Form
+  },
   setup(props, { emit }) {
     const store = useStore()
     const signupForm = ref(null)
-    /*
-      // Signup Validator
-    */
-    const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*\(\)]).{9,}$/
-
-    const validateId = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('필수 입력 항목입니다.'))
-      } else if (value.length > 16) {
-        callback(new Error('최대 16글자를 입력해야 합니다.'))
-      } else {
-        callback()
-      }
-    }
-
-    // const validatePw = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('필수 입력 항목입니다.'))
-    //   } else if (value.length < 9) {
-    //     callback(new Error('최소 9글자를 입력해야 합니다.'))
-    //   } else if (value.length > 16) {
-    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
-    //   } else if (!pwRegExp.test(value)) {
-    //     callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-
-    const validatePw = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('필수 입력 항목입니다.'))
-      } else {
-        callback()
-      }
-    }
-
-    const validatePw2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('필수 입력 항목입니다.'))
-      } else {
-        callback()
-      }
-    }
-    // const validatePw2 = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('필수 입력 항목입니다.'))
-    //   } else if (value.length < 9) {
-    //     callback(new Error('최소 9글자를 입력해야 합니다.'))
-    //   } else if (value.length > 16) {
-    //     callback(new Error('최대 16글자를 입력해야 합니다.'))
-    //   } else if (!pwRegExp.test(value)) {
-    //     callback(new Error('비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.'))
-    //   } else if (value !== state.form.password) {
-    //     callback(new Error('입력한 비밀번호와 일치하지 않습니다.'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
-
-    const state = reactive({
-      form: {
-        name: '',
-        department: '',
-        position: '',
-        id: '',
-        password: '',
-        passwordConfirm: '',
-        align: 'left'
-      },
-
-      rules: {
-        id: [
-          { required: true, validator: validateId, trigger: 'blur' },
-        ],
-        password: [
-          { required: true, validator: validatePw, trigger: 'blur' }
-        ],
-        passwordConfirm: [
-          { required: true, validator: validatePw2, trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { max: 30, message: '최대 30글자를 입력해야 합니다.', trigger: 'blur' }
-        ],
-        department: [
-          { max: 30, message: '최대 30글자를 입력해야 합니다.', trigger: 'blur' }
-        ],
-        position: [
-          { max: 30, message: '최대 30글자를 입력해야 합니다.', trigger: 'blur' }
-        ],
-      },
-      dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px',
-      isAvailableId: computed(() => store.getters['root/getIsAvailableId'])
-    })
-
-    const clickSignup = function () {
-      signupForm.value.validate((valid) => {
-        if (valid) {
-          store.commit('root/setSpinnerStart')
-          store.dispatch('root/requestSignup', { id: state.form.id, password: state.form.password, name: state.form.name, department: state.form.department, position: state.form.position })
-          .then(function () {
-            emit('closeSignupDialog')
-            Swal.fire({
-              icon: 'success',
-              html: '회원가입 되었습니다.',
-              showConfirmButton: false,
-              timer: 1000,
-            })
-            setTimeout(function(){
-              document.location.reload();
-            }, 1000);
-          })
-          .catch(function (err) {
-            Swal.fire({
-              icon: 'warning',
-              html: err.response.data.message,
-              showConfirmButton: false,
-              timer: 1000,
-            })
-          })
-          .finally(store.commit('root/setSpinnerEnd'))
-        } else {
-          Swal.fire({
-              icon: 'warning',
-              html: '잘못된 입력입니다.',
-              showConfirmButton: false,
-              timer: 1000,
-            })
-        }
-      })
-    }
+    const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()]).{9,}$/
 
     const checkAvailableId = function () {
       store.dispatch('root/requestAvailableId', state.form.id)
       .then(function () {
+        console.log('성공함')
       })
     }
 
+    let schema = Yup.object().shape({
+      id: Yup
+        .string()
+        .required('필수 입력 항목입니다.'),
+      name: Yup.string().required('필수 입력 항목입니다.'),
+      password: Yup.string()
+        // .matches(pwRegExp, '비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.')
+        // .min(9, '최소 9글자를 입력해야 합니다.')
+        // .max(16, '최대 16글자를 입력해야 합니다.')
+        .required('필수 입력 항목입니다.'),
+      passwordConfirm: Yup.string()
+        .oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.')
+        .required('필수 입력 항목입니다.'),
+    })
+
+    const state = reactive({
+      dialogVisible: computed(() => props.open),
+      isAvailableId: computed(() => store.getters['root/getIsAvailableId'])
+    })
+
+    const clickSignup = function (value) {
+      store.commit('root/setSpinnerStart')
+      store.dispatch('root/requestSignup', value)
+      .then(function () {
+        emit('closeSignupDialog')
+        Swal.fire({
+          icon: 'success',
+          html: '회원가입 되었습니다.',
+          showConfirmButton: false,
+          timer: 1000,
+        })
+        setTimeout(function(){
+          document.location.reload();
+        }, 1000);
+      })
+      .catch(function (err) {
+        Swal.fire({
+          icon: 'warning',
+          html: err.response.data.message,
+          showConfirmButton: false,
+          timer: 1000,
+        })
+      })
+      .finally(store.commit('root/setSpinnerEnd'))
+    }
+
     const handleClose = function () {
-      state.form.id = ''
-      state.form.password = ''
-      state.form.passwordConfirm = ''
-      state.form.name = ''
-      state.form.department = ''
-      state.form.position = ''
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, checkAvailableId }
+    return { signupForm, state, clickSignup, handleClose, checkAvailableId, schema }
   }
 }
 </script>
 
 <style>
-
-.swal2-container {
-  z-index: 10000;
-}
-.el-dialog .el-form .el-form-item .el-input {
-  width:80%;
-}
-
-
 </style>

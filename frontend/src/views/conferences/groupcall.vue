@@ -17,7 +17,7 @@
 <script>
 import { reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import { Participant } from './js/participant'
+import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 
 export default {

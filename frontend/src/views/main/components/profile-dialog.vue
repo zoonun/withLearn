@@ -1,25 +1,7 @@
 <template>
-  <el-dialog custom-class="profile-dialog" title="프로필" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="profileForm" :label-position="state.form.align">
-      <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" style="margin-left:10.55px;" >
-        <el-input v-model="state.form.userId" disabled="true" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth">
-        <el-input v-model="state.form.name" autocomplete="off" style="margin-left:10.55px;"></el-input>
-      </el-form-item>
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.department" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" style="margin-left:10.55px;">
-        <el-input v-model="state.form.position" autocomplete="off"></el-input>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="clickSave" :disabled="state.buttonDisabled">저장</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div>
+
+  </div>
 </template>
 
 <script>
@@ -39,7 +21,6 @@ export default {
 
   setup(props, { emit }) {
     const store = useStore()
-
     const profileForm = ref(null)
 
     const validateName = (rule, value, callback) => {
@@ -67,9 +48,6 @@ export default {
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
-    })
-
-    onMounted(() => {
     })
 
     const clickSave = function () {
