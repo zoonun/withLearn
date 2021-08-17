@@ -21,7 +21,7 @@
 import { reactive, onBeforeUnmount, onMounted, computed } from 'vue'
 import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
-import { useRoute } from 'vue-router'
+import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
@@ -43,12 +43,12 @@ export default {
       //   window.addEventListener('beforeunload', unloadEvent)
     // })
     // onBeforeRouteLeave((to, from, next) => {
-      //   const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
-    //   if (answer) {
-      //     console.log('이동')
+    //   console.log('라우트 변경')
+    //   if (state.ws.close()) {
     //     next()
     //   } else {
-      //     next(false)
+    //     state.ws.close()
+    //     next()
     //   }
     // })
     // // conferenceroom.js
@@ -60,7 +60,7 @@ export default {
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
-      // window.removeEventListener('beforeunload', unloadEvent)
+      // window.removeEventListener('beforeunload', state.ws.close())
       state.ws.close()
     })
 
@@ -145,7 +145,7 @@ export default {
       }
       console.log(`${state.userName}, ${state.room}번 화상채팅방에 참여했습니다.`)
       var participant = new Participant(state.name, sendMessage)
-      state.participants[state.userName] = participant
+      state.participants[state.name] = participant
       var video = participant.getVideoElement()
 
       var options = {
@@ -160,7 +160,7 @@ export default {
       message.data.forEach(receiveVideo)
     }
 
-    const enterRoom = async function () {
+    const enterRoom = function () {
       console.log(`${state.name} ${state.room}방입장`)
       const message = {
         id : 'joinRoom',
@@ -199,8 +199,6 @@ export default {
     onMounted(() => {
       // enterRoom()
     })
-    const roomS = state.ws.readyState
-    console.log('방 진입: ', state.name , '이름', state.room, roomS)
 
     return { state,
     // conferenceroom

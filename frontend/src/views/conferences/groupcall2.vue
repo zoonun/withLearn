@@ -21,7 +21,7 @@ import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 
 export default {
-  name: 'groupcall',
+  name: 'groupcall2',
 
   setup() {
     const state = reactive({
