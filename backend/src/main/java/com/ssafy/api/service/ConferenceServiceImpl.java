@@ -63,9 +63,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 
     @Override
     public Conference changeOnboardStates(Long conferenceId) {
-        System.out.println(conferenceId);
         Conference conference = conferenceRepository.findById(conferenceId).get();
-        System.out.println("conference : "+conference);
         if(conference.getIs_active() == true) conference.setIs_active(false);
         else conference.setIs_active(true);
         return conferenceRepository.save(conference);
