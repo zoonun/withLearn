@@ -15,9 +15,7 @@
         <!-- <span v-else class='unactive'> 수강마감 </span> -->
       </div>
     </div>
-
   </div>
-
 
 </template>
 <style scoped>

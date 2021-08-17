@@ -1,5 +1,13 @@
 .groupcall-wrap {
+  width: 100%;
+  min-height: 100%;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+.participant {
+  display: flex;
+  flex-flow: column;
   align-items: center;
 }

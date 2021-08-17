@@ -5,13 +5,13 @@
     </p>
   </div>
   <div class="groupcall-wrap">
-    <h2 id="room-header"></h2>
+    <h2 id="room-header">{{ $route.params.roomId }}번 방</h2>
     <div id="room" class="container">
       <!-- 참가자 Video 추가되는 블럭 -->
       <div id="participants" class="row"></div>
-      <div>
-        <button @click="enterRoom">입장하기</button>
-      </div>
+    </div>
+    <div>
+      <button @click="leaveRoom">나가기</button>
     </div>
   </div>
 </template>
