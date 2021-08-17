@@ -1,16 +1,13 @@
 <template>
-  <div class="small-banner">
-    <p class="small-banner-text">
-      화상채팅
-    </p>
-  </div>
-  <div class="groupcall-wrap">
-    <h2 id="room-header"></h2>
-    <div id="room" class="container">
-      <!-- 참가자 Video 추가되는 블럭 -->
+  <div id="container">
+    <div id="room">
+      <h2 id="room-header"></h2>
       <div id="participants"></div>
       <div>
+        <input type="text" v-model="state.name">
         <button @click="enterRoom">입장하기</button>
+      </div>
+      <div>
         <button @click="leaveRoom">나가기</button>
       </div>
     </div>
@@ -18,27 +15,18 @@
 </template>
 
 <script>
-import { reactive, onBeforeUnmount, onMounted, computed } from 'vue'
+import { reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
-import { useRoute } from 'vue-router'
 
 export default {
   name: 'groupcall',
-  props: {
-    name: {
-      type: String
-    },
-    userId: {
-      type: String
-    }
-  },
-  // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
-  setup(props) {
-    const route = useRoute()
+
+  setup() {
     const state = reactive({
-      name: props.name,
-      room: route.params.roomId,
+      name: '',
+      room: '1',
       participants: {},
       ws: {}
     })
@@ -60,6 +48,7 @@ export default {
     //   // event.preventDefault()
     //   // event.returnValue = ''
     // }
+
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
@@ -96,8 +85,17 @@ export default {
           console.error('미등록 메시지: ', parsedMessage)
       }
     }
+    const enterRoom = function () {
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+      }
+      sendMessage(message)
+    }
 
     const onNewParticipant = function (request) {
+      console.log(request, '참여')
       receiveVideo(request.name)
     }
 
@@ -146,9 +144,9 @@ export default {
           }
         }
       }
-      console.log(`${state.userName}, ${state.room}번 화상채팅방에 참여했습니다.`)
+      console.log(state.name + ' registered in room ' + state.room)
       var participant = new Participant(state.name, sendMessage)
-      state.participants[state.userName] = participant
+      state.participants[state.name] = participant
       var video = participant.getVideoElement()
 
       var options = {
@@ -163,31 +161,18 @@ export default {
       message.data.forEach(receiveVideo)
     }
 
-    const enterRoom = async function () {
-      await state.ws.readyState === 1
-      await state.userInfo !== null
-      if (state.ws.readyState === 1) {
-        const message = {
-          id : 'joinRoom',
-          name : state.name,
-          room : state.room,
-        }
-        sendMessage(message)
-      } else {
-        console.log(state.ws.readyState, '레디스테이트 준비 중')
-      }
-    }
-
     const leaveRoom = function () {
       alert('화상채팅 종료')
       sendMessage({
         id: 'leaveRoom'
       })
+
       for (let key in state.participants) {
         state.participants[key].dispose()
       }
+
       state.ws.close();
-      window.location = `/conferences/${state.room}`
+      window.location = '/conferences/1'
     }
 
     const onParticipantLeft = function (request) {
@@ -202,13 +187,6 @@ export default {
       console.log('Sending message: ' + jsonMessage);
       state.ws.send(jsonMessage);
     }
-
-    // 페이지 진입 시 자동으로 화상채팅방에 참여하기
-    onMounted(() => {
-      // enterRoom()
-    })
-    const roomS = state.ws.readyState
-    console.log('방 진입: ', state.name, state.room, roomS)
 
     return { state,
     // conferenceroom
