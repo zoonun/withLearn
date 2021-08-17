@@ -119,3 +119,11 @@ export function requestConferenceDetail({ commit }, conference_id) {
     commit('setConferenceDetail', res.data)
   })
 }
+
+export function requestCommunity({ commit }) {
+  const url = '/community'
+  return $axios.get(url)
+  .then((res) => {
+    commit('setCommunity', res.data)
+  })
+}

@@ -50,3 +50,7 @@ export function getProfile (state) {
 export function getConferenceDetail (state) {
   return state.conferenceDetailData
 }
+
+export function getCommunityData (state) {
+  return state.communityData
+}

@@ -25,7 +25,7 @@
           <a @click="clickConference">강의 참여하기</a>
         </div>
       </div>
-      <a class="btn nav-end-item">커뮤니티</a>
+      <router-link to="/community" class="btn nav-end-item">커뮤니티</router-link>
       <a class="btn nav-end-item">위드런</a>
       <router-link to="/dashboard" class="btn nav-end-item">대시보드
       </router-link>

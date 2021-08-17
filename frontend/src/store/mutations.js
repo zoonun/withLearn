@@ -62,3 +62,6 @@ export function setConferenceDetail (state, conferenceDetailData) {
   state.conferenceDetailData = conferenceDetailData
 }
 
+export function setCommunity (state, communityData) {
+  state.communityData = communityData
+}

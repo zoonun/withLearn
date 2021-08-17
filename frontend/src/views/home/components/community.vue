@@ -1,81 +1,37 @@
 <template>
-  <div class="community-header">
-    커뮤니티
+  <div class="small-banner">
+    <p class="small-banner-text">
+      커뮤니티
+    </p>
   </div>
+  <div class="community-container">
+    <div class="community-header">
+      <button class="btn" style="background-color:var(--indigo-color); color:white;" @click="onOpenPostDialog">
+        <i class="el-icon-edit-outline"></i>
+        글쓰기
+      </button>
+    </div>
+    <hr>
+    <div class="community-body" v-for="(item, index) in 5" :key="index" style="overflow:auto">
+      <button class="community-item">
+        <div class="community-title">
+          제목
+        </div>
+        <div class="community-descript">
+          내용
+        </div>
+        <div class="community-information">
+          작성자 / 시간 / 카테고리
+        </div>
+      </button>
+      <hr>
+    </div>
+  </div>
+  <PostDialog
+    :open="state.postDialogOpen"
+    @closePostDialog="onClosePostDialog()"/>
 </template>
 <style>
-.detail-header {
-  background-color:#5a4ae3;
-  height: 4rem;
-  color:white;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  padding-top: 1.5rem;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  font-weight: bold;
-}
-.detail-thumbnail {
-  /* object-fit:cover; */
-  width:200px;
-}
-.detail-information {
-  display: flex;
-  justify-content: space-between;
-  margin-right:30rem;
-  margin-left:30rem;
-  font-size: 2.25rem;
-  margin-top:8rem;
-}
-.detail-isactive {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-}
-.live-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
-  color: white;
-  background-color: #5a4ae3;
-  padding: 5px;
-  border-radius: 5px;
-  border:0;
-  cursor: pointer;
-}
-.detail-bottom {
-  margin-top:2rem;
-  border-width:1rem;
-  margin-right:20rem;
-  margin-left:20rem;
-  font-size: 2.25rem;
-}
-.detail-thumbnail-wrapper {
-  /* background-size: cover; */
-  display: flex;
-  justify-content: center;
-}
-.detail-bottom-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
-  color: black;
-  background-color: #e5e7eb;
-  padding: 5px;
-  border-radius: 5px;
-  border:0;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-}
-.detail-list {
-  list-style:none;
-  border: 2px solid #e5e7eb;
-  padding:2rem;
-
-}
-.detail-description {
-  width:60%;
-  font-weight:bold;
-}
 
 </style>
 
@@ -83,29 +39,39 @@
 import { reactive, onMounted, onUnmounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import PostDialog from '../../community/post-dialog'
 
 export default {
   name: 'community',
 
-  setup () {
+  components: {
+    PostDialog,
+  },
+
+  setup (props, { emit }) {
     const route = useRoute()
     const store = useStore()
     const state = reactive({
-      conferenceId: '',
+      communityData: computed(() => store.getters['root/getCommunityData']),
+      postDialogOpen:false,
     })
 
-    // 페이지 진입시 불리는 훅
+
     onMounted(() => {
-      state.conferenceId = route.params.conferenceId
-      store.dispatch('root/requestConferenceDetail', state.conferenceId)
+
     })
 
-    // 페이지 이탈시 불리는 훅
     onUnmounted(() => {
-      state.conferenceId = ''
     })
 
-    return { state }
+    const onOpenPostDialog = () => {
+      state.postDialogOpen = true
+    }
+
+    const onClosePostDialog = () => {
+      state.postDialogOpen = false
+    }
+    return { state, onOpenPostDialog, onClosePostDialog }
   }
 }
 </script>

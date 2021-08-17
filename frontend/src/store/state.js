@@ -55,4 +55,5 @@ export default {
   profile: null,
   conferenceId: {},
   conferenceDetailData: null,
+  communityData: null,
 }
