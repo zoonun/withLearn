@@ -8,7 +8,7 @@
     <h2 id="room-header"></h2>
     <div id="room" class="container">
       <!-- 참가자 Video 추가되는 블럭 -->
-      <div id="participants"></div>
+      <div id="participants" class="row"></div>
       <div>
         <button @click="enterRoom">입장하기</button>
         <button @click="leaveRoom">나가기</button>
@@ -22,22 +22,19 @@ import { reactive, onBeforeUnmount, onMounted, computed } from 'vue'
 import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'groupcall',
   props: {
-    name: {
-      type: String
-    },
-    userId: {
-      type: String
-    }
   },
   // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
-  setup(props) {
+  setup() {
     const route = useRoute()
+    const store = useStore()
     const state = reactive({
-      name: props.name,
+      name: computed(() => store.getters['root/getUserName']),
+      userId: computed(() => store.getters['root/getUserId']),
       room: route.params.roomId,
       participants: {},
       ws: {}
@@ -164,18 +161,13 @@ export default {
     }
 
     const enterRoom = async function () {
-      await state.ws.readyState === 1
-      await state.userInfo !== null
-      if (state.ws.readyState === 1) {
-        const message = {
-          id : 'joinRoom',
-          name : state.name,
-          room : state.room,
-        }
-        sendMessage(message)
-      } else {
-        console.log(state.ws.readyState, '레디스테이트 준비 중')
+      console.log(`${state.name} ${state.room}방입장`)
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
       }
+      sendMessage(message)
     }
 
     const leaveRoom = function () {
@@ -208,7 +200,7 @@ export default {
       // enterRoom()
     })
     const roomS = state.ws.readyState
-    console.log('방 진입: ', state.name, state.room, roomS)
+    console.log('방 진입: ', state.name , '이름', state.room, roomS)
 
     return { state,
     // conferenceroom

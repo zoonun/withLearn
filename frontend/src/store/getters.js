@@ -48,3 +48,11 @@ export function getProfile (state) {
 export function getConferenceDetail (state) {
   return state.conferenceDetailData
 }
+
+export function getUserName (state) {
+  return state.userName
+}
+
+export function getUserId (state) {
+  return state.userId
+}

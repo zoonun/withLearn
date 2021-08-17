@@ -12,12 +12,10 @@ import fullMenu from '@/views/main/menu.json'
 import Search from '@/views/searches/search'
 import Dashboard from '@/views/dashboard/dashboard.vue'
 import PageNotFound from '@/components/PageNotFound'
-import { computed } from '@vue/runtime-dom'
-
-const userInfo = computed(() => store.getters['root/getProfile'])
 
 const beforeAuth = isAuth => (from, to, next) => {
   const isAuthenticated = store.getters['root/getIsLoggedIn']
+
   if ((isAuth && isAuthenticated) || (!isAuth && !isAuthenticated)) {
     store.dispatch('root/requestProfile')
     next()
@@ -56,10 +54,9 @@ function makeRoutesFromMenu () {
     path: '/groupcall/:roomId',
     name: 'groupcall',
     component: Groupcall,
-    props: {
-      name: userInfo.name,
-      userId: userInfo.userId
-    },
+    // props: {
+    //   aa: aa
+    // },
     beforeEnter: beforeAuth(true)
   },
   // 작동하던 그룹콜
