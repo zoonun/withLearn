@@ -140,7 +140,7 @@ export default {
         video: {
           mandatory: {
             maxWidth: 320,
-            maxHeight: 300,
+            maxHeight: 240,
             maxFrameRate: 15,
             minFrameRate: 15
           }
