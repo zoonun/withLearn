@@ -165,7 +165,7 @@ export default {
     const readyWsConnection = function () {
       setTimeout(function () {
         if (state.ws.readyState === 1) {
-          console.log('접속 준비중...')
+          console.log('접속 준비 완료!')
           enterRoom()
         } else {
           readyWsConnection()
@@ -178,6 +178,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
+        image: ''
       }
       sendMessage(message)
     }
