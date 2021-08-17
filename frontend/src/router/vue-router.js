@@ -3,11 +3,7 @@ import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
 import store from '@/api/store'
-import Lobby from '@/views/conferences/lobby'
 import Groupcall from '@/views/conferences/groupcall'
-import Groupcall2 from '@/views/conferences/groupcall2'
-import Websocket from '@/views/conferences/websocket'
-import Socketjs from '@/views/conferences/socketjs'
 import fullMenu from '@/views/main/menu.json'
 import Search from '@/views/searches/search'
 import Dashboard from '@/views/dashboard/dashboard.vue'
@@ -35,12 +31,6 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: History, beforeEnter: beforeAuth(true)}
     } else if (key === 'logout'){
       return { path: fullMenu[key].path, name: key, component: Home, beforeEnter: beforeAuth(true) }
-    } else if (key === 'lobby'){
-      return { path: fullMenu[key].path, name: key, component: Lobby, beforeEnter: beforeAuth(true) }
-    } else if (key === 'websocket'){
-      return { path: fullMenu[key].path, name: key, component: Websocket, beforeEnter: beforeAuth(true) }
-    } else if (key === 'socketjs'){
-      return { path: fullMenu[key].path, name: key, component: Socketjs, beforeEnter: beforeAuth(true) }
     } else if (key == 'search'){
       return { path: fullMenu[key].path, name: key, component: Search }
     } else {
@@ -54,16 +44,6 @@ function makeRoutesFromMenu () {
     path: '/groupcall/:roomId',
     name: 'groupcall',
     component: Groupcall,
-    // props: {
-    //   aa: aa
-    // },
-    beforeEnter: beforeAuth(true)
-  },
-  // 작동하던 그룹콜
-  {
-    path: '/groupcall2/:roomId',
-    name: 'groupcall2',
-    component: Groupcall2,
     beforeEnter: beforeAuth(true)
   },
   {
@@ -88,7 +68,6 @@ function makeRoutesFromMenu () {
     component: PageNotFound
   },
   )
-
   return routes
 }
 

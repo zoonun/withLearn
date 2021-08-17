@@ -11,7 +11,6 @@
       <div id="participants" class="row"></div>
       <div>
         <button @click="enterRoom">입장하기</button>
-        <button @click="leaveRoom">나가기</button>
       </div>
     </div>
   </div>
