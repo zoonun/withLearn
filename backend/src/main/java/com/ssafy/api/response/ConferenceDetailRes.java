@@ -49,10 +49,7 @@ public class ConferenceDetailRes {
 		res.setConference_category(conference.getConferenceCategory().getName());
 		res.setThumbnail_url(conference.getThumbnail());
 		res.setTitle(conference.getTitle());
-		res.set_free(conference.getIs_free());
 		res.setConference_day(conference.getConference_day());
-		res.setApply_end_time(conference.getApply_end_time());
-		res.setApply_start_time(conference.getApply_start_time());
 		res.setPrice(conference.getPrice());
 		res.setUsers(userDetail);
 		return res;
