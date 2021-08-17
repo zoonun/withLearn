@@ -165,6 +165,7 @@ export default {
     const readyWsConnection = function () {
       setTimeout(function () {
         if (state.ws.readyState === 1) {
+          console.log('접속 준비중...')
           enterRoom()
         } else {
           readyWsConnection()
@@ -189,7 +190,7 @@ export default {
       for (let key in state.participants) {
         state.participants[key].dispose()
       }
-      state.ws.close();
+      // state.ws.close();
       window.location = `/conferences/${state.room}`
     }
 
