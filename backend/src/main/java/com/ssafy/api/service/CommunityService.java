@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
 
 import java.util.List;
@@ -12,4 +13,7 @@ public interface CommunityService {
     Community createPost(String descript, String title, String userId, Long conferenceCategoryid);
     Optional<List<Community>> getPosts(Long conferenceCategoryid);
 
+    Optional<List<Comment>> getComments(Long communityId);
+
+    Comment createComment(String descript, String userId, Long communityId);
 }
