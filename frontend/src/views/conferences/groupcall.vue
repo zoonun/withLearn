@@ -6,15 +6,32 @@
   </div>
   <div class="groupcall-wrap">
     <h2 id="room-header">{{ $route.params.roomId }}번 방</h2>
-    <div id="room" class="container">
+    <div id="room" class="container groupcall-body">
       <!-- 참가자 Video 추가되는 블럭 -->
-      <div id="participants" class="row groupcall-body"></div>
+      <div id="participants" class="row groupcall-content">
+        <div class="groupcall-panels"></div>
+      </div>
+      <!-- 채팅! -->
+      <div class="groupcall-chatting">
+
+      </div>
     </div>
-    <div>
-      <button @click="leaveRoom">나가기</button>
-      <button @click="checkState">참가자 체크</button>
-      <button @click="stopMic">마이크 끄기</button>
-      <button @click="stopVideo">비디오 끄기</button>
+    <div class="groupcall-control-bar">
+      <button @click="leaveRoom" style="background-color: red;">
+        <img :src="state.images.close" alt="나가기">
+      </button>
+      <button @click="controlMic" style="background-color: green;" v-if="state.control.mic">
+        <img :src="state.images.mic_on" alt="마이크 끄기">
+      </button>
+      <button @click="controlMic" style="background-color: red;" v-else>
+        <img :src="state.images.mic_off" alt="마이크 켜기">
+      </button>
+      <button @click="controlVideo" style="background-color: green;" v-if="state.control.video">
+        <img :src="state.images.videocam_on" alt="비디오 끄기">
+      </button>
+      <button @click="controlVideo" style="background-color: red;" v-else>
+        <img :src="state.images.videocam_off" alt="비디오 켜기">
+      </button>
     </div>
   </div>
 </template>
@@ -35,17 +52,33 @@ export default {
     const route = useRoute()
     const store = useStore()
     const state = reactive({
+      images: {
+        close: require('@/assets/images/groupcall/close.png'),
+        mic_on: require('@/assets/images/groupcall/mic_on.png'),
+        mic_off: require('@/assets/images/groupcall/mic_off.png'),
+        videocam_on: require('@/assets/images/groupcall/videocam_on.png'),
+        videocam_off: require('@/assets/images/groupcall/videocam_off.png'),
+      },
       name: computed(() => store.getters['root/getUserName']),
       userId: computed(() => store.getters['root/getUserId']),
       room: route.params.roomId,
       participants: {},
-      ws: {}
+      ws: {},
+      control: {
+        mic: true,
+        video: true
+      }
     })
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
       // window.removeEventListener('beforeunload', state.ws.close())
-      state.ws.close()
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
     })
 
     state.ws.onmessage = function (message) {
@@ -120,8 +153,8 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          width: 320,
-          height: 240,
+          width: 480,
+          height: 360,
           frameRate: 15
         }
       }
@@ -164,7 +197,6 @@ export default {
     }
 
     const leaveRoom = function () {
-      alert('화상채팅 종료')
       sendMessage({
         id: 'leaveRoom'
       })
@@ -197,19 +229,21 @@ export default {
       console.log(participant.rtcPeer)
     }
 
-    const stopMic = function () {
+    const controlMic = function () {
       const participant = state.participants[state.name];
       participant.rtcPeer.audioEnabled = participant.rtcPeer.audioEnabled ? false : true
+      state.control.mic = state.control.mic ? false : true
     }
 
-    const stopVideo = function () {
+    const controlVideo = function () {
       const participant = state.participants[state.name];
       participant.rtcPeer.videoEnabled = participant.rtcPeer.videoEnabled ? false : true
+      state.control.video = state.control.video ? false : true
     }
 
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, stopMic, stopVideo }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo }
   }
 }
 </script>

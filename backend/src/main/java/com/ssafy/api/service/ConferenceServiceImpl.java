@@ -56,7 +56,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Override
     public void joinConference(String userId, Long conferenceId) {
         UserConference userConference = new UserConference();
-        userConference.setUser(userRepository.findByUserId(userId).get());
+        userConference.setUser(userService.getUserByUserId(userId));
         userConference.setConference(conferenceRepository.findById(conferenceId).get());
         userConferenceRepository.save(userConference);
     }

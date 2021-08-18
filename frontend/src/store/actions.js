@@ -125,15 +125,17 @@ export function requestCommunity({ commit }) {
   const url = '/community'
   return $axios.get(url)
   .then((res) => {
-    commit('setCommunityData', res.data)
+    commit('setCommunityData', res.data.communityList)
   })
 }
 
 export function requestCommunityCreate({}, payload) {
   const url = '/community'
   let body = payload
-  console.log(payload)
-  return $axios.post(url, body)
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
 }
 
 export function requestCommunityDetail({ commit }, postId) {
@@ -176,4 +178,18 @@ export function requestCommentList({ commit }, postId) {
 export function requestCommentDelete({}, commentId) {
   const url = `/comment/${commentId}`
   return $axios.delete(url)
+}
+
+export function requestConferenceJoin({}, conference_id) {
+  const url = '/conferences/join'
+  return $axios.post(url, null, { params: {
+    conferenceId: conference_id
+  }})
+}
+
+export function requestConferenceOnBoarding({}, conference_id) {
+  const url = '/conferences/onBoarding'
+  return $axios.patch(url, null, { params: {
+    conferenceId: conference_id
+  }})
 }

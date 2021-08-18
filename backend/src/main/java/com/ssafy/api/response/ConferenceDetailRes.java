@@ -59,7 +59,7 @@ public class ConferenceDetailRes {
 
 		for(int i=0; i<userConference.get().size(); i++){
 			DetailUser user = new DetailUser();
-			user.setUserId(userConference.get().get(i).getUser().getId());
+			user.setUserId(userConference.get().get(i).getUser().getUserId());
 			user.setUserName(userConference.get().get(i).getUser().getName());
 			users.add(user);
 		}
@@ -70,6 +70,6 @@ public class ConferenceDetailRes {
 @Getter
 @Setter
 class DetailUser{
-	Long userId;
+	String userId;
 	String userName;
 }

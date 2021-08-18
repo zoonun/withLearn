@@ -21,7 +21,7 @@
           {{ post.descript }}
         </div>
         <div class="community-information">
-          {{ post.creator }} / {{ post.creatorId }} / {{ post.category }}
+          {{ post.user.userId }} / <span>{{ post.time.slice(0, 16) }}</span> / {{ post.conferenceCategory.name }}
         </div>
       </button>
       <hr>

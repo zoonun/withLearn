@@ -50,7 +50,12 @@ export function getConferenceDetail (state) {
 }
 
 export function getCommunityData (state) {
+  console.log(state.communityData)
   return state.communityData
+}
+
+export function getConferenceInfos (state) {
+  return state.conferenceDetailInfos
 }
 
 export function getUserName (state) {

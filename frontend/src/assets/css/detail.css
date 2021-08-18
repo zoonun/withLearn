@@ -1,65 +1,83 @@
-
 /* conference detail */
-.detail-header {
-  background-color:#5a4ae3;
-  height: 4rem;
-  color:white;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  padding-top: 1.5rem;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  font-weight: bold;
-}
-
-.detail-thumbnail {
-  /* object-fit:cover; */
-  width:200px;
-}
-
-.detail-information {
+.detail-wrap {
   display: flex;
-  justify-content: space-between;
-  margin-right:30rem;
-  margin-left:30rem;
+  flex-flow: column wrap;
+  width: 60%;
+  height: 100vh;
+  margin: 0 15%;
+  align-items: center;
+  background-color: white;
+}
+
+.detail-banner {
+  width: 100%;
+  height: 426px;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.detail-body {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 90%;
   font-size: 2.25rem;
-  margin-top:8rem;
+  margin-top: 100px;
+  justify-content: space-between;
+}
+
+.detail-description {
+  width: 100%;
+  font-weight:bold;
+}
+
+.detail-description-live {
+  text-align: right;
+  width: 100%;
 }
 
 .detail-isactive {
   display: flex;
+  width: 50%;
   flex-direction: column;
   font-weight: bold;
 }
 
+.detail-control {
+  background-color: rgb(255, 201, 25);
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  padding: 10px 30px;
+  height: 6rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .live-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   color: white;
   background-color: #5a4ae3;
   padding: 5px;
   border-radius: 5px;
   border:0;
+  width: 140px;
+  height: auto;
   cursor: pointer;
 }
 
 .detail-bottom {
-  margin-top:2rem;
-  border-width:1rem;
-  margin-right:20rem;
-  margin-left:20rem;
-  font-size: 2.25rem;
-}
-
-.detail-thumbnail-wrapper {
-  /* background-size: cover; */
-  display: flex;
-  justify-content: center;
+  width: 90%;
+  font-size: 1.5rem;
+  margin-top: 4rem;
 }
 
 .detail-bottom-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
   color: black;
   background-color: #e5e7eb;
   padding: 5px;
@@ -71,13 +89,8 @@
 }
 
 .detail-list {
+  margin-top: 1rem;
   list-style:none;
   border: 2px solid #e5e7eb;
-  padding:2rem;
-
-}
-
-.detail-description {
-  width:60%;
-  font-weight:bold;
+  padding: 2rem;
 }

@@ -19,7 +19,6 @@ html, body {
 }
 
 body {
-  min-height: 100%;
   font-weight: 400;
   font-family: 'Roboto', sans-serif;
 }
@@ -27,6 +26,7 @@ body {
 /* main */
 .main-container {
   min-height: 100vh;
+  background-color: #ebebeb;
 }
 
 .main-wrapper {
@@ -151,6 +151,7 @@ nav {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  background-color: white;
 }
 
 .content-text {
@@ -186,7 +187,14 @@ nav {
   height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
-  background-color: #ECECEC;
+}
+@media screen and (max-width: 1200px) {
+  .sub-wrap {
+    display: flex;
+    height: 100%;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
 }
 
 .small-banner {
@@ -229,9 +237,12 @@ nav {
   list-style-type: none;
 }
 
-.sub-menu-list li a:hover, a:link, a:visited {
-  color: black;
+.sub-menu-list li a {
+  font-size: 1.6rem;
+  list-style-type: none;
   text-decoration: none;
+  color: black;
+  font-weight: 500;
 }
 
 .grid-box {
@@ -251,8 +262,9 @@ nav {
 
 /* footer */
 footer {
+  display: absolute;
   width: 100%;
-  height: 200px;
+  height: 100px;
   bottom: 0;
   background-color: var(--footer-bg-color);
 }
