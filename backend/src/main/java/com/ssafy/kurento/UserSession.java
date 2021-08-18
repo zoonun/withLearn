@@ -98,7 +98,7 @@ public class UserSession implements Closeable {
     private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
         ChromaFilter chromaFilter = new ChromaFilter.Builder(pipeline, new WindowParam(5, 5, 40, 40))
                 .build();
-        String appServerUrl = "https://i5d106.p.ssafy.io";
+        String appServerUrl = "https://i5d106.p.ssafy.io/";
         chromaFilter.setBackground(appServerUrl + this.image);
         if (sender.getName().equals(name)) {
             log.debug("PARTICIPANT {}: configuring loopback", this.name);
