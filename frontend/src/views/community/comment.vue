@@ -13,7 +13,7 @@
     </div>
     <div class="comment-body">
       내용
-      <p class="post-time">
+      <p class="post-time" style="margin-top:1rem;">
       2021.08.18 09:00
       </p>
     </div>

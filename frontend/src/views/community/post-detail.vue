@@ -37,6 +37,10 @@
       <CreateComment
       :userId="username"/>
     </div>
+    <div class="post-bottom">
+      <button class="post-update-btn">수정</button>
+      <button class="post-delete-btn">삭제</button>
+    </div>
   </div>
 </template>
 <style>
@@ -79,6 +83,31 @@
 }
 .post-category {
   color:#1dc078;
+}
+.post-update-btn {
+  font-size: 1.8rem;
+  font-weight: bold;
+  min-width: 90px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #1dc078;
+  border: 0;
+  color:white;
+}
+.post-delete-btn {
+  font-size: 1.8rem;
+  font-weight: bold;
+  min-width: 90px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--error-color);
+  border: 0;
+  color:white;
+}
+.post-bottom {
+  margin-top:1rem;
 }
 
 </style>
