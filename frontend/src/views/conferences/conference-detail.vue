@@ -30,18 +30,22 @@
         <button class="live-button" @click="onClickLive" v-if="isEntered()">
           라이브 참여하기
         </button>
-        <button class="live-button" @click="onClickClassRegister" v-else>
+        <div v-else>
           <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
-          클래스 수강신청
-        </button>
+          <button class="live-button" @click="onClickClassRegister">
+            클래스 수강신청
+          </button>
+        </div>
       </div>
       <div class="detail-description-live" v-else>
         현재 라이브 중이 아니에요 😥
         <br>
-        <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
-        <button class="live-button" @click="onClickClassRegister" v-if="!isEntered()">
-          클래스 수강신청
-        </button>
+        <div v-if="!isEntered()">
+          <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
+          <button class="live-button" @click="onClickClassRegister" >
+            클래스 수강신청
+          </button>
+        </div>
       </div>
       <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
     </div>
