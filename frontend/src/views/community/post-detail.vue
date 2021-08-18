@@ -30,8 +30,10 @@
     </div>
     <hr>
     댓글>
-    <div class="comment" v-for="idx in 3" :key="idx">
-      <Comment/>
+    <div class="comment" v-for="(comment, idx) in state.commentList" :key="idx">
+      <Comment
+      :comment="comment"
+      />
     </div>
     <div>
       <CreateComment
@@ -156,15 +158,16 @@ export default {
     const route = useRoute()
     const store = useStore()
     const state = reactive({
-      conferenceId: '',
       conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
       images: {
         icon: require('@/assets/images/user_icon.png')
       },
+      commentList: computed(() => store.getters['root/getCommentList'])
     })
 
     // 페이지 진입시 불리는 훅
     onMounted(() => {
+      store.dispatch('root/requestCommunity')
     })
 
     // 페이지 이탈시 불리는 훅

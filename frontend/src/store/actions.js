@@ -132,6 +132,7 @@ export function requestCommunity({ commit }) {
 export function requestCommunityCreate({}, payload) {
   const url = '/community'
   let body = payload
+  console.log(payload)
   return $axios.post(url, body)
 }
 

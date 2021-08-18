@@ -60,3 +60,16 @@ export function getUserName (state) {
 export function getUserId (state) {
   return state.userId
 }
+
+export function getCommunityList (state) {
+  console.log(state.communityData)
+  return state.communityData
+}
+
+export function getCommunityDetail (state) {
+  return state.communityDetailData
+}
+
+export function setCommentList (state) {
+  return state.coommentData
+}

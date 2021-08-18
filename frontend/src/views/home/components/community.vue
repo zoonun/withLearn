@@ -12,16 +12,16 @@
       </button>
     </div>
     <hr>
-    <div class="community-body" v-for="(item, index) in 5" :key="index" style="overflow:auto">
+    <div class="community-body" v-for="(post, index) in state.communityData" :key="index" style="overflow:auto">
       <button class="community-item" @click="clickPost(index)">
         <div class="community-title">
-          제목
+          {{ post.title }}
         </div>
         <div class="community-descript">
-          내용
+          {{ post.descript }}
         </div>
         <div class="community-information">
-          작성자 / 시간 / 카테고리
+          {{ post.creator }} / {{ post.creatorId }} / {{ post.category }}
         </div>
       </button>
       <hr>
@@ -58,7 +58,7 @@ export default {
 
 
     onMounted(() => {
-
+      store.dispatch('root/requestCommunity')
     })
 
     onUnmounted(() => {
