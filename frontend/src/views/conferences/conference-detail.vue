@@ -20,22 +20,25 @@
     <div class="detail-body">
       <!-- 클래스 생성자만 조작 가능 -->
       <div class="detail-description">
-        입문자들을 위한
+        입문자를 위한
         <br>
         보컬 트레이닝 클래스입니다.
       </div>
       <div class="detail-description-live" v-if="state.conferenceDetail._active">
-        현재 라이브 진행 중!
+        현재 라이브 중이에요! 😁
         <br>
         <button class="live-button" @click="onClickLive" v-if="isEntered()">
           라이브 참여하기
         </button>
         <button class="live-button" @click="onClickClassRegister" v-else>
+          <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
           클래스 수강신청
         </button>
       </div>
       <div class="detail-description-live" v-else>
-        현재 라이브가 진행되고 있지 않습니다.
+        현재 라이브 중이 아니에요 😥
+        <br>
+        <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
         <button class="live-button" @click="onClickClassRegister" v-if="!isEntered()">
           클래스 수강신청
         </button>

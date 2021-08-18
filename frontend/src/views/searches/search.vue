@@ -19,7 +19,7 @@
 
   </div>
   <div class="card-body">
-    <div v-for="(conference, idx) in state.conferences" :key="idx" @click="clickConference(idx)">
+    <div v-for="(conference, idx) in state.conferences" :key="idx" @click="clickConference(conference.id)">
       <Conference
         :conference="conference"
       />
@@ -50,7 +50,6 @@ export default {
     const state = reactive({
       conferences: computed(() =>store.getters['root/getConference']),
       recentSearchValue: computed(() => store.getters['root/getSearchValue']),
-
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -81,7 +80,6 @@ export default {
     }
 
     const clickConference = async function (id) {
-
       await router.push({
         name: 'conference-detail',
         params: {
