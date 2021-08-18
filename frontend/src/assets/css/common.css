@@ -26,6 +26,7 @@ body {
 /* main */
 .main-container {
   min-height: 100vh;
+  background-color: #ebebeb;
 }
 
 .main-wrapper {
@@ -150,6 +151,7 @@ nav {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  background-color: white;
 }
 
 .content-text {
@@ -185,7 +187,6 @@ nav {
   height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
-  background-color: #ECECEC;
 }
 @media screen and (max-width: 1200px) {
   .sub-wrap {
@@ -193,7 +194,6 @@ nav {
     height: 100%;
     flex-flow: column nowrap;
     align-items: center;
-    background-color: #ECECEC;
   }
 }
 
