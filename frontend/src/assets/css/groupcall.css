@@ -11,13 +11,18 @@
   justify-content: center;
 }
 
+.groupcall-footer {
+  position: absolute;
+  bottom: 20px;
+}
+
 .participant {
   display: flex;
   flex-flow: column;
   align-items: center;
   position: relative;
-  width: 320px;
-  height: 240px;
+  width: 480px;
+  height: 360px;
   margin: 5px;
 }
 

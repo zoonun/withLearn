@@ -10,11 +10,11 @@
       <!-- 참가자 Video 추가되는 블럭 -->
       <div id="participants" class="row groupcall-body"></div>
     </div>
-    <div>
+    <div class="groupcall-footer">
       <button @click="leaveRoom">나가기</button>
-      <button @click="checkState">참가자 체크</button>
       <button @click="stopMic">마이크 끄기</button>
       <button @click="stopVideo">비디오 끄기</button>
+      <button @click="checkState">참가자 체크</button>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
 
     onBeforeUnmount(() => {
       // window.removeEventListener('beforeunload', state.ws.close())
-      state.ws.close()
+      leaveRoom()
     })
 
     state.ws.onmessage = function (message) {
@@ -120,8 +120,8 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          width: 320,
-          height: 240,
+          width: 480,
+          height: 360,
           frameRate: 15
         }
       }
@@ -164,7 +164,6 @@ export default {
     }
 
     const leaveRoom = function () {
-      alert('화상채팅 종료')
       sendMessage({
         id: 'leaveRoom'
       })
