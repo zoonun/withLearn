@@ -61,7 +61,8 @@ function makeRoutesFromMenu () {
   {
     path: '/conferences/:conferenceId',
     name: 'conference-detail',
-    component: ConferencesDetail
+    component: ConferencesDetail,
+    beforeEnter: beforeAuth(true)
   },
   {
     path: '/:pathMatch(.*)*',
