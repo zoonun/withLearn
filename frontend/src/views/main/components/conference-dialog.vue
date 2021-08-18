@@ -29,13 +29,11 @@
         <TextInput
           name="title"
           type="text"
-          v-model="state.form.title"
           placeholder="강의 제목"
         />
         <TextInput
           name="description"
           type="text"
-          v-model="state.form.description"
           placeholder="강의 설명"
         />
         <div class="modal-group">
@@ -93,9 +91,7 @@ export default {
 
     const state = reactive({
       form: {
-        title: '',
         conferenceCategoryId: '',
-        description: '',
         thumbnail: null,
         align: 'left'
       },
@@ -139,16 +135,15 @@ export default {
       store.dispatch('root/requestConferenceId')
     })
 
-    const clickConference = function () {
+    const clickConference = function (value) {
       if (thumbnailValidate(state.form.thumbnail)) {
 
         store.commit('root/setSpinnerStart')
         const formData = new FormData()
-        formData.append('title', state.form.title)
+        formData.append('title', value.title)
         formData.append('conferenceCategoryId', state.form.conferenceCategoryId)
-        formData.append('description', state.form.description)
+        formData.append('description', value.description)
         formData.append('thumbnail', state.form.thumbnail)
-
         store.dispatch('root/requestConferenceCreate', formData)
         .then(function (res) {
           console.log('컨퍼런스 생성 결과 : ', res)
