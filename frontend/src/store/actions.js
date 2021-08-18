@@ -122,14 +122,13 @@ export function requestConferenceDetail({ commit }, conference_id) {
 
 export function requestConferenceJoin({}, conference_id) {
   const url = '/conferences/join'
-  const params = new URLSearchParams()
-  params.append('conferenceId', conference_id)
-  return $axios.post(url, null, params)
+  return $axios.post(url, null, { params: {
+    conferenceId: conference_id
+  }})
 }
 
 export function requestConferenceOnBoarding({}, conference_id) {
   const url = '/conferences/onBoarding'
-  console.log(conference_id)
   return $axios.patch(url, null, { params: {
     conferenceId: conference_id
   }})

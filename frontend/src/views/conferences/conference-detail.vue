@@ -45,8 +45,8 @@
     <div class="detail-bottom">
       이전 라이브 영상
       <ul class="detail-list">
-        <li class="detail-bottom-button" v-for="(idx) in 3" :key="idx">
-          소주한잔 원키 올리기
+        <li class="detail-bottom-button" v-for="(idx) in 8" :key="idx">
+          소주한잔 {{ idx }}키 올려 부르는 법
         </li>
       </ul>
     </div>
@@ -109,6 +109,7 @@ export default {
       store.dispatch('root/requestConferenceJoin', state.conferenceId)
       .then(() => {
         alert('클래스 수강신청에 성공하셨습니다!')
+        window.location.reload()
       })
       .catch((err) => console.log(err))
     }
