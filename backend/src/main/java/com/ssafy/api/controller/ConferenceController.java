@@ -3,6 +3,7 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.ConferenceCategoryPostReq;
 import com.ssafy.api.response.*;
 import com.ssafy.api.service.ConferenceService;
+import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
+import org.springframework.security.core.Authentication;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,10 +44,29 @@ public class ConferenceController {
     public ResponseEntity<ConferenceCreatePostRes> createConference(
             @RequestParam("description") String description, @RequestParam("title") String title, @RequestParam("conferenceCategoryId") Long conferenceCategoryId, @RequestParam("thumbnail") MultipartFile thumbnail,
             @RequestParam(required = false) String conferenceDay, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date conferenceTime, @RequestParam(required = false) Integer price,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyEndTime, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date applyStartTime,
+            @ApiIgnore Authentication authentication
     ) throws IOException {
-        Conference conference = conferenceService.createConference(description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        Conference conference = conferenceService.createConference(userId, description, title, conferenceCategoryId, saveThumbnail(thumbnail), conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);    // createInfo,
+        joinConference(authentication, conference.getId());
         return ResponseEntity.status(201).body(ConferenceCreatePostRes.of(201, "success.", conference));
+    }
+
+    @PostMapping("conferences/join")
+    @ApiOperation(value = "방 참가", notes = "방에 참가다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<? extends BaseResponseBody> joinConference(
+            @ApiIgnore Authentication authentication, @RequestParam("conferenceId") Long conferenceId) {
+        SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+        String userId = userDetails.getUsername();
+
+        conferenceService.joinConference(userId, conferenceId);
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "success."));
     }
 
     @GetMapping(value = "conferences/{conference_id}")
@@ -73,6 +95,18 @@ public class ConferenceController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
     }
 
+    @PatchMapping(value = "conferences/onBoarding")
+    @ApiOperation(value = "방송 상태 변경", notes = "방송상태를 변경한다")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "성공"),
+    })
+    public ResponseEntity<ConferenceOnboardStatusRes> changeOnboardStates(
+            @RequestParam Long conferenceId) {
+
+        Conference conference = conferenceService.changeOnboardStates(conferenceId);
+        return ResponseEntity.status(201).body(ConferenceOnboardStatusRes.of(201, "Success",conference));
+    }
+
     @GetMapping(value = "conferences")
     @ApiOperation(value = "방 목록 조회", notes = "방 목록 리스트를 검색한다")
     @ApiResponses({
@@ -80,7 +114,7 @@ public class ConferenceController {
     })
     public ResponseEntity<ConferenceListPostRes> getConferenceList(
             @RequestParam(required = false) String title, @RequestParam(required = false) @ApiParam(value = "call_start_time,asc") String sort, @RequestParam(required = false) String userName,
-            @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) Long conferenceCategory) {
+            @RequestParam(required = false) Integer size, @RequestParam(required = false) String conferenceCategory) {
         Optional<List<Conference>> conferences = conferenceService.getConferences(title, sort, size, conferenceCategory, userName);
         return ResponseEntity.status(200).body(ConferenceListPostRes.of(conferences));
     }
@@ -136,7 +170,6 @@ public class ConferenceController {
             @ApiResponse(code = 200, message = "성공"),
     })
     public ResponseEntity<ConferenceCategoryRes> getCategories() {
-        System.out.println("test thumbnail_back");
         Optional<List<ConferenceCategory>> categories = conferenceService.getCategories();
         return ResponseEntity.status(200).body(ConferenceCategoryRes.of(categories));
     }

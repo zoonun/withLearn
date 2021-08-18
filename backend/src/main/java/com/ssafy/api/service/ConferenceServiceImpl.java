@@ -1,20 +1,14 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.ConferenceCategoryPostReq;
-import com.ssafy.api.request.ConferenceModiferPostReq;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.ConferenceCategory;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserConference;
-import com.ssafy.db.repository.ConferenceCategoryRepository;
-import com.ssafy.db.repository.ConferenceRepository;
-import com.ssafy.db.repository.ConferenceRepositorySupport;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,6 +23,15 @@ public class ConferenceServiceImpl implements ConferenceService {
     ConferenceService conferenceService;
 
     @Autowired
+    UserConferenceRepository userConferenceRepository;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ConferenceCategoryRepository conferenceCategoryRepository;
 
     @Autowired
@@ -40,8 +43,6 @@ public class ConferenceServiceImpl implements ConferenceService {
         conference.setConferenceCategory(conferenceCategory);
         conference.setConference_day(conferenceDay);
         conference.setConference_time(conferenceTime);
-        conference.setApply_start_time(applyStartTime);
-        conference.setApply_end_time(applyEndTime);
         conference.setPrice(price);
         conference.setThumbnail(thumbnail);
         return conference;
@@ -53,11 +54,29 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public Conference createConference(String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
+    public void joinConference(String userId, Long conferenceId) {
+        UserConference userConference = new UserConference();
+        userConference.setUser(userRepository.findByUserId(userId).get());
+        userConference.setConference(conferenceRepository.findById(conferenceId).get());
+        userConferenceRepository.save(userConference);
+    }
+
+    @Override
+    public Conference changeOnboardStates(Long conferenceId) {
+        Conference conference = conferenceRepository.findById(conferenceId).get();
+        if(conference.getIs_active() == true) conference.setIs_active(false);
+        else conference.setIs_active(true);
+        return conferenceRepository.save(conference);
+    }
+
+    @Override
+    public Conference createConference(String userId, String description, String title, Long conferenceCategoryId, String thumbnail, String conferenceDay, Date conferenceTime, Date applyEndTime, Date applyStartTime, Integer price) {
         Conference conference = new Conference();
+        User user = userService.getUserByUserId(userId);
         ConferenceCategory conferenceCategory = conferenceCategoryRepository.findById(conferenceCategoryId).get();
         conference = setConference(conference, conferenceCategory, description, title, thumbnail, conferenceDay, conferenceTime, applyEndTime, applyStartTime, price);
         conference.setIs_active(false);
+        conference.setUser(user);
         return conferenceRepository.save(conference);
     }
 
@@ -82,7 +101,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public Optional<List<Conference>> getConferences(String title, String sort, Integer size, Long conferenceCategory, String userName) {
+    public Optional<List<Conference>> getConferences(String title, String sort, Integer size, String conferenceCategory, String userName) {
         Optional<List<Conference>> conference = conferenceRepositorySupport.findConferences(title, sort, size, conferenceCategory, userName);
         return conference;
     }
@@ -90,7 +109,6 @@ public class ConferenceServiceImpl implements ConferenceService {
     @Override
     public void createConferenceCategory(ConferenceCategoryPostReq categoryInfo) {
         ConferenceCategory conferenceCategory = new ConferenceCategory();
-        System.out.println("serviceImpl" + categoryInfo.getName());
         conferenceCategory.setName(categoryInfo.getName());
         conferenceCategoryRepository.save(conferenceCategory);
     }

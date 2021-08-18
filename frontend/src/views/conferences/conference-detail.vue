@@ -1,9 +1,11 @@
 <template>
-  <div class="detail-header">
-    강의 상세 페이지
+  <div class="small-banner">
+    <p class="small-banner-text">
+      강의 상세 페이지
+    </p>
   </div>
-  <div class="detail-thumbnail-wrapper">
-    <img :src="state.images.image" alt="" class="datail-thumbnail">
+  <div class="banner-detail">
+    <img :src="state.images.detail_banner" alt="banner_image">
   </div>
   <div class="detail-information">
     <div class="detail-description">
@@ -11,9 +13,10 @@
       <br>
       보컬 트레이닝 클래스입니다.
     </div>
+    <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
     <div class="detail-isactive">
       현재 라이브 진행 중!
-      <button class="live-button">
+      <button class="live-button" @click="onClickLive">
         라이브 참여하기
       </button>
     </div>
@@ -28,78 +31,6 @@
   </div>
 </template>
 <style>
-.detail-header {
-  background-color:#5a4ae3;
-  height: 4rem;
-  color:white;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  padding-top: 1.5rem;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  font-weight: bold;
-}
-.detail-thumbnail {
-  /* object-fit:cover; */
-  width:200px;
-}
-.detail-information {
-  display: flex;
-  justify-content: space-between;
-  margin-right:30rem;
-  margin-left:30rem;
-  font-size: 2.25rem;
-  margin-top:8rem;
-}
-.detail-isactive {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-}
-.live-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
-  color: white;
-  background-color: #5a4ae3;
-  padding: 5px;
-  border-radius: 5px;
-  border:0;
-  cursor: pointer;
-}
-.detail-bottom {
-  margin-top:2rem;
-  border-width:1rem;
-  margin-right:20rem;
-  margin-left:20rem;
-  font-size: 2.25rem;
-}
-.detail-thumbnail-wrapper {
-  /* background-size: cover; */
-  display: flex;
-  justify-content: center;
-}
-.detail-bottom-button {
-  margin-top:1rem;
-  font-size: 2.25rem;
-  color: black;
-  background-color: #e5e7eb;
-  padding: 5px;
-  border-radius: 5px;
-  border:0;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-}
-.detail-list {
-  list-style:none;
-  border: 2px solid #e5e7eb;
-  padding:2rem;
-
-}
-.detail-description {
-  width:60%;
-  font-weight:bold;
-}
 
 </style>
 
@@ -117,8 +48,9 @@ export default {
     const state = reactive({
       conferenceId: '',
       conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
+      userInfo: computed(() => store.getters['root/getProfile']),
       images: {
-        image: require('@/assets/images/music.jpg'),
+        detail_banner: require('@/assets/images/music.jpg'),
       },
     })
 
@@ -133,8 +65,14 @@ export default {
       state.conferenceId = ''
     })
 
-    return { state }
+    const onClickLive = function () {
+      window.location = `/groupcall/${state.conferenceId}`
+    }
+    const onClickLive2 = function () {
+      window.location = `/groupcall2/${state.conferenceId}`
+    }
+
+    return { state, onClickLive, onClickLive2 }
   }
 }
 </script>
-

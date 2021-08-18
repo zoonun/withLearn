@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * 리뷰 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "리뷰 API", tags = {"review"})
+@Api(value = "리뷰 API", tags = {"Review"})
 @Controller
 @RequestMapping("/api/v1/")
 public class ReviewController {
@@ -62,7 +62,7 @@ public class ReviewController {
     }
 
     @DeleteMapping(value = "reviews")
-    @ApiOperation(value = "리뷰 삭제", notes = "방 정보를 삭제한다")
+    @ApiOperation(value = "리뷰 삭제", notes = "리뷰 정보를 삭제한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
     })

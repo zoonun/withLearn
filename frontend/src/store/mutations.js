@@ -52,6 +52,8 @@ export function setSearchValue (state, searchValue) {
 
 export function setProfile (state, profileItem) {
   state.profile = profileItem
+  state.userName = profileItem.name
+  state.userId = profileItem.userId
 }
 
 export function setUpdate (state, profileItem) {
