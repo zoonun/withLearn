@@ -33,6 +33,7 @@ function Participant(name, sendMessage) {
   container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
   container.id = name;
   var span = document.createElement('span');
+  span.className = 'participant-name'
   var video = document.createElement('video');
   // eslint-disable-next-line no-unused-vars
   var rtcPeer;

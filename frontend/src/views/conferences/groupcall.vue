@@ -120,11 +120,9 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          mandatory: {
-            maxWidth: 320,
-            maxFrameRate: 15,
-            minFrameRate: 15
-          }
+          width: 320,
+          height: 240,
+          frameRate: 15
         }
       }
       var participant = new Participant(state.name, sendMessage)
