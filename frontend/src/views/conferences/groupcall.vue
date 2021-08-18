@@ -8,7 +8,7 @@
     <h2 id="room-header">{{ $route.params.roomId }}번 방</h2>
     <div id="room" class="container">
       <!-- 참가자 Video 추가되는 블럭 -->
-      <div id="participants" class="row"></div>
+      <div id="participants" class="row groupcall-body"></div>
     </div>
     <div>
       <button @click="leaveRoom">나가기</button>
@@ -122,7 +122,6 @@ export default {
         video: {
           mandatory: {
             maxWidth: 320,
-            maxHeight: 240,
             maxFrameRate: 15,
             minFrameRate: 15
           }
@@ -134,6 +133,7 @@ export default {
 
       var options = {
         localVideo: video,
+        remoteVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
@@ -160,7 +160,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
-        image: '/images/1335496638255773.jpg'
+        image: ''
       }
       sendMessage(message)
     }

@@ -6,10 +6,15 @@
   align-items: center;
 }
 
+.groupcall-body {
+  justify-content: center;
+}
+
 .participant {
   display: flex;
   flex-flow: column;
   align-items: center;
   width: 320px;
   height: 320px;
+  margin: 10px;
 }

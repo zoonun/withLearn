@@ -15,8 +15,8 @@
  *
  */
 // 클릭한 participant
-var PARTICIPANT_MAIN_CLASS = 'participant main col-md-4';
-var PARTICIPANT_CLASS = 'participant col-md-4';
+var PARTICIPANT_MAIN_CLASS = 'participant main col-lg-4 col-md-6 col-12';
+var PARTICIPANT_CLASS = 'participant col-lg-4 col-md-6 col-12';
 
 /**
  * Creates a video element for a new participant
