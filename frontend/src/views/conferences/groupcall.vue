@@ -6,9 +6,14 @@
   </div>
   <div class="groupcall-wrap">
     <h2 id="room-header">{{ $route.params.roomId }}번 방</h2>
-    <div id="room" class="container">
+    <div id="room" class="container groupcall-body">
       <!-- 참가자 Video 추가되는 블럭 -->
-      <div id="participants" class="row groupcall-body"></div>
+      <div id="participants" class="row groupcall-content">
+        <div class="groupcall-panels"></div>
+      </div>
+      <div class="groupcall-chatting">
+
+      </div>
     </div>
     <div class="groupcall-control-bar">
       <button @click="leaveRoom" style="background-color: red;">
@@ -147,8 +152,8 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          width: 640,
-          height: 480,
+          width: 480,
+          height: 360,
           frameRate: 15
         }
       }

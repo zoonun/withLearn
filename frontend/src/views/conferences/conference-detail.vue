@@ -4,30 +4,32 @@
       강의 상세 페이지
     </p>
   </div>
-  <div class="banner-detail">
-    <img :src="state.images.detail_banner" alt="banner_image">
-  </div>
-  <div class="detail-information">
-    <div class="detail-description">
-      입문자들을 위한
-      <br>
-      보컬 트레이닝 클래스입니다.
+  <div class="detail-wrap">
+    <div class="detail-banner">
+      <img :src="state.images.detail_banner" alt="banner_image">
     </div>
-    <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
-    <div class="detail-isactive">
-      현재 라이브 진행 중!
-      <button class="live-button" @click="onClickLive">
-        라이브 참여하기
-      </button>
+    <div class="detail-information">
+      <div class="detail-description">
+        입문자들을 위한
+        <br>
+        보컬 트레이닝 클래스입니다.
+      </div>
+      <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
+      <div class="detail-isactive">
+        현재 라이브 진행 중!
+        <button class="live-button" @click="onClickLive">
+          라이브 참여하기
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="detail-bottom">
-    시청하기
-    <ul class="detail-list">
-      <li class="detail-bottom-button" v-for="(idx) in 3" :key="idx">
-        소주한잔 원키 올리기
-      </li>
-    </ul>
+    <div class="detail-bottom">
+      시청하기
+      <ul class="detail-list">
+        <li class="detail-bottom-button" v-for="(idx) in 3" :key="idx">
+          소주한잔 원키 올리기
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <style>

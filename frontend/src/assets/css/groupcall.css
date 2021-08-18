@@ -1,6 +1,6 @@
 .groupcall-wrap {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -8,15 +8,21 @@
 }
 
 .groupcall-body {
-  justify-content: center;
+  margin: 0;
+}
+
+.groupcall-content {
+  width: 100%;
+  height: auto;
+  justify-content: space-between;
 }
 
 .groupcall-control-bar {
   display: flex;
   flex-flow: row nowrap;
-  position: absolute;
+  position: fixed;
   width: 150px;
-  bottom: 10%;
+  bottom: 20px;
   align-items: center;
   justify-content: space-between;
 }
@@ -33,9 +39,27 @@
   flex-flow: column;
   align-items: center;
   position: relative;
-  width: 640px;
-  height: 480px;
+  width: 480px;
+  height: 360px;
   margin: 5px;
+	border-radius: 5px;
+  /*Transition*/
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.participant:before {
+	content: '';
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	bottom: -8px;
+	left: -8px;
+	z-index: -1;
+	background: rgba(0, 0, 0, 0.08);
+	border-radius: 4px;
 }
 
 .participant-name {
@@ -43,9 +67,113 @@
   min-width: 50px;
   text-align: center;
   position: absolute;
-  left: 5px;
-  bottom: 5px;
+  top: 5px;
   color: white;
   background-color: black;
   opacity: 75%;
+}
+
+.participant.participant-main {
+  position: absolute;
+  margin: 10% 5% 5% 5%;
+  top: 1%;
+  left: 20%;
+	width: 50%;
+}
+
+@media screen and (max-width: 2100px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 5%;
+    left: 16%;
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 8%;
+    left: 12.5%;
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 15%;
+    left: 2%;
+    width: 85%;
+  }
+}
+
+.participant.participant-panel {
+  width: 10%;
+}
+
+.participant.participant-panel span {
+  display: none;
+}
+
+.participant video, .participant.participant-main video, .participant.participant-panel video {
+	height: auto !important;
+  width: 100% !important;
+}
+
+.participant.participant-main video {
+	height: auto;
+}
+
+.participant.participant-panel video {
+	height: auto;
+}
+
+.animate {
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-duration: 0.5s;
+  -moz-animation-fill-mode: both;
+  -o-animation-duration: 0.5s;
+  -o-animation-fill-mode: both;
+  -ms-animation-duration: 0.5s;
+  -ms-animation-fill-mode: both;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.removed {
+  -webkit-animation: disapear 1s;
+  -webkit-animation-fill-mode: forwards;
+  animation: disapear 1s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes disapear {
+  50%
+  {
+    -webkit-transform: translateX(-5%);
+    transform: translateX(-5%);
+  }
+  100%
+  {
+  -webkit-transform:translateX(200%);
+  transform:translateX(200%);
+  }
+}
+
+@keyframes disapear {
+  50%
+  {
+  -webkit-transform: translateX(-5%);
+  transform: translateX(-5%);
+  }
+  100%
+  {
+  -webkit-transform:translateX(200%);
+  transform:translateX(200%);
+  }
 }

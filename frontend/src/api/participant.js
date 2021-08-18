@@ -15,8 +15,9 @@
  *
  */
 // 클릭한 participant
-var PARTICIPANT_MAIN_CLASS = 'participant main col-lg-4 col-md-6 col-12';
+var PARTICIPANT_MAIN_CLASS = 'participant participant-main col-lg-4 col-md-6 col-12';
 var PARTICIPANT_CLASS = 'participant col-lg-4 col-md-6 col-12';
+var PARTICIPANT_PANEL_CLASS = 'participant participant-panel col-md-2'
 
 /**
  * Creates a video element for a new participant
@@ -30,7 +31,7 @@ var PARTICIPANT_CLASS = 'participant col-lg-4 col-md-6 col-12';
 function Participant(name, sendMessage) {
   this.name = name;
   var container = document.createElement('div');
-  container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
+  container.className = PARTICIPANT_CLASS;
   container.id = name;
   var span = document.createElement('span');
   span.className = 'participant-name'
@@ -59,14 +60,28 @@ function Participant(name, sendMessage) {
   }
 
   function switchContainerClass() {
+    // 확대된 화면이 없었던 경우,
     if (container.className === PARTICIPANT_CLASS) {
-      var elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
+      const elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_CLASS));
       elements.forEach(function(item) {
-          item.className = PARTICIPANT_CLASS;
-        });
-
-        container.className = PARTICIPANT_MAIN_CLASS;
-      } else {
+        item.className = PARTICIPANT_PANEL_CLASS;
+      });
+      container.className = PARTICIPANT_MAIN_CLASS;
+    }
+    // 확대된 화면이 있고, 패널 클래스를 클릭했을 경우
+    else if (container.className === PARTICIPANT_PANEL_CLASS) {
+      const elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
+      elements.forEach(function(item) {
+        item.className = PARTICIPANT_PANEL_CLASS;
+      });
+      container.className = PARTICIPANT_MAIN_CLASS;
+    }
+    // 메인 클래스를 클릭했을 경우, 모든 클래스를 일반 참가자로 돌린다
+    else {
+      const elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_PANEL_CLASS));
+      elements.forEach(function(item) {
+        item.className = PARTICIPANT_CLASS;
+      });
       container.className = PARTICIPANT_CLASS;
     }
   }
