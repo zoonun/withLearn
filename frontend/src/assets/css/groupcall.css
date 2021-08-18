@@ -91,6 +91,16 @@
   }
 }
 
+@media screen and (max-width: 1920px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 5%;
+    left: 16%;
+    width: 60%;
+  }
+}
+
 @media screen and (max-width: 1600px) {
   .participant.participant-main {
     position: absolute;
