@@ -107,6 +107,7 @@ public class UserSession implements Closeable {
                 outgoingMedia.connect(chromaFilter);
                 chromaFilter.connect(outgoingMedia);
             }
+            outgoingMedia.disconnect(outgoingMedia,MediaType.AUDIO);
             return outgoingMedia;
         }
 
