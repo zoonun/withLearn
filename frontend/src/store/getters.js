@@ -49,6 +49,10 @@ export function getConferenceDetail (state) {
   return state.conferenceDetailData
 }
 
+export function getConferenceInfos (state) {
+  return state.conferenceDetailInfos
+}
+
 export function getUserName (state) {
   return state.userName
 }

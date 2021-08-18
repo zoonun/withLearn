@@ -11,6 +11,7 @@
       <div id="participants" class="row groupcall-content">
         <div class="groupcall-panels"></div>
       </div>
+      <!-- 채팅! -->
       <div class="groupcall-chatting">
 
       </div>
