@@ -71,7 +71,6 @@ function Participant(name, sendMessage) {
   }
 
   function isPresentMainParticipant() {
-    // class name이 participant main인 것이 있을 경우
     return ((document.getElementsByClassName(PARTICIPANT_MAIN_CLASS)).length != 0);
   }
 
@@ -86,7 +85,7 @@ function Participant(name, sendMessage) {
   }
 
   this.onIceCandidate = function (candidate/*, wp*/) {
-    console.log('새로운 화상채팅 참가자: ' + JSON.stringify(candidate));
+    // console.log('새로운 화상채팅 참가자: ' + JSON.stringify(candidate));
 
     var message = {
       id: 'onIceCandidate',

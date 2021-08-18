@@ -121,8 +121,8 @@ export default {
         audio: true,
         video: {
           mandatory: {
-            maxWidth: 320,
-            maxHeight: 240,
+            width: 320,
+            height: 240,
             maxFrameRate: 15,
             minFrameRate: 15
           }
@@ -133,7 +133,7 @@ export default {
       var video = participant.getVideoElement()
 
       var options = {
-        remoteVideo: video,
+        localVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
