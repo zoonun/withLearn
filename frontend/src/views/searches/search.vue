@@ -132,7 +132,11 @@ export default {
           Newarr.push(Number(index) + 1)
         }
       })
-      state.conference_category = Newarr.join(',')
+      if (Newarr.length ===0) {
+        state.conference_category = null
+      } else {
+        state.conference_category = Newarr.join(',')
+      }
       const payload = {
         title: state.recentSearchValue,
         sort: [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),

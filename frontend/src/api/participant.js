@@ -14,9 +14,9 @@
  * limitations under the License.
  *
  */
-
-var PARTICIPANT_MAIN_CLASS = 'participant main';
-var PARTICIPANT_CLASS = 'participant';
+// 클릭한 participant
+var PARTICIPANT_MAIN_CLASS = 'participant main col-lg-4 col-md-6 col-12';
+var PARTICIPANT_CLASS = 'participant col-lg-4 col-md-6 col-12';
 
 /**
  * Creates a video element for a new participant
@@ -28,82 +28,81 @@ var PARTICIPANT_CLASS = 'participant';
  */
 // eslint-disable-next-line no-unused-vars
 function Participant(name, sendMessage) {
-	this.name = name;
-	var container = document.createElement('div');
-	container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
-	container.id = name;
-	var span = document.createElement('span');
-	var video = document.createElement('video');
-	// eslint-disable-next-line no-unused-vars
-	var rtcPeer;
+  this.name = name;
+  var container = document.createElement('div');
+  container.className = isPresentMainParticipant() ? PARTICIPANT_CLASS : PARTICIPANT_MAIN_CLASS;
+  container.id = name;
+  var span = document.createElement('span');
+  span.className = 'participant-name'
+  var video = document.createElement('video');
+  // eslint-disable-next-line no-unused-vars
+  var rtcPeer;
 
-	container.appendChild(video);
-	container.appendChild(span);
-	container.onclick = switchContainerClass;
-	document.getElementById('participants').appendChild(container);
+  container.appendChild(video);
+  container.appendChild(span);
+  container.onclick = switchContainerClass;
+  document.getElementById('participants').appendChild(container);
 
-	span.appendChild(document.createTextNode(name));
+  span.appendChild(document.createTextNode(name));
 
-	video.id = 'video-' + name;
-	video.autoplay = true;
-	video.controls = false;
-
-
-	this.getElement = function() {
-		return container;
-	}
-
-	this.getVideoElement = function() {
-		return video;
-	}
-
-	function switchContainerClass() {
-		if (container.className === PARTICIPANT_CLASS) {
-			var elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
-			elements.forEach(function(item) {
-					item.className = PARTICIPANT_CLASS;
-				});
-
-				container.className = PARTICIPANT_MAIN_CLASS;
-			} else {
-			container.className = PARTICIPANT_CLASS;
-		}
-	}
-
-	function isPresentMainParticipant() {
-    // class name이 participant main인 것이 있을 경우
-		return ((document.getElementsByClassName(PARTICIPANT_MAIN_CLASS)).length != 0);
-	}
-
-	this.offerToReceiveVideo = function(error, offerSdp/*, wp*/){
-		if (error) return console.error ('sdp offer error')
-		console.log('Invoking SDP offer callback function');
-		var msg =  { id : 'receiveVideoFrom',
-				sender : name,
-				sdpOffer : offerSdp
-			};
-		sendMessage(msg);
-	}
+  video.id = 'video-' + name;
+  video.autoplay = true;
+  video.controls = false;
 
 
-	this.onIceCandidate = function (candidate/*, wp*/) {
-		console.log('Local candidate' + JSON.stringify(candidate));
+  this.getElement = function() {
+    return container;
+  }
 
-		var message = {
-			id: 'onIceCandidate',
-			candidate: candidate,
-			name: name
-		};
-		sendMessage(message);
-	}
+  this.getVideoElement = function() {
+    return video;
+  }
 
-	Object.defineProperty(this, 'rtcPeer', { writable: true});
+  function switchContainerClass() {
+    if (container.className === PARTICIPANT_CLASS) {
+      var elements = Array.prototype.slice.call(document.getElementsByClassName(PARTICIPANT_MAIN_CLASS));
+      elements.forEach(function(item) {
+          item.className = PARTICIPANT_CLASS;
+        });
 
-	this.dispose = function() {
-		console.log('Disposing participant ' + this.name);
-		this.rtcPeer.dispose();
-		container.parentNode.removeChild(container);
-	};
+        container.className = PARTICIPANT_MAIN_CLASS;
+      } else {
+      container.className = PARTICIPANT_CLASS;
+    }
+  }
+
+  function isPresentMainParticipant() {
+    return ((document.getElementsByClassName(PARTICIPANT_MAIN_CLASS)).length != 0);
+  }
+
+  this.offerToReceiveVideo = function(error, offerSdp/*, wp*/){
+    if (error) return console.error ('sdp offer error')
+    // console.log('Invoking SDP offer callback function');
+    var msg =  { id : 'receiveVideoFrom',
+        sender : name,
+        sdpOffer : offerSdp
+      };
+    sendMessage(msg);
+  }
+
+  this.onIceCandidate = function (candidate/*, wp*/) {
+    // console.log('새로운 화상채팅 참가자: ' + JSON.stringify(candidate));
+
+    var message = {
+      id: 'onIceCandidate',
+      candidate: candidate,
+      name: name
+    };
+    sendMessage(message);
+  }
+
+  Object.defineProperty(this, 'rtcPeer', { writable: true});
+
+  this.dispose = function() {
+    console.log(this.name + ' 화상채팅 종료');
+    this.rtcPeer.dispose();
+    container.parentNode.removeChild(container);
+  };
 }
 
 export {

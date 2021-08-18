@@ -125,7 +125,7 @@ export function requestCommunity({ commit }) {
   const url = '/community'
   return $axios.get(url)
   .then((res) => {
-    commit('setCommunity', res.data)
+    commit('setCommunityData', res.data)
   })
 }
 
@@ -135,8 +135,44 @@ export function requestCommunityCreate({}, payload) {
   return $axios.post(url, body)
 }
 
-export function requestCommentCreate({}, payload) {
-  const url = '/comment'
+export function requestCommunityDetail({ commit }, postId) {
+  const url = `/community/${postId}`
+  return $axios.get(url)
+  .then((res) => {
+    commit('setCommunityDetail', res.data)
+  })
+}
+
+export function requestCommunityUpdate({ commit }, payload) {
+  const postId = payload.postId
+  const url = `/community/${postId}`
   let body = payload
+  return $axios.patch(url, body)
+}
+
+export function requestCommunityDelete({}, postId) {
+  const url = `community/${postId}`
+  return $axios.delete(url)
+}
+
+export function requestCommentCreate({}, payload) {
+  const postId = payload.postId
+  const url = `/comment/${postId}`
+  let body = {
+    'content': payload.content
+  }
   return $axios.post(url, body)
+}
+
+export function requestCommentList({ commit }, postId) {
+  const url = `/comment/${postId}`
+  return $axios.get(url)
+  .then((res) => {
+    commit('setCommentList', res.data)
+  })
+}
+
+export function requestCommentDelete({}, commentId) {
+  const url = `/comment/${commentId}`
+  return $axios.delete(url)
 }

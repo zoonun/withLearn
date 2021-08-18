@@ -52,7 +52,7 @@
                 🤩 프로필
               </p>
               <p class="grid-box-body">
-                {{ state.userInfo.name }}님, 안녕하세요! 👋
+                {{ state.userName }}님, 안녕하세요! 👋
               </p>
             </div>
             <div class="grid-box col-md-6">
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { onMounted, computed, reactive } from 'vue'
+import { onMounted, computed, reactive, onUpdated } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -110,15 +110,20 @@ export default {
   setup() {
     const store = useStore()
     const state = reactive({
-      userInfo: computed(() => store.getters['root/getProfile'])
+      userName: computed(() => store.getters['root/getUserName']),
+      userId: computed(() => store.getters['root/getUserId']),
     })
+
 
     onMounted(() => {
-
+      // console.log(state.userInfo)
     })
 
-    const clickLogout = function (param) {
-      store.dispatch('root/requestLogout', param)
+    onUpdated(() => {
+    })
+
+    const clickLogout = function () {
+      store.dispatch('root/requestLogout')
     }
 
     return { state, clickLogout }

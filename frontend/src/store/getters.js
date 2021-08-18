@@ -26,12 +26,10 @@ export function getIsAvailableId (state) {
 }
 
 export function getConferenceId (state) {
-  console.log(state.conferenceId)
   return state.conferenceId
 }
 
 export function getSortIndex (state) {
-  console.log('getSortIndex')
   return state.SortIndex
 }
 
@@ -53,4 +51,12 @@ export function getConferenceDetail (state) {
 
 export function getCommunityData (state) {
   return state.communityData
+}
+
+export function getUserName (state) {
+  return state.userName
+}
+
+export function getUserId (state) {
+  return state.userId
 }

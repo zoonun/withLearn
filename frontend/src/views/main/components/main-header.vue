@@ -12,7 +12,6 @@
       <button class="search-btn" @click="clickSearch">
         <i class="el-icon-search"></i>
       </button>
-
     </div>
     <div id="end" class="nav-items">
       <div class="nav-dropdown">
@@ -120,11 +119,10 @@ export default {
     }
 
     const clickConferenceList = async function () {
-
       await router.push({
         name: 'search',
         params: {
-          searchValue: null,
+          searchValue: 1,
         }
       })
     }

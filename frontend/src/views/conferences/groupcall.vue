@@ -1,64 +1,56 @@
 <template>
-  <div id="container">
-    <div id="room">
-      <h2 id="room-header"></h2>
-      <div id="participants"></div>
-      <div>
-        <input type="text" v-model="state.name">
-        <button @click="enterRoom">입장하기</button>
-      </div>
-      <div>
-        <button @click="leaveRoom">나가기</button>
-      </div>
+  <div class="small-banner">
+    <p class="small-banner-text">
+      화상채팅
+    </p>
+  </div>
+  <div class="groupcall-wrap">
+    <h2 id="room-header">{{ $route.params.roomId }}번 방</h2>
+    <div id="room" class="container">
+      <!-- 참가자 Video 추가되는 블럭 -->
+      <div id="participants" class="row groupcall-body"></div>
+    </div>
+    <div>
+      <button @click="leaveRoom">나가기</button>
+      <button @click="checkState">참가자 체크</button>
+      <button @click="stopMic">마이크 끄기</button>
+      <button @click="stopVideo">비디오 끄기</button>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { reactive, onBeforeUnmount, onMounted, computed } from 'vue'
 import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
+import { onBeforeRouteLeave, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
   name: 'groupcall',
-
+  props: {
+  },
+  // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
   setup() {
+    const route = useRoute()
+    const store = useStore()
     const state = reactive({
-      name: '',
-      room: '',
+      name: computed(() => store.getters['root/getUserName']),
+      userId: computed(() => store.getters['root/getUserId']),
+      room: route.params.roomId,
       participants: {},
       ws: {}
     })
-    // onMounted(() => {
-      //   window.addEventListener('beforeunload', unloadEvent)
-    // })
-    // onBeforeRouteLeave((to, from, next) => {
-      //   const answer = window.confirm('저장되지 않은 작업이 있습니다! 정말 이동할까요?')
-    //   if (answer) {
-      //     console.log('이동')
-    //     next()
-    //   } else {
-      //     next(false)
-    //   }
-    // })
-    // // conferenceroom.js
-    // const unloadEvent = function (event) {
-      //   ws.close()
-    //   // event.preventDefault()
-    //   // event.returnValue = ''
-    // }
-
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
     onBeforeUnmount(() => {
-      // window.removeEventListener('beforeunload', unloadEvent)
+      // window.removeEventListener('beforeunload', state.ws.close())
       state.ws.close()
     })
 
     state.ws.onmessage = function (message) {
       var parsedMessage = JSON.parse(message.data)
-      console.info('Received msg:' + message.data)
+      // console.info('Received msg:' + message.data)
 
       switch (parsedMessage.id) {
         case 'existingParticipants':
@@ -85,21 +77,8 @@ export default {
           console.error('미등록 메시지: ', parsedMessage)
       }
     }
-    const enterRoom = function () {
-      let curUrl = document.location.href.split('/').reverse()
-      console.log('현재 url', curUrl)
-      state.room = curUrl[1]
-      // name = curUrl[0]
-      const message = {
-        id : 'joinRoom',
-        name : state.name,
-        room : state.room,
-      }
-      sendMessage(message)
-    }
 
     const onNewParticipant = function (request) {
-      console.log(request, '참여')
       receiveVideo(request.name)
     }
 
@@ -141,28 +120,47 @@ export default {
       var constraints = {
         audio: true,
         video: {
-          mandatory: {
-            maxWidth: 320,
-            maxFrameRate: 15,
-            minFrameRate: 15
-          }
+          width: 320,
+          height: 240,
+          frameRate: 15
         }
       }
-      console.log(state.name + ' registered in room ' + state.room)
       var participant = new Participant(state.name, sendMessage)
       state.participants[state.name] = participant
       var video = participant.getVideoElement()
 
       var options = {
         localVideo: video,
+        remoteVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
       }
-      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
+      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
         if (error) return console.error(error)
         this.generateOffer(participant.offerToReceiveVideo.bind(participant))
       })
       message.data.forEach(receiveVideo)
+    }
+
+    const readyWsConnection = function () {
+      setTimeout(function () {
+        if (state.ws.readyState === 1) {
+          console.log('접속 준비 완료!')
+          enterRoom()
+        } else {
+          readyWsConnection()
+        }
+      }, 5)
+    }
+
+    const enterRoom = function () {
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: ''
+      }
+      sendMessage(message)
     }
 
     const leaveRoom = function () {
@@ -170,17 +168,14 @@ export default {
       sendMessage({
         id: 'leaveRoom'
       })
-
       for (let key in state.participants) {
         state.participants[key].dispose()
       }
-
-      state.ws.close();
-      window.location = '/lobby'
+      // state.ws.close();
+      window.location = `/conferences/${state.room}`
     }
 
     const onParticipantLeft = function (request) {
-      console.log('Participant ' + request.name + ' left');
       const participant = state.participants[request.name];
       participant.dispose();
       delete state.participants[request.name];
@@ -188,13 +183,33 @@ export default {
 
     const sendMessage = function (message) {
       var jsonMessage = JSON.stringify(message);
-      console.log('Sending message: ' + jsonMessage);
+      // console.log('Sending message: ' + jsonMessage);
       state.ws.send(jsonMessage);
+    }
+
+    // 페이지 진입 시 자동으로 화상채팅방에 참여하기
+    onMounted(() => {
+      readyWsConnection()
+    })
+
+    const checkState = function () {
+      const participant = state.participants[state.name];
+      console.log(participant.rtcPeer)
+    }
+
+    const stopMic = function () {
+      const participant = state.participants[state.name];
+      participant.rtcPeer.audioEnabled = participant.rtcPeer.audioEnabled ? false : true
+    }
+
+    const stopVideo = function () {
+      const participant = state.participants[state.name];
+      participant.rtcPeer.videoEnabled = participant.rtcPeer.videoEnabled ? false : true
     }
 
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, stopMic, stopVideo }
   }
 }
 </script>

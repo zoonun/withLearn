@@ -6,21 +6,19 @@
     <div class="text-wrapper" style="text-align: left; padding: 14px;">
       <div class="top">
         <span class="title">{{ conference.title }}</span>
-        <div class="name" v-if="conference.user.name">{{ conference.user.name }}</div>
+        <!-- <div class="name" v-if="conference.user.name">{{ conference.user.name }}</div> -->
 
       </div>
       <div class="bottom">
         <span class='category'> {{ conference.conferenceCategory.name }} </span>
-        <span v-if="conference.is-active" class='isactive'> 수강신청중 </span>
-        <span v-else class='unactive'> 수강마감 </span>
+        <!-- <span v-if="conference.is-active" class='isactive'> 수강신청중 </span> -->
+        <!-- <span v-else class='unactive'> 수강마감 </span> -->
       </div>
     </div>
-
   </div>
 
-
 </template>
-<style>
+<style scoped>
  .thumbnail {
    background-size: cover;
    width: 100%;

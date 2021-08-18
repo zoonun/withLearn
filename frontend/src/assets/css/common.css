@@ -19,14 +19,14 @@ html, body {
 }
 
 body {
+  min-height: 100%;
   font-weight: 400;
   font-family: 'Roboto', sans-serif;
 }
 
 /* main */
 .main-container {
-  min-height: 100%;
-  margin-bottom: 200px;
+  min-height: 100vh;
 }
 
 .main-wrapper {
@@ -183,6 +183,7 @@ nav {
 /* sub page */
 .sub-wrap {
   display: flex;
+  height: 100vh;
   flex-flow: column nowrap;
   align-items: center;
   background-color: #ECECEC;
@@ -250,7 +251,6 @@ nav {
 
 /* footer */
 footer {
-  position: fixed;
   width: 100%;
   height: 200px;
   bottom: 0;

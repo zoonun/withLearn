@@ -52,6 +52,8 @@ export function setSearchValue (state, searchValue) {
 
 export function setProfile (state, profileItem) {
   state.profile = profileItem
+  state.userName = profileItem.name
+  state.userId = profileItem.userId
 }
 
 export function setUpdate (state, profileItem) {
@@ -62,6 +64,14 @@ export function setConferenceDetail (state, conferenceDetailData) {
   state.conferenceDetailData = conferenceDetailData
 }
 
-export function setCommunity (state, communityData) {
+export function setCommunityList (state, communityData) {
   state.communityData = communityData
+}
+
+export function setCommunityDetail (state, communityDetailData) {
+  state.communityDetailData = communityDetailData
+}
+
+export function setCommentList (state, commentData) {
+  state.coommentData = commentData
 }

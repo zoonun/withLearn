@@ -32,9 +32,6 @@ public class Conference extends BaseEntity{
     String conference_day;
 
     Date conference_time;
-
-    Date apply_end_time;
-    Date apply_start_time;
     Integer price;
 
 }

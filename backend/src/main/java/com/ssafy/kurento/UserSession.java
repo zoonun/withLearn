@@ -3,6 +3,8 @@ package com.ssafy.kurento;
 import com.google.gson.JsonObject;
 import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
+import org.kurento.module.chroma.ChromaFilter;
+import org.kurento.module.chroma.WindowParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
@@ -18,6 +20,7 @@ public class UserSession implements Closeable {
     private static final Logger log = LoggerFactory.getLogger(UserSession.class);
 
     private final String name;
+    private String image;
     private final WebSocketSession session;
 
     private final MediaPipeline pipeline;
@@ -26,9 +29,9 @@ public class UserSession implements Closeable {
     private final WebRtcEndpoint outgoingMedia;
     private final ConcurrentMap<String, WebRtcEndpoint> incomingMedia = new ConcurrentHashMap<>();
 
-    public UserSession(final String name, String roomName, final WebSocketSession session,
+    public UserSession(final String image, final String name, String roomName, final WebSocketSession session,
                        MediaPipeline pipeline) {
-
+        this.image = image;
         this.pipeline = pipeline;
         this.name = name;
         this.session = session;
@@ -93,8 +96,17 @@ public class UserSession implements Closeable {
     }
 
     private WebRtcEndpoint getEndpointForUser(final UserSession sender) {
+        ChromaFilter chromaFilter = new ChromaFilter.Builder(pipeline, new WindowParam(5, 5, 40, 40))
+                .build();
+        String appServerUrl = "https://i5d106.p.ssafy.io";
+        chromaFilter.setBackground(appServerUrl + this.image);
         if (sender.getName().equals(name)) {
             log.debug("PARTICIPANT {}: configuring loopback", this.name);
+            if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(outgoingMedia);
+            else {
+                outgoingMedia.connect(chromaFilter);
+                chromaFilter.connect(outgoingMedia);
+            }
             return outgoingMedia;
         }
 
@@ -127,8 +139,13 @@ public class UserSession implements Closeable {
         }
 
         log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
-        sender.getOutgoingWebRtcPeer().connect(incoming);
-
+        if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(incoming);
+        else {
+            incoming.connect(chromaFilter);
+            chromaFilter.connect(incoming);
+            sender.getOutgoingWebRtcPeer().connect(chromaFilter);
+            chromaFilter.connect(sender.getOutgoingWebRtcPeer());
+        }
         return incoming;
     }
 
