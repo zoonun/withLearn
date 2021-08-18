@@ -184,6 +184,21 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    // boot pay
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //jpa query log
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+
+    //bootpay
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '+'
+    compile group: 'com.google.code.gson', name: 'gson', version: '+'
+    compile group: 'commons-io', name: 'commons-io', version: '+'
+
+    //objectMapper
+    implementation group: 'com.konghq', name: 'unirest-objectmapper-jackson', version: '4.0.0-RC1'
+
 }
 
 test {
