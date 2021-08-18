@@ -17,13 +17,21 @@ public class CommunityRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QCommunity qCommunity = QCommunity.community;
+    QComment qComment = QComment.comment;
 
-    public Optional<List<Community>> findReviewByConferenceCategoryId(Long conferenceCategoryid) {
+
+    public Optional<List<Community>> findPostByConferenceCategoryId(Long conferenceCategoryid) {
         JPAQuery<Community> communities  = jpaQueryFactory.select(qCommunity).from(qCommunity);
-        // where 절
         if(conferenceCategoryid!=null) communities.where(qCommunity.conferenceCategory.id.eq(conferenceCategoryid));
 
         if(communities == null) return Optional.empty();
         return Optional.ofNullable(communities.fetch());
+    }
+
+    public Optional<List<Comment>> findCommentsByConferenceCategoryId(Long communityId) {
+        JPAQuery<Comment> Comments  = jpaQueryFactory.select(qComment).from(qComment).where(qComment.community.id.eq(communityId));
+
+        if(Comments == null) return Optional.empty();
+        return Optional.ofNullable(Comments.fetch());
     }
 }

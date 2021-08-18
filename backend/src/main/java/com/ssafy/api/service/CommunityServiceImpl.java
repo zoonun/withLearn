@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public class CommunityServiceImpl implements CommunityService {
     CommunityRepository communityRepository;
 
     @Autowired
-    ConferenceCategoryRepository conferenceCategoryRepository;
+    CommentRepository commentRepository;
 
     @Autowired
-    UserRepository userRepository;
+    ConferenceCategoryRepository conferenceCategoryRepository;
 
     @Autowired
     CommunityRepositorySupport communityRepositorySupport;
@@ -43,7 +44,22 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Optional<List<Community>> getPosts(Long conferenceCategoryid) {
-        Optional<List<Community>> communities = communityRepositorySupport.findReviewByConferenceCategoryId(conferenceCategoryid);
+        Optional<List<Community>> communities = communityRepositorySupport.findPostByConferenceCategoryId(conferenceCategoryid);
         return communities;
+    }
+
+    @Override
+    public Optional<List<Comment>> getComments(Long communityId) {
+        Optional<List<Comment>> communities = communityRepositorySupport.findCommentsByConferenceCategoryId(communityId);
+        return communities;
+    }
+
+    @Override
+    public Comment createComment(String descript, String userId, Long communityId) {
+        Comment comment = new Comment();
+        comment.setCommunity(communityRepository.findById(communityId).get());
+        comment.setDescript(descript);
+        comment.setUser(userService.getUserByUserId(userId));
+        return commentRepository.save(comment);
     }
 }

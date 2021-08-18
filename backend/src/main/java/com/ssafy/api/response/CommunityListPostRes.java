@@ -18,14 +18,14 @@ import java.util.Optional;
 @Setter
 @ApiModel("CommunityListPostRes")
 public class CommunityListPostRes extends BaseResponseBody {
-    @ApiModelProperty(name = "Review List")
+    @ApiModelProperty(name = "Community List")
     List<Community> communityList = new ArrayList<>();
 
     public static CommunityListPostRes of(Integer statusCode, String message, Optional<List<Community>> communities) {
         CommunityListPostRes res = new CommunityListPostRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
-//        res.setCommunityList(reviews.get());
+        res.setCommunityList(communities.get());
         return res;
     }
 }
