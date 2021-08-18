@@ -13,7 +13,7 @@
     </div>
     <hr>
     <div class="community-body" v-for="(item, index) in 5" :key="index" style="overflow:auto">
-      <button class="community-item">
+      <button class="community-item" @click="clickPost(index)">
         <div class="community-title">
           제목
         </div>
@@ -38,7 +38,7 @@
 <script>
 import { reactive, onMounted, onUnmounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import PostDialog from '../../community/post-dialog'
 
 export default {
@@ -48,8 +48,8 @@ export default {
     PostDialog,
   },
 
-  setup (props, { emit }) {
-    const route = useRoute()
+  setup () {
+    const router = useRouter()
     const store = useStore()
     const state = reactive({
       communityData: computed(() => store.getters['root/getCommunityData']),
@@ -71,7 +71,23 @@ export default {
     const onClosePostDialog = () => {
       state.postDialogOpen = false
     }
-    return { state, onOpenPostDialog, onClosePostDialog }
+
+    const clickPost = async function (id) {
+
+      await router.push({
+        name: 'post-detail',
+        params: {
+          postId:id,
+          title:'hi',
+          descript:'hi',
+          category:'1',
+          thumbnail:null,
+        },
+      })
+    }
+
+
+    return { state, onOpenPostDialog, onClosePostDialog, clickPost }
   }
 }
 </script>

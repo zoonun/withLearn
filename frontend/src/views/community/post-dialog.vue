@@ -47,7 +47,7 @@
           id="input-thumbnail"
           style="display:none"
           @change="fileSelect"/>
-          <button class="btn btn-submit" type="submit" style="width: 308px; margin: 10 0;">개설하기</button>
+          <button class="btn btn-submit" type="submit" style="width: 308px; margin: 10 0;">작성하기</button>
         </div>
         <p class="modal-thumbnail-selected-title" v-if="state.form.thumbnail">
           파일명: {{ state.form.thumbnail.name }}
@@ -55,9 +55,6 @@
         <p class="modal-thumbnail-selected-title" v-else>
           썸네일을 위한 사진 파일을 선택해 주세요.
         </p>
-        <div class="modal-group">
-          <button class="btn btn-submit" type="submit" style="width: 308px; margin: 10 0;">작성하기</button>
-        </div>
       </Form>
     </div>
   </div>
@@ -120,12 +117,7 @@ export default {
     const maxSize = 5 * 1024 * 1024
 
     const thumbnailValidate = function (value) {
-      if (value === null) {
-        alert('첨부파일은 필수 항목입니다.')
-        return
-      } else {
         let thumbnailSize = value.size
-
         if (!thumbnailRegExp.test(value.name)) {
           alert('이미지 파일만 업로드 가능합니다.')
           return state.form.thumbnail = null
@@ -135,7 +127,7 @@ export default {
         } else {
           return true
         }
-      }
+
     }
 
     onMounted(() => {
@@ -154,17 +146,16 @@ export default {
 
         store.dispatch('root/requestConferenceCreate', formData)
         .then(function (res) {
-          console.log('컨퍼런스 생성 결과 : ', res)
             Swal.fire({
             icon: 'success',
-            html: '컨퍼런스가 생성되었습니다.',
+            html: '게시글이 생성되었습니다.',
             showConfirmButton: false,
             timer:1000
           })
           setTimeout(function(){
             emit('closeConferenceDialog')
             router.push({
-              name: 'conference-detail',
+              name: 'post-detail',
               params: {
                 conferenceId: res.data.conferenceId
               }

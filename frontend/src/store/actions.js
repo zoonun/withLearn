@@ -127,3 +127,15 @@ export function requestCommunity({ commit }) {
     commit('setCommunity', res.data)
   })
 }
+
+export function requestCommunityCreate({}, payload) {
+  const url = '/community'
+  let body = payload
+  return $axios.post(url, body)
+}
+
+export function requestCommentCreate({}, payload) {
+  const url = '/comment'
+  let body = payload
+  return $axios.post(url, body)
+}
