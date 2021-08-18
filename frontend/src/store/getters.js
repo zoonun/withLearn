@@ -60,3 +60,7 @@ export function getUserName (state) {
 export function getUserId (state) {
   return state.userId
 }
+
+export function getChromaList (state) {
+  return state.chromaList
+}

@@ -66,4 +66,5 @@ export default {
   //   users: [],
   //   joinUsersNum: 0
   // }
+  chromaList: [],
 }

@@ -32,7 +32,16 @@
       <button @click="controlVideo" style="background-color: red;" v-else>
         <img :src="state.images.videocam_off" alt="비디오 켜기">
       </button>
+      <button @click="onOpenChromaDialog" style="background-color: green;">
+        <img :src="state.images.videocam_chroma" alt="크로마 설정">
+      </button>
     </div>
+    <ChromaDialog
+    v-if="state.userId"
+    :open="state.chromaDialogOpen"
+    :userId="state.userId"
+    @changeChroma="onChangeChroma($event)"
+    @closeChromaDialog="onCloseChromaDialog()"/>
   </div>
 </template>
 
@@ -42,13 +51,22 @@ import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import ChromaDialog from './components/chroma-dialog'
 
 export default {
   name: 'groupcall',
+  emits: {
+    imagePath: {
+      type: String
+    }
+  },
   props: {
   },
+  components: {
+    ChromaDialog
+  },
   // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
-  setup() {
+  setup(emits) {
     const route = useRoute()
     const store = useStore()
     const state = reactive({
@@ -58,6 +76,8 @@ export default {
         mic_off: require('@/assets/images/groupcall/mic_off.png'),
         videocam_on: require('@/assets/images/groupcall/videocam_on.png'),
         videocam_off: require('@/assets/images/groupcall/videocam_off.png'),
+        videocam_chroma: require('@/assets/images/groupcall/videocam_chroma.png'),
+        chroma: '',
       },
       name: computed(() => store.getters['root/getUserName']),
       userId: computed(() => store.getters['root/getUserId']),
@@ -67,7 +87,8 @@ export default {
       control: {
         mic: true,
         video: true
-      }
+      },
+      chromaDialogOpen: false,
     })
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
@@ -163,7 +184,6 @@ export default {
       var video = participant.getVideoElement()
 
       var options = {
-        localVideo: video,
         remoteVideo: video,
         mediaConstraints: constraints,
         onicecandidate: participant.onIceCandidate.bind(participant)
@@ -241,9 +261,37 @@ export default {
       state.control.video = state.control.video ? false : true
     }
 
+    const body = document.querySelector('body')
+
+    const onOpenChromaDialog = () => {
+      body.style.overflow = 'hidden'
+      state.chromaDialogOpen = true
+    }
+    const onCloseChromaDialog = () => {
+      body.style.overflow = 'auto'
+      state.chromaDialogOpen = false
+    }
+
+    const onChangeChroma = (imagePath) => {
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
+
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: imagePath
+      }
+      sendMessage(message)
+    }
+
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog }
   }
 }
 </script>

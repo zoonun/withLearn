@@ -63,3 +63,15 @@ export function setUpdate (state, profileItem) {
 export function setConferenceDetail (state, conferenceDetailData) {
   state.conferenceDetailData = conferenceDetailData
 }
+
+export function setChromaList (state, datas) {
+  const images = []
+  for (let data of datas) {
+    let image = {
+      imageName: data.imageName,
+      imagePath: data.imagePath
+    }
+    images.push(image)
+  }
+  state.chromaList = images
+}
