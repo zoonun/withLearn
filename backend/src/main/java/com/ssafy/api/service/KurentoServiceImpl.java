@@ -1,13 +1,11 @@
 package com.ssafy.api.service;
 
 import com.ssafy.db.entity.Kurento;
-import com.ssafy.db.entity.Review;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
