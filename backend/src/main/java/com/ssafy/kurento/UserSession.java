@@ -65,6 +65,10 @@ public class UserSession implements Closeable {
         return name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     public WebSocketSession getSession() {
         return session;
     }
@@ -99,7 +103,7 @@ public class UserSession implements Closeable {
         ChromaFilter chromaFilter = new ChromaFilter.Builder(pipeline, new WindowParam(5, 5, 40, 40))
                 .build();
         String appServerUrl = "https://i5d106.p.ssafy.io/";
-        chromaFilter.setBackground(appServerUrl + this.image);
+        chromaFilter.setBackground(appServerUrl + sender.getImage());
         if (sender.getName().equals(name)) {
             log.debug("PARTICIPANT {}: configuring loopback", this.name);
             if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(outgoingMedia);
