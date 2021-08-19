@@ -57,14 +57,7 @@ export default {
   userId: '',
   conferenceId: {},
   conferenceDetailData: null,
-  // conferenceOwnerUserId: '',
-  // conferenceDetailInfos: {
-  //   owner: {
-  //     userId: ''
-  //   },
-  //   is_active: false,
-  //   users: [],
-  //   joinUsersNum: 0
-  // }
-  chromaList: [],
+  communityData: null,
+  commentData: null,
+  communityDetailData: null,
 }

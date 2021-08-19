@@ -64,6 +64,18 @@ export function setConferenceDetail (state, conferenceDetailData) {
   state.conferenceDetailData = conferenceDetailData
 }
 
+export function setCommunityData (state, communityData) {
+  state.communityData = communityData
+}
+
+export function setCommunityDetail (state, communityDetailData) {
+  state.communityDetailData = communityDetailData
+}
+
+export function setCommentList (state, commentData) {
+  state.commentData = commentData
+}
+
 export function setChromaList (state, datas) {
   const images = []
   for (let data of datas) {

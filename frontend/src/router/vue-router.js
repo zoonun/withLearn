@@ -8,6 +8,8 @@ import fullMenu from '@/views/main/menu.json'
 import Search from '@/views/searches/search'
 import Dashboard from '@/views/dashboard/dashboard.vue'
 import PageNotFound from '@/components/PageNotFound'
+import Community from '@/views/home/components/community'
+import PostDetail from '@/views/community/post-detail'
 
 const beforeAuth = isAuth => (from, to, next) => {
   const isAuthenticated = store.getters['root/getIsLoggedIn']
@@ -68,6 +70,18 @@ function makeRoutesFromMenu () {
     path: '/:pathMatch(.*)*',
     component: PageNotFound
   },
+  {
+    path:'/community',
+    name:'community',
+    component: Community
+  },
+  {
+    path:'/community/:postId',
+    name: 'post-detail',
+    component: PostDetail,
+    props: true,
+    beforeEnter: beforeAuth(true)
+  }
   )
   return routes
 }

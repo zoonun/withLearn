@@ -52,6 +52,7 @@ export function requestAvailableId({ commit }, id) {
 export function requestSearchTitle({ commit }, payload) {
   const url = '/conferences'
   const body = payload
+  console.log(body)
   commit('setSearchValue', body.title)
   return $axios.get(url, { params: {
     title: body.title,
@@ -59,6 +60,7 @@ export function requestSearchTitle({ commit }, payload) {
     conferenceCategory: body.conference_category
   }})
   .then((res) => {
+    console.log(res.data)
     commit('setConferenceData', res.data.conferenceList)
   })
 }
@@ -118,6 +120,59 @@ export function requestConferenceDetail({ commit }, conference_id) {
   .then((res) => {
     commit('setConferenceDetail', res.data)
   })
+}
+
+export function requestCommunity({ commit }) {
+  const url = '/community'
+  return $axios.get(url)
+  .then((res) => {
+    commit('setCommunityData', res.data.communityList)
+  })
+}
+
+export function requestCommunityCreate({}, payload) {
+  const url = '/community'
+  let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
+}
+
+export function requestCommunityDetail({ commit }, communityId) {
+  const url = 'community/detail'
+  return $axios.get(url, {params: {
+    communutyId: communityId
+  }})
+  .then((res) => {
+    console.log(res.data)
+    commit('setCommunityDetail', res.data.communitydetail)
+  })
+}
+
+
+export function requestCommentCreate({}, payload) {
+  const url = '/comment'
+  return $axios.post(url, null,{params:{
+    descript:payload.descript,
+    communityId: payload.communityId
+  }})
+}
+
+export function requestCommentList({ commit }, postId) {
+  const url = '/comment'
+  return $axios.get(url, {params:{
+    communityId: postId
+  }})
+  .then((res) => {
+    console.log(res.data.commentList)
+    commit('setCommentList', res.data.commentList)
+  })
+}
+
+export function requestCommentDelete({}, commentId) {
+  const url = `/comment/${commentId}`
+  return $axios.delete(url)
 }
 
 export function requestConferenceJoin({}, conference_id) {
