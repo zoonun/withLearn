@@ -6,7 +6,7 @@
   </div>
   <div class="detail-wrap">
     <div class="detail-banner">
-      <img :src="state.images.detail_banner" alt="banner_image">
+      <img :src="state.images" alt="banner_image">
     </div>
     <div class="detail-control" v-if="state.conferenceDetail.owner.userId === state.userId">
       <div>
@@ -31,20 +31,40 @@
           라이브 참여하기
         </button>
         <div v-else>
-          <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
-          <button class="live-button" @click="onClickClassRegister">
-            클래스 수강신청
-          </button>
+          <div v-if="state.conferenceDetail.price !== 0">
+            <p>이 클래스는 유료에요! 🤑</p>
+            <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
+            <button class="live-button" @click="onOpenPayDialog">
+              클래스 결제하기
+            </button>
+          </div>
+          <div v-else>
+            <p>이 클래스는 무료에요! 😍</p>
+            <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
+            <button class="live-button" @click="onClickClassRegister">
+              클래스 수강신청
+            </button>
+          </div>
         </div>
       </div>
       <div class="detail-description-live" v-else>
         현재 라이브 중이 아니에요 😥
         <br>
         <div v-if="!isEntered()">
-          <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
-          <button class="live-button" @click="onClickClassRegister" >
-            클래스 수강신청
-          </button>
+          <div v-if="state.conferenceDetail.price !== 0">
+            <p>이 클래스는 유료에요! 🤑</p>
+            <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
+            <button class="live-button" @click="onOpenPayDialog">
+              클래스 결제하기
+            </button>
+          </div>
+          <div v-else>
+            <p>이 클래스는 무료에요! 😍</p>
+            <span style="font-size: 14px;">라이브에 참여하고 싶으시다면 먼저 👉</span>
+            <button class="live-button" @click="onClickClassRegister">
+              클래스 수강신청
+            </button>
+          </div>
         </div>
       </div>
       <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
@@ -58,6 +78,15 @@
       </ul>
     </div>
   </div>
+  <PayDialog
+    v-if="state.conferenceDetail.price !== 0"
+    :open="state.payDialogOpen"
+    :itemName="state.conferenceDetail.title"
+    :price="state.conferenceDetail.price"
+    :conferenceId="state.conferenceId"
+    :userId="state.userId"
+    :userName="state.userName"
+    @closePayDialog="onClosePayDialog"/>
 </template>
 <style>
 
@@ -67,14 +96,16 @@
 import { reactive, onMounted, onUnmounted, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import PayDialog from '@/components/dialog/pay-dialog'
 
 export default {
   name: 'conference-detail',
-
+  components: {
+    PayDialog
+  },
   setup () {
     const route = useRoute()
     const store = useStore()
-
     const state = reactive({
       conferenceId: '',
       conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
@@ -83,6 +114,7 @@ export default {
       images: {
         detail_banner: require('@/assets/images/music.jpg'),
       },
+      payDialogOpen: false,
     })
 
     onBeforeMount(() => {
@@ -129,7 +161,17 @@ export default {
       .catch((err) => console.log(err))
     }
 
-    return { state, onClickLive, isEntered, onClickClassRegister, onClickControlGroupcall }
+    const body = document.querySelector('body')
+
+    const onOpenPayDialog = () => {
+      body.style.overflow = 'hidden'
+      state.payDialogOpen = true
+    }
+    const onClosePayDialog = () => {
+      body.style.overflow = 'auto'
+      state.payDialogOpen = false
+    }
+    return { state, onClickLive, isEntered, onClickClassRegister, onClickControlGroupcall, onOpenPayDialog, onClosePayDialog }
   }
 }
 </script>

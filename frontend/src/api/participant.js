@@ -22,9 +22,10 @@ var PARTICIPANT_PANEL_CLASS = 'participant participant-panel col-md-2'
 /**
  * Creates a video element for a new participant
  *
- * @param {String} name - the name of the new participant, to be used as tag
+ * @param {String} name  - the name of the new participant, to be used as tag
  *                        name of the video element.
  *                        The tag of the new element will be 'video<name>'
+ * @param {Boolean} isSharing - 화면공유 체크용 파라미터
  * @return
  */
 // eslint-disable-next-line no-unused-vars
@@ -38,6 +39,7 @@ function Participant(name, sendMessage) {
   var video = document.createElement('video');
   // eslint-disable-next-line no-unused-vars
   var rtcPeer;
+  var isSharing;
 
   container.appendChild(video);
   container.appendChild(span);
@@ -49,7 +51,6 @@ function Participant(name, sendMessage) {
   video.id = 'video-' + name;
   video.autoplay = true;
   video.controls = false;
-
 
   this.getElement = function() {
     return container;
@@ -112,6 +113,7 @@ function Participant(name, sendMessage) {
   }
 
   Object.defineProperty(this, 'rtcPeer', { writable: true});
+  Object.defineProperty(this, 'isSharing', { writable: true});
 
   this.dispose = function() {
     console.log(this.name + ' 화상채팅 종료');

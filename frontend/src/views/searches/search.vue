@@ -1,37 +1,38 @@
 <template>
-  <div class="search-header">
-    <div class="sort-wrapper">
-      <select class="sort-button" @change="clickSortSelectItem">
-        <option v-for="(item, index) in state.sortSelectItems" :key="index" class="sort-button" :value="index"> {{ item.label }}</option>
-      </select>
-      <button @click="clickSortOrderIndex" class="sort-order-button">
-        <i :class="['ic', state.sortOrderIconItem]"/>
-      </button>
-
-    </div>
-    <div class="filter-wrapper">
-      <ul class="filter-list">
-        <button v-for="(item, index) in state.filterItems" :key="index" :index="index.toString()" @click="clickFilterItem(index)" class="btn">
-          {{ item.name }}
+  <div class="search-wrap">
+    <div class="search-header">
+      <div class="sort-wrapper">
+        <select class="sort-button" @change="clickSortSelectItem">
+          <option v-for="(item, index) in state.sortSelectItems" :key="index" class="sort-button" :value="index"> {{ item.label }}</option>
+        </select>
+        <button @click="clickSortOrderIndex" class="sort-order-button">
+          <i :class="['ic', state.sortOrderIconItem]"/>
         </button>
-      </ul>
+      </div>
+      <div class="filter-wrapper">
+        <ul class="filter-list">
+          <button v-for="(item, index) in state.filterItems" :key="index" :index="index.toString()" @click="clickFilterItem(index)" class="btn">
+            {{ item.name }}
+          </button>
+        </ul>
+      </div>
     </div>
-
-  </div>
-  <div class="card-body">
-    <div v-for="(conference, idx) in state.conferences" :key="idx" @click="clickConference(conference.id)">
-      <Conference
-        :conference="conference"
-      />
+    <div class="conference-card-list container">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-4" v-for="(conference, idx) in state.conferences" :key="idx" @click="clickConference(conference.id)">
+          <ConferenceCard
+            :conference="conference"
+          />
+        </div>
+      </div>
     </div>
   </div>
-
 </template>
 <style>
 
 </style>
 <script>
-import Conference from '../home/components/conference'
+import ConferenceCard from '@/components/card/conference-card'
 import { reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -40,7 +41,7 @@ export default {
   name: 'search',
 
   components: {
-    Conference
+    ConferenceCard
   },
 
   setup () {
@@ -49,7 +50,8 @@ export default {
 
     const state = reactive({
       conferences: computed(() =>store.getters['root/getConference']),
-      recentSearchValue: computed(() => store.getters['root/getSearchValue']),
+      // recentSearchValue: computed(() => store.getters['root/getSearchValue']),
+      recentSearchValue:computed(() => sessionStorage.getItem('recentSearch')),
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],
       sortOrderValueItems: ['asc', 'desc'],
@@ -67,8 +69,9 @@ export default {
 
     onMounted(() => {
       const payload = {
-        title: null,
-        sort: null,
+        title: state.recentSearchValue,
+        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
+        order: state.sortOrderValueItems[state.sortActiveOrderIndex],
         page: null,
         size: 20,
         conference_category: state.conference_category,

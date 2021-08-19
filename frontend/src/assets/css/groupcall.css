@@ -21,7 +21,7 @@
   display: flex;
   flex-flow: row nowrap;
   position: fixed;
-  width: 150px;
+  width: 250px;
   bottom: 20px;
   align-items: center;
   justify-content: space-between;
@@ -71,6 +71,7 @@
   color: white;
   background-color: black;
   opacity: 75%;
+  z-index: 1;
 }
 
 .participant.participant-main {

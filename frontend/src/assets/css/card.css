@@ -1,0 +1,103 @@
+/* conference card */
+.conference-card-list {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 80%;
+}
+
+.conference-card {
+  display: flex;
+  flex-flow: column wrap;
+  cursor: pointer;
+  font-size: 1.8rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 320px;
+  transition: transform 500ms;
+}
+
+.conference-card-list .conference-card:focus,
+.conference-card-list .conference-card:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.conference-card-list:focus-within ~ .conference-card,
+.conference-card-list:hover ~ .conference-card {
+  transform: translateX(-25%);
+}
+
+.conference-card:focus .conference-card,
+.conference-card:hover .conference-card {
+  transform: translateX(25%);
+}
+
+.conference-card-header {
+  width: 100%;
+  height: 50%;
+  border-bottom: 0.5px solid #bbb;
+}
+
+.conference-card-body {
+  width: 100%;
+  height: 40%;
+  padding: 10px;
+}
+
+.conference-card-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.conference-card-description {
+  font-size: 1.5rem;
+}
+
+
+.conference-card-footer {
+  height: 10%;
+}
+
+.conference-card-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.conference-card-badge-algo {
+  font-size:70%;
+  background-color: rgb(80, 197, 243);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 3px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-health {
+  font-size:70%;
+  background-color: rgb(252, 54, 136);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-music {
+  font-size:70%;
+  background-color: rgb(255, 164, 46);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}

@@ -32,7 +32,19 @@
       <button @click="controlVideo" style="background-color: red;" v-else>
         <img :src="state.images.videocam_off" alt="비디오 켜기">
       </button>
+      <button @click="onOpenChromaDialog" style="background-color: green;">
+        <img :src="state.images.videocam_chroma" alt="크로마 설정">
+      </button>
+      <button @click="controlShare" style="background-color: green;">
+        <img :src="state.images.videocam_chroma" alt="화면공유">
+      </button>
     </div>
+    <ChromaDialog
+    v-if="state.userId"
+    :open="state.chromaDialogOpen"
+    :userId="state.userId"
+    @changeChroma="onChangeChroma($event)"
+    @closeChromaDialog="onCloseChromaDialog()"/>
   </div>
 </template>
 
@@ -42,10 +54,15 @@ import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import ChromaDialog from '@/components/dialog/chroma-dialog'
+import '@/api/screen.js'
 
 export default {
   name: 'groupcall',
   props: {
+  },
+  components: {
+    ChromaDialog
   },
   // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
   setup() {
@@ -58,6 +75,8 @@ export default {
         mic_off: require('@/assets/images/groupcall/mic_off.png'),
         videocam_on: require('@/assets/images/groupcall/videocam_on.png'),
         videocam_off: require('@/assets/images/groupcall/videocam_off.png'),
+        videocam_chroma: require('@/assets/images/groupcall/videocam_chroma.png'),
+        chroma: '',
       },
       name: computed(() => store.getters['root/getUserName']),
       userId: computed(() => store.getters['root/getUserId']),
@@ -66,8 +85,10 @@ export default {
       ws: {},
       control: {
         mic: true,
-        video: true
-      }
+        video: true,
+        isSharing: false,
+      },
+      chromaDialogOpen: false,
     })
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
@@ -160,19 +181,43 @@ export default {
       }
       var participant = new Participant(state.name, sendMessage)
       state.participants[state.name] = participant
+      participant.isSharing = state.control.isSharing
       var video = participant.getVideoElement()
 
-      var options = {
-        localVideo: video,
-        remoteVideo: video,
-        mediaConstraints: constraints,
-        onicecandidate: participant.onIceCandidate.bind(participant)
+      if (!participant.isSharing) {
+        console.log('화면공유 안하는중!')
+        var options = {
+          remoteVideo: video,
+          mediaConstraints: constraints,
+          onicecandidate: participant.onIceCandidate.bind(participant)
+        }
+        participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
+          if (error) return console.error(error)
+          this.generateOffer(participant.offerToReceiveVideo.bind(participant))
+        })
+        message.data.forEach(receiveVideo)
+      } else {
+        console.log('화면공유 하는중')
+        if (navigator.getDisplayMedia || navigator.mediaDevices.getDisplayMedia) {
+          if (navigator.mediaDevices.getDisplayMedia) {
+            navigator.mediaDevices.getDisplayMedia({video: true, audio: true}).then(stream => {
+              video.srcObject = stream;
+
+              var options = {
+                videoStream : stream,
+                mediaConstraints: constraints,
+                sendSource: 'screen',
+                onicecandidate: participant.onIceCandidate.bind(participant)
+              }
+              participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
+                if (error) return console.error(error);
+                this.generateOffer(participant.offerToReceiveVideo.bind(participant));
+              });
+              message.data.forEach(receiveVideo);
+            });
+          }
+        }
       }
-      participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
-        if (error) return console.error(error)
-        this.generateOffer(participant.offerToReceiveVideo.bind(participant))
-      })
-      message.data.forEach(receiveVideo)
     }
 
     const readyWsConnection = function () {
@@ -241,9 +286,56 @@ export default {
       state.control.video = state.control.video ? false : true
     }
 
+    const controlShare = function () {
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
+      state.control.isSharing = state.control.isSharing ? false : true
+
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: state.images.chroma
+      }
+      sendMessage(message)
+    }
+
+    const onChangeChroma = (imagePath) => {
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
+      state.images.chroma = imagePath
+
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: state.images.chroma
+      }
+      sendMessage(message)
+    }
+
+    const body = document.querySelector('body')
+
+    const onOpenChromaDialog = () => {
+      body.style.overflow = 'hidden'
+      state.chromaDialogOpen = true
+    }
+    const onCloseChromaDialog = () => {
+      body.style.overflow = 'auto'
+      state.chromaDialogOpen = false
+    }
+
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog, controlShare }
   }
 }
 </script>

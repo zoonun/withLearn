@@ -15,13 +15,13 @@
     </div>
     <div id="end" class="nav-items">
       <div class="nav-dropdown">
-        <a class="btn nav-end-item dropbtn">강의
+        <a class="btn nav-end-item dropbtn">클래스
           <i class="fa fa-caret-down"></i>
         </a>
         <div class="nav-dropdown-content">
-          <a @click="clickConferenceList">강의 목록으로</a>
-          <a @click="clickConference">강의 개설하기</a>
-          <a @click="clickConference">강의 참여하기</a>
+          <a @click="clickConferenceList">클래스 목록으로</a>
+          <a @click="clickConference">클래스 개설하기</a>
+          <!-- <a @click="clickConference">클래스 참여하기</a> -->
         </div>
       </div>
       <router-link to="/community" class="btn nav-end-item">커뮤니티</router-link>
@@ -101,7 +101,7 @@ export default {
         size: 20,
         conference_category: null,
       }
-      console.log(payload)
+      sessionStorage.setItem('recentSearch', state.searchValue)
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({
@@ -119,12 +119,27 @@ export default {
     }
 
     const clickConferenceList = async function () {
-      await router.push({
-        name: 'search',
-        params: {
-          searchValue: 1,
-        }
+      store.commit('root/setSpinnerStart')
+      const payload = {
+        title: null,
+        sort:null,
+        order: null,
+        page: null,
+        size: 20,
+        conference_category: null,
+      }
+      sessionStorage.removeItem('recentSearch')
+      state.searchValue=null
+      await store.dispatch('root/requestSearchTitle', payload)
+      .then(() => {
+        router.push({
+          name: 'search',
+          params: {
+            searchValue: ' '
+          }
+        })
       })
+      .finally(store.commit('root/setSpinnerEnd'))
     }
 
 

@@ -76,3 +76,7 @@ export function getCommunityDetail (state) {
 export function getCommentList (state) {
   return state.commentData
 }
+
+export function getChromaList (state) {
+  return state.chromaList
+}

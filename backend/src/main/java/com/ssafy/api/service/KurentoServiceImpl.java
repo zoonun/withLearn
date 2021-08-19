@@ -32,10 +32,10 @@ public class KurentoServiceImpl implements KurentoService {
     @Override
     public Kurento registImage(String imageUrl, String imageName, String userId) {
         Kurento kurento = new Kurento();
-        Optional<User> user = userRepository.findByUserId(userId);
+        User user = userService.getUserByUserId(userId);
         kurento.setImagePath(imageUrl);
         kurento.setImageName(imageName);
-        kurento.setUser(user.get());
+        kurento.setUser(user);
         return kurentoRepository.save(kurento);
     }
 

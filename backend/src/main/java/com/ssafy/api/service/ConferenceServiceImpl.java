@@ -43,7 +43,8 @@ public class ConferenceServiceImpl implements ConferenceService {
         conference.setConferenceCategory(conferenceCategory);
         conference.setConference_day(conferenceDay);
         conference.setConference_time(conferenceTime);
-        conference.setPrice(price);
+        if( price==null ) conference.setPrice(0);
+        else conference.setPrice(price);
         conference.setThumbnail(thumbnail);
         return conference;
     }

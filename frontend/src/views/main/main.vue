@@ -39,16 +39,17 @@
   @import '../../assets/css/community.css';
   @import '../../assets/css/detail.css';
   @import '../../assets/css/groupcall.css';
+  @import '../../assets/css/card.css';
 </style>
 <script>
 import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
-import LoginDialog from './components/login-dialog'
-import SignupDialog from './components/signup-dialog'
-import SearchDialog from './components/search-dialog'
-import ConferenceDialog from './components/conference-dialog'
-import ProfileDialog from './components/profile-dialog'
+import LoginDialog from '@/components/dialog/login-dialog'
+import SignupDialog from '@/components/dialog/signup-dialog'
+import SearchDialog from '@/components/dialog/search-dialog'
+import ConferenceDialog from '@/components/dialog/conference-dialog'
+import ProfileDialog from '@/components/dialog/profile-dialog'
 import Spinner from './components/spinner'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'

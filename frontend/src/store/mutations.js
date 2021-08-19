@@ -75,3 +75,15 @@ export function setCommunityDetail (state, communityDetailData) {
 export function setCommentList (state, commentData) {
   state.commentData = commentData
 }
+
+export function setChromaList (state, datas) {
+  const images = []
+  for (let data of datas) {
+    let image = {
+      imageName: data.imageName,
+      imagePath: data.imagePath
+    }
+    images.push(image)
+  }
+  state.chromaList = images
+}

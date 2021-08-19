@@ -37,6 +37,20 @@
   position: relative;
 }
 
+.modal-box {
+  width: 308px;
+  margin: 10px 0;
+}
+
+.modal-box-label {
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.modal-box-text {
+  font-size: 1.5rem;
+}
+
 .modal-hr {
   width: 80%;
   border: 0.5px solid #bbb;
@@ -46,15 +60,12 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  margin-top: 1rem;
   justify-content: space-between;
 }
 
 .modal-thumbnail-selected-title {
   margin-left: 10px;
-}
-
-.modal-footer {
-
 }
 
 /* form */
@@ -78,3 +89,23 @@ form select {
   background-color 0.3s ease-in-out;
 }
 
+.chroma-list {
+  min-height: 400px;
+}
+
+.chroma-list-item {
+  cursor: pointer;
+}
+
+.chroma-list-item img {
+  width: 50px;
+}
+
+.chroma-list-text {
+  position: relative;
+  bottom: 10px;
+  background-color: black;
+  color: white;
+  width: 50px;
+  text-align: center;
+}
