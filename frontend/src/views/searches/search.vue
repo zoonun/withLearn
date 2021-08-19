@@ -66,6 +66,15 @@ export default {
 
 
     onMounted(() => {
+      const payload = {
+        title: state.recentSearchValue,
+        sort:  [state.sortSelectValueItems[state.sortActiveSelectIndex],state.sortOrderValueItems[state.sortActiveOrderIndex]].join(','),
+        order: state.sortOrderValueItems[state.sortActiveOrderIndex],
+        page: null,
+        size: 20,
+        conference_category: state.conference_category,
+      }
+      store.dispatch('root/requestSearchTitle', payload)
     })
 
     const load = function () {
