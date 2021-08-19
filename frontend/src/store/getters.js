@@ -50,7 +50,6 @@ export function getConferenceDetail (state) {
 }
 
 export function getCommunityData (state) {
-  console.log(state.communityData)
   return state.communityData
 }
 
@@ -67,14 +66,14 @@ export function getUserId (state) {
 }
 
 export function getCommunityList (state) {
-  console.log(state.communityData)
   return state.communityData
 }
 
 export function getCommunityDetail (state) {
+  console.log('getCommunityDetail', state.communityDetailData)
   return state.communityDetailData
 }
 
-export function setCommentList (state) {
-  return state.coommentData
+export function getCommentList (state) {
+  return state.commentData
 }

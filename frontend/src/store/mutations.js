@@ -73,5 +73,5 @@ export function setCommunityDetail (state, communityDetailData) {
 }
 
 export function setCommentList (state, commentData) {
-  state.coommentData = commentData
+  state.commentData = commentData
 }

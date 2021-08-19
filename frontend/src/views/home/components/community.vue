@@ -15,7 +15,7 @@
     </div>
     <hr>
     <div class="community-body" v-for="(post, index) in state.communityData" :key="index" style="overflow:auto">
-      <button class="community-item" @click="clickPost(index)">
+      <button class="community-item" @click="clickPost(post)">
         <div class="community-title">
           {{ post.title }}
         </div>
@@ -78,16 +78,16 @@ export default {
       state.postDialogOpen = false
     }
 
-    const clickPost = async function (id) {
-
+    const clickPost = async function (post) {
       await router.push({
         name: 'post-detail',
         params: {
-          postId:id,
-          title:'hi',
-          descript:'hi',
-          category:'1',
-          thumbnail:null,
+          postId: post.id,
+          title: post.title,
+          descript: post.descript,
+          category: post.conferenceCategory.name,
+          time: post.time,
+          username: post.user.userId
         },
       })
     }

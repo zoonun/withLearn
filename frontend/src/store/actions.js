@@ -138,40 +138,26 @@ export function requestCommunityCreate({}, payload) {
   return $axios.post(url, body, config)
 }
 
-export function requestCommunityDetail({ commit }, postId) {
-  const url = `/community/${postId}`
-  return $axios.get(url)
-  .then((res) => {
-    commit('setCommunityDetail', res.data)
-  })
+export function requestCommunityDetail({ commit }, payload) {
+  return commit('setCommunityDetail', payload)
 }
 
-export function requestCommunityUpdate({ commit }, payload) {
-  const postId = payload.postId
-  const url = `/community/${postId}`
-  let body = payload
-  return $axios.patch(url, body)
-}
-
-export function requestCommunityDelete({}, postId) {
-  const url = `community/${postId}`
-  return $axios.delete(url)
-}
 
 export function requestCommentCreate({}, payload) {
-  const postId = payload.postId
-  const url = `/comment/${postId}`
-  let body = {
-    'content': payload.content
-  }
-  return $axios.post(url, body)
+  const url = '/comment'
+  return $axios.post(url, null,{params:{
+    descript:payload.descript,
+    communityId: payload.communityId
+  }})
 }
 
 export function requestCommentList({ commit }, postId) {
-  const url = `/comment/${postId}`
-  return $axios.get(url)
+  const url = '/comment'
+  return $axios.get(url, {params:{
+    communityId: postId
+  }})
   .then((res) => {
-    commit('setCommentList', res.data)
+    commit('setCommentList', res.data.commentList)
   })
 }
 

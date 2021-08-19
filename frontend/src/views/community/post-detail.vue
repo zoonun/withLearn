@@ -8,7 +8,7 @@
   <div class="post-wrapper" >
     <div class="post-header">
       <div class="post-category">
-        음악>
+        {{ category }}>
       </div>
       <div class="post-title">
         {{ title }}
@@ -20,7 +20,7 @@
         <div class="user-info">
           {{ username }}
           <p class="post-time">
-            {{ createTime }}
+            {{ time.slice(0,16) }}
           </p>
         </div>
       </div>
@@ -38,11 +38,8 @@
     </div>
     <div>
       <CreateComment
+      :postId="postId"
       :userId="username"/>
-    </div>
-    <div class="post-bottom">
-      <button class="post-update-btn">수정</button>
-      <button class="post-delete-btn">삭제</button>
     </div>
   </div>
   </div>
@@ -121,7 +118,7 @@
 <script>
 import { reactive, onMounted, onUnmounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Comment from './comment'
 import CreateComment from './create-comment'
 
@@ -139,39 +136,34 @@ export default {
     },
     title: {
       type: String,
-      default: '제목'
     },
     descript: {
       type: String,
-      default: '내용'
     },
     category: {
       type: String,
-      default: '음악'
     },
     username: {
       type: String,
-      default: 'user'
     },
-    createTime: {
+    time: {
       type: String,
-      default: '2021.08.18 09:00'
     }
   },
-  setup () {
-    const route = useRoute()
+  setup (props) {
+    const router = useRouter()
     const store = useStore()
     const state = reactive({
-      conferenceDetail: computed(() => store.getters['root/getConferenceDetail']),
       images: {
         icon: require('@/assets/images/user_icon.png')
       },
-      commentList: computed(() => store.getters['root/getCommentList'])
+      commentList: computed(() => store.getters['root/getCommentList']),
+      postitem: computed(() => store.getters['root/getCommunityDetail'])
     })
 
     // 페이지 진입시 불리는 훅
     onMounted(() => {
-      store.dispatch('root/requestCommunity')
+      store.dispatch('root/requestCommentList', props.postId)
     })
 
     // 페이지 이탈시 불리는 훅

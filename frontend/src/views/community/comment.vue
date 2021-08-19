@@ -7,12 +7,12 @@
       <div class="comment-user">
         유저
       </div>
-      <div class="comment-delete">
+      <div class="comment-delete" @click="clickComment">
         x
       </div>
     </div>
     <div class="comment-body">
-      내용
+      {{ comment.descript }}
       <p class="post-time" style="margin-top:1rem;">
       2021.08.18 09:00
       </p>
@@ -52,8 +52,13 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'comment',
+  props:{
+    comment:{
+      type: Object
+    }
+  },
 
-  setup () {
+  setup (props) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
@@ -64,14 +69,16 @@ export default {
 
 
     onMounted(() => {
-
     })
 
     onUnmounted(() => {
     })
 
+    const clickComment = () => {
+    }
 
-    return { state }
+
+    return { state, clickComment }
   }
 }
 </script>

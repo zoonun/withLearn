@@ -45,13 +45,15 @@ export default {
   name: 'create-comment',
 
   props: {
-    userId: {
+    postId: {
       type: String,
-      default: 'user'
+    },
+    userId: {
+      type: String
     }
   },
 
-  setup () {
+  setup (props) {
     const router = useRouter()
     const store = useStore()
     const state = reactive({
@@ -70,7 +72,10 @@ export default {
     })
 
     const clickCommentCreate = function () {
-      const payload = state.comment
+      var payload = {}
+      payload['descript'] = state.comment
+      payload['communityId'] = props.postId
+      console.log(payload)
       store.dispatch('root/requestCommentCreate', payload)
     }
 
