@@ -19,10 +19,8 @@
     </div>
     <div class="detail-body">
       <!-- 클래스 생성자만 조작 가능 -->
-      <div class="detail-description">
-        입문자를 위한
-        <br>
-        보컬 트레이닝 클래스입니다.
+      <div class="detail-title" v-if="state.conferenceDetail">
+        {{ state.conferenceDetail.title }}
       </div>
       <div class="detail-description-live" v-if="state.conferenceDetail._active">
         현재 라이브 중이에요! 😁
@@ -70,12 +68,9 @@
       <!-- 스터디 개설자일 경우에는 그룹콜 켤수 있도록 한다 -->
     </div>
     <div class="detail-bottom">
-      이전 라이브 영상
-      <ul class="detail-list">
-        <li class="detail-bottom-button" v-for="(idx) in 8" :key="idx">
-          소주한잔 {{ idx }}키 올려 부르는 법
-        </li>
-      </ul>
+      <div class="detail-description" v-if="state.conferenceDetail">
+        {{ state.conferenceDetail.description }}
+      </div>
     </div>
   </div>
   <PayDialog
