@@ -119,12 +119,27 @@ export default {
     }
 
     const clickConferenceList = async function () {
-      await router.push({
-        name: 'search',
-        params: {
-          searchValue: 1,
-        }
+      store.commit('root/setSpinnerStart')
+      console.log('clickSearch')
+      const payload = {
+        title: null,
+        sort:null,
+        order: null,
+        page: null,
+        size: 20,
+        conference_category: null,
+      }
+      console.log(payload)
+      await store.dispatch('root/requestSearchTitle', payload)
+      .then(() => {
+        router.push({
+          name: 'search',
+          params: {
+            searchValue: ' '
+          }
+        })
       })
+      .finally(store.commit('root/setSpinnerEnd'))
     }
 
 
