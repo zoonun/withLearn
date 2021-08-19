@@ -70,7 +70,6 @@ export function getCommunityList (state) {
 }
 
 export function getCommunityDetail (state) {
-  console.log('getCommunityDetail', state.communityDetailData)
   return state.communityDetailData
 }
 

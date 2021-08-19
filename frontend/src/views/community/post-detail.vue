@@ -8,26 +8,26 @@
   <div class="post-wrapper" >
     <div class="post-header">
       <div class="post-category">
-        {{ category }}>
+        {{ state.postitem.conferenceCategory.name }}>
       </div>
       <div class="post-title">
-        {{ title }}
+        {{ state.postitem.title }}
       </div>
       <div class="post-user">
         <div class="user-icon">
           <img :src="state.images.icon" alt="유저 아이콘" style="height:50px;">
         </div>
         <div class="user-info">
-          {{ username }}
+          {{ state.postitem.user.userId }}
           <p class="post-time">
-            {{ time.slice(0,16) }}
+            {{ state.postitem.time.slice(0,16) }}
           </p>
         </div>
       </div>
     </div>
     <hr>
     <div class="post-body">
-      {{ descript }}
+      {{ state.postitem.descript }}
     </div>
     <hr>
     댓글>
@@ -36,12 +36,13 @@
       :comment="comment"
       />
     </div>
-    <div>
+    <div class="create-comment">
       <CreateComment
       :postId="postId"
       :userId="username"/>
     </div>
   </div>
+  <hr>
   </div>
 </template>
 <style>
@@ -113,6 +114,9 @@
 .post {
   background-color: white;
 }
+.create-comment {
+  margin-bottom:2rem;
+}
 </style>
 
 <script>
@@ -133,21 +137,6 @@ export default {
   props: {
     postId: {
       type: String
-    },
-    title: {
-      type: String,
-    },
-    descript: {
-      type: String,
-    },
-    category: {
-      type: String,
-    },
-    username: {
-      type: String,
-    },
-    time: {
-      type: String,
     }
   },
   setup (props) {
@@ -158,7 +147,8 @@ export default {
         icon: require('@/assets/images/user_icon.png')
       },
       commentList: computed(() => store.getters['root/getCommentList']),
-      postitem: computed(() => store.getters['root/getCommunityDetail'])
+      // postitem: computed(() => store.getters['root/getCommunityDetail'])
+      postitem:computed(() => JSON.parse(sessionStorage.getItem('postitem')))
     })
 
     // 페이지 진입시 불리는 훅
@@ -168,6 +158,7 @@ export default {
 
     // 페이지 이탈시 불리는 훅
     onUnmounted(() => {
+      sessionStorage.clear()
     })
 
     return { state }

@@ -138,8 +138,15 @@ export function requestCommunityCreate({}, payload) {
   return $axios.post(url, body, config)
 }
 
-export function requestCommunityDetail({ commit }, payload) {
-  return commit('setCommunityDetail', payload)
+export function requestCommunityDetail({ commit }, communityId) {
+  const url = 'community/detail'
+  return $axios.get(url, {params: {
+    communutyId: communityId
+  }})
+  .then((res) => {
+    console.log(res.data)
+    commit('setCommunityDetail', res.data.communitydetail)
+  })
 }
 
 
@@ -157,6 +164,7 @@ export function requestCommentList({ commit }, postId) {
     communityId: postId
   }})
   .then((res) => {
+    console.log(res.data.commentList)
     commit('setCommentList', res.data.commentList)
   })
 }

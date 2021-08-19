@@ -5,16 +5,13 @@
         <img :src="state.images.icon" alt="유저 아이콘" style="height:40px;">
       </div>
       <div class="comment-user">
-        유저
-      </div>
-      <div class="comment-delete" @click="clickComment">
-        x
+        {{ comment.user.userId }}
       </div>
     </div>
     <div class="comment-body">
       {{ comment.descript }}
       <p class="post-time" style="margin-top:1rem;">
-      2021.08.18 09:00
+      {{ comment.time.slice(0,16)}}
       </p>
     </div>
   </div>

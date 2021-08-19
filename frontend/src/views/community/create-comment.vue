@@ -37,7 +37,7 @@
 </style>
 
 <script>
-import { reactive, onMounted, onUnmounted, computed } from 'vue'
+import { reactive, onMounted, onUnmounted, computed, onBeforeUpdate } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -77,6 +77,11 @@ export default {
       payload['communityId'] = props.postId
       console.log(payload)
       store.dispatch('root/requestCommentCreate', payload)
+      .then(() => {
+        setTimeout(function(){
+          document.location.reload();
+        }, 500);
+      })
     }
 
 

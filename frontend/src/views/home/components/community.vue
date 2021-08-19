@@ -79,7 +79,10 @@ export default {
     }
 
     const clickPost = async function (post) {
-      await router.push({
+      await store.dispatch('root/requestCommunityDetail', post.id)
+      .then(() => {
+        sessionStorage.setItem('postitem', JSON.stringify(post))
+        router.push({
         name: 'post-detail',
         params: {
           postId: post.id,
@@ -90,6 +93,18 @@ export default {
           username: post.user.userId
         },
       })
+      })
+      // await router.push({
+      //   name: 'post-detail',
+      //   params: {
+      //     postId: post.id,
+      //     title: post.title,
+      //     descript: post.descript,
+      //     category: post.conferenceCategory.name,
+      //     time: post.time,
+      //     username: post.user.userId
+      //   },
+      // })
     }
 
 
