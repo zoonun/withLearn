@@ -37,10 +37,13 @@
           placeholder="클래스 설명"
         />
         <TextInput
+          v-if="!state.isFreeClass"
           name="price"
           type="text"
           placeholder="클래스 가격"
         />
+        <input type="checkbox" v-model="state.isFreeClass" id="isFreeClass">
+        <label for="isFreeClass" style="font-size: 14px;">무료 강의를 개설하겠습니다.</label>
         <div class="modal-group">
           <label for="input-thumbnail" class="label-modal-thumbnail">
             썸네일 선택
@@ -103,7 +106,8 @@ export default {
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px',
       isSpinning: false,
-      conferenceIds: computed(() => store.getters['root/getConferenceId'])
+      conferenceIds: computed(() => store.getters['root/getConferenceId']),
+      isFreeClass: false,
     })
 
     let schema = Yup.object().shape({

@@ -1,6 +1,6 @@
 <template>
   <div class="modal-mask" v-if="state.dialogVisible">
-    <div class="modal-container" @keyup.esc="handleClose" style="width: 400px; height: 400px;">
+    <div class="modal-container" @keyup.esc="handleClose" style="width: 400px; height: 480px;">
       <div class="modal-header">
         결제하기
         <svg
@@ -19,42 +19,34 @@
           ></path>
         </svg>
       </div>
-      <form @submit="onPayClass" class="modal-body">
-        <div class="chroma-list container" v-if="state.chromaList">
-          <div class="chroma-list-item col-2">
-            <button @click="selectChroma('')">가상배경 없애기</button>
-          </div>
-          <div class="row" v-for="(item, idx) in state.chromaList" :key="idx">
-            <div class="chroma-list-item col-2" @click="selectChroma(item.imagePath)">
-              <img :src="`https://i5d106.p.ssafy.io/${item.imagePath}`" alt="chroma">
-              <span class="chroma-list-text">{{ item.imageName }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="modal-group">
-          <label for="input-chroma" class="label-modal-thumbnail">
-            가상 배경 이미지 선택
-          </label>
-          <input
-          type="file"
-          id="input-chroma"
-          style="display:none"
-          @change="fileSelect"/>
-          <button class="btn btn-submit" type="submit" style="width: 100px">제출</button>
-        </div>
-        <p class="modal-thumbnail-selected-title" v-if="state.chroma.newImage">
-          파일명: {{ state.chroma.newImage.name }}
+      <div class="modal-body">
+        <p class="modal-box modal-box-label">
+          클래스
         </p>
-        <p class="modal-thumbnail-selected-title" v-else>
-          가상 배경을 위한 사진 파일을 선택해 주세요.
+        <p class="modal-box modal-box-text">
+          {{ itemName }}
         </p>
-      </form>
+        <p class="modal-box modal-box-label">
+          가격
+        </p>
+        <p class="modal-box modal-box-text">
+          {{ price }}
+        </p>
+        <p class="modal-box modal-box-label">
+          구매자 아이디
+        </p>
+        <p class="modal-box modal-box-text">
+          {{ userId }}
+        </p>
+        <button class="btn btn-submit modal-box" @click=onClickPay>결제하기</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { reactive, computed, onMounted } from 'vue'
+import BootPay from 'bootpay-js'
 import { useStore } from 'vuex'
 
 export default {
@@ -66,6 +58,15 @@ export default {
     },
     price: {
       type: Number
+    },
+    userId: {
+      type: String
+    },
+    itemName: {
+      type: String
+    },
+    conferenceId: {
+      type: String
     }
   },
   setup(props, {emit}) {
@@ -75,31 +76,66 @@ export default {
     })
 
     onMounted(() => {
+
     })
 
     const handleClose = function () {
       emit('closePayDialog')
     }
 
-    const fileSelect = function (event) {
-      state.chroma.newImage = event.target.files[0]
+    const onClickPay = function () {
+      console.log(props.conferenceId)
+      BootPay.request({
+      // price: props.price.toString(),
+      price: props.price,
+      application_id: '611b54ed7b5ba4001d52a23c',
+      name: props.itemName, //결제창에서 보여질 이름
+      pg: 'inicis',
+      method: 'card', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+      show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
+      items: [
+          {
+            item_name: props.itemName, //상품명 ****
+            qty: 1, //수량
+            // GET 요청으로 구매 번호 (order index)를 받아와야 함
+            unique: props.conferenceId, //해당 상품을 구분짓는 primary key
+            price: props.price, //상품 단가 ****
+          }
+      ],
+      order_id: props.conferenceId, //고유 주문번호로, 생성하신 값을 보내주셔야 합니다. ****
+      }).error(function (data) {
+        //결제 진행시 에러가 발생하면 수행됩니다.
+        // location.replace('pay/delete?id='+ '1'); //DB 값 삭제
+      }).ready(function (data) {
+        // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
+      }).confirm(function (data) {
+        //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
+        //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+        var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+        if (enable) {
+            BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+        } else {
+            BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+        }
+      }).cancel(function (data) {
+        //결제가 취소되면 수행됩니다.
+        // location.replace('pay/delete?id='+'1');    //DB 값 삭제
+      }).close(function (data) {
+        // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
+      }).done(function (data) {
+        //결제가 정상적으로 완료되면 수행됩니다
+        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
+        store.dispatch('root/requestConferenceJoin', props.conferenceId)
+        .then(() => {
+          alert('클래스 수강신청에 성공하셨습니다!')
+          emit('closePayDialog')
+          window.location.reload()
+        })
+        .catch((err) => console.log(err))
+      });
     }
 
-    const onAddChroma = function () {
-      const fd = new FormData()
-      fd.append('image', state.chroma.newImage)
-      fd.append('userId', props.userId)
-      store.dispatch('root/requestAddChromaImage', fd)
-      .then()
-      .catch((err) => console.log(err))
-    }
-
-    const selectChroma = function (imagePath) {
-      emit('changeChroma', `${imagePath}`)
-      emit('closePayDialog')
-    }
-
-    return { state, handleClose, onAddChroma, fileSelect, selectChroma }
+    return { state, handleClose, onClickPay }
   }
 }
 </script>

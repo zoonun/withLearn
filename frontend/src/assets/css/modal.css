@@ -37,6 +37,20 @@
   position: relative;
 }
 
+.modal-box {
+  width: 308px;
+  margin: 10px 0;
+}
+
+.modal-box-label {
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.modal-box-text {
+  font-size: 1.5rem;
+}
+
 .modal-hr {
   width: 80%;
   border: 0.5px solid #bbb;
@@ -46,15 +60,12 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  margin-top: 1rem;
   justify-content: space-between;
 }
 
 .modal-thumbnail-selected-title {
   margin-left: 10px;
-}
-
-.modal-footer {
-
 }
 
 /* form */

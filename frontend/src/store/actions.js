@@ -147,9 +147,14 @@ export function requestChromaList({commit}, user_id) {
 export function requestAddChromaImage({commit}, payload) {
   const url = '/kurentos'
   let body = payload
-  console.log(payload)
   let config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
   return $axios.post(url, body, config)
+}
+
+// 결제
+export function requestCreatePay() {
+  const url = '/pay'
+  return $axios.get(url)
 }
