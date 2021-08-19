@@ -75,3 +75,7 @@ export function setChromaList (state, datas) {
   }
   state.chromaList = images
 }
+
+export function setReceivedChat (state, message) {
+  state.receivedChat.push(message)
+}

@@ -64,3 +64,7 @@ export function getUserId (state) {
 export function getChromaList (state) {
   return state.chromaList
 }
+
+export function getReceivedChat (state) {
+  return state.receivedChat
+}

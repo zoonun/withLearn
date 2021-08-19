@@ -21,7 +21,7 @@
   display: flex;
   flex-flow: row nowrap;
   position: fixed;
-  width: 250px;
+  width: 350px;
   bottom: 20px;
   align-items: center;
   justify-content: space-between;
@@ -60,6 +60,10 @@
 
 .groupcall-control-button-green {
   background-color: rgb(35, 207, 58);
+}
+
+.groupcall-control-button-blue {
+  background-color: rgb(20, 120, 250);
 }
 
 .participant {
