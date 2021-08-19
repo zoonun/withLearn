@@ -23,6 +23,8 @@
       <span class="conference-card-badge-instrument" v-else-if="conference.conferenceCategory.name === '악기'">
         {{ conference.conferenceCategory.name }}</span>
       <span class="conference-card-badge-algo" v-else> {{ conference.conferenceCategory.name }}</span>
+
+      <div class="conference-card-price">{{ conference.price }}원</div>
     </div>
   </div>
 
