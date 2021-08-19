@@ -52,7 +52,6 @@ export function requestAvailableId({ commit }, id) {
 export function requestSearchTitle({ commit }, payload) {
   const url = '/conferences'
   const body = payload
-  console.log(body)
   commit('setSearchValue', body.title)
   return $axios.get(url, { params: {
     title: body.title,
@@ -60,7 +59,6 @@ export function requestSearchTitle({ commit }, payload) {
     conferenceCategory: body.conference_category
   }})
   .then((res) => {
-    console.log(res.data)
     commit('setConferenceData', res.data.conferenceList)
   })
 }
@@ -145,7 +143,6 @@ export function requestCommunityDetail({ commit }, communityId) {
     communutyId: communityId
   }})
   .then((res) => {
-    console.log(res.data)
     commit('setCommunityDetail', res.data.communitydetail)
   })
 }
@@ -165,7 +162,6 @@ export function requestCommentList({ commit }, postId) {
     communityId: postId
   }})
   .then((res) => {
-    console.log(res.data.commentList)
     commit('setCommentList', res.data.commentList)
   })
 }

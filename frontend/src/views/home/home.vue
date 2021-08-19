@@ -24,7 +24,6 @@
     </div>
     <!-- 팀원 소개 -->
     <div class="content" data-aos="zoom-in-up" data-aos-duration="1300">
-      <img id="content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="content-text">
         <p class="content-big">With</p>
         <p class="content-small">보기만 하는 수동적 강의는 많습니다.</p>
@@ -34,6 +33,7 @@
         <p class="content-small">실제로 만나 스터디하는 듯한 즐거운 시간을 보내며,</p>
         <p class="content-small">강사와 참여자 모두에게 배웁니다.</p>
       </div>
+      <img id="content-image-1" :src="state.images.home_2" alt="content_image">
     </div>
     <!-- 문서 링크 notion -->
     <div class="content" data-aos="zoom-in-down" data-aos-duration="1300">

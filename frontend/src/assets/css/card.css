@@ -101,3 +101,63 @@
   min-width: 30px;
   text-align: center;
 }
+
+.conference-card-badge-cook {
+  font-size:70%;
+  background-color: rgb(25, 180, 154);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-art {
+  font-size:70%;
+  background-color: rgb(240, 125, 48);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-game {
+  font-size:70%;
+  background-color: rgb(150, 22, 255);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-magic {
+  font-size:70%;
+  background-color: rgb(206, 15, 165);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-instrument {
+  font-size:70%;
+  background-color: rgb(14, 80, 201);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}

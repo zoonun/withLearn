@@ -61,7 +61,6 @@ export default {
   setup(props, { emit }) {
     const store = useStore()
     const loginForm = ref(null)
-    const pwRegExp = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()]).{9,}$/
     const state = reactive({
       dialogVisible: computed(() => props.open),
     })
@@ -73,10 +72,6 @@ export default {
       password: Yup
         .string()
         .required('필수 입력 항목입니다.'),
-    })
-
-    onMounted(() => {
-      // console.log(loginForm.value)
     })
 
     const clickLogin = function (value) {
@@ -94,7 +89,6 @@ export default {
         setTimeout(function(){
           document.location.reload();
         }, 1000);
-        // document.location.reload()
       })
       .catch(function (err) {
         Swal.fire({

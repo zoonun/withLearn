@@ -123,7 +123,7 @@ export default {
         .moreThan(-1, '0 이상의 수만 입력이 가능합니다.')
         .integer('너무 큰 수는 입력이 불가능합니다.')
     })
-    const thumbnailRegExp = /.*\.(jpg|jpeg|png|gif)$/
+    const thumbnailRegExp = /.*\.(jpg|jpeg|png|gif|jfif)$/
     const maxSize = 5 * 1024 * 1024
 
     const thumbnailValidate = function (value) {
@@ -155,6 +155,9 @@ export default {
         store.commit('root/setSpinnerStart')
         const formData = new FormData()
         formData.append('title', value.title)
+        if (state.isFreeClass) {
+          formData.append('price', 0)
+        }
         formData.append('price', value.price)
         formData.append('conferenceCategoryId', state.form.conferenceCategoryId)
         formData.append('description', value.description)
