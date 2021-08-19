@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.response.CommentListPostRes;
+import com.ssafy.api.response.CommunityDetailRes;
 import com.ssafy.api.response.CommunityListPostRes;
 import com.ssafy.api.service.ConferenceService;
 import com.ssafy.api.service.CommunityService;
@@ -8,6 +9,7 @@ import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
+import com.ssafy.db.repository.CommunityRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,9 @@ public class CommunityController {
 
     @Autowired
     CommunityService communityService;
+
+    @Autowired
+    CommunityRepository communityRepository;
 
     @PostMapping("community")
     @ApiOperation(value = "커뮤니티 글 달기", notes = "글을 등록한다.")
@@ -57,6 +62,18 @@ public class CommunityController {
 
         Optional<List<Community>> communities = communityService.getPosts(conferenceCategoryid);
         return ResponseEntity.status(201).body(CommunityListPostRes.of(201, "success.", communities));
+    }
+
+    @GetMapping("community/detail")
+    @ApiOperation(value = "커뮤니티 글 상세보기", notes = "글을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<CommunityDetailRes> getCommunityPostsDetail(
+            @RequestParam(required = false) Long communutyId) {
+
+        Community community = communityRepository.findById(communutyId).get();
+        return ResponseEntity.status(201).body(CommunityDetailRes.of(201, "success.", community));
     }
 
     @PostMapping("comment")
