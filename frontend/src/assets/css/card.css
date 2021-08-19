@@ -44,15 +44,16 @@
   width: 100%;
   height: 40%;
   padding: 10px;
+  overflow: hidden;
 }
 
 .conference-card-title {
-  font-size: 2.25rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
 .conference-card-description {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 
