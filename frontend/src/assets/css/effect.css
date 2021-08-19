@@ -19,6 +19,12 @@ select::-ms-expand {
   display: none;
 }
 
+/* nav icons */
+.nav-icons {
+  display: flex;
+  flex-flow: row;
+}
+
 /* dropdown */
 .nav-dropdown {
   overflow: hidden;
@@ -32,9 +38,21 @@ select::-ms-expand {
   margin: 0;
 }
 
-.nav-dropdown .nav-icon-dropbtn {
+.nav-icon-dropbtn {
   height: 30px;
   cursor: pointer;
+}
+
+.nav-chat-button {
+  background-color: var(--indigo-color);
+  border-radius: 50%;
+  border: none;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.nav-chat-icon {
+  height: 16px;
 }
 
 .nav-dropdown-content {

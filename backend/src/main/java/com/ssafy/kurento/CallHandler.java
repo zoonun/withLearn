@@ -71,17 +71,20 @@ public class CallHandler extends TextWebSocketHandler {
         final String roomName = params.get("room").getAsString();
         final String name = params.get("name").getAsString();
         final String chatting = params.get("chat").getAsString();;
+        final String userID = params.get("userId").getAsString();;
 
         Room room = roomManager.getRoom(roomName);
         for (final UserSession participant : room.getParticipants()) {
 
             final JsonElement chat = new JsonPrimitive(chatting);
             final JsonElement sendName = new JsonPrimitive(name);
+            final JsonElement sendUserId = new JsonPrimitive(userID);
 
             final JsonObject existingParticipantsMsg = new JsonObject();
             existingParticipantsMsg.addProperty("id", "receiveChat");
             existingParticipantsMsg.add("chat", chat);
             existingParticipantsMsg.add("name", sendName);
+            existingParticipantsMsg.add("userId", sendUserId);
             participant.sendMessage(existingParticipantsMsg);
         }
     }

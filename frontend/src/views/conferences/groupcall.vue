@@ -49,6 +49,14 @@
         <span class="groupcall-control-button-info">화면공유 종료</span>
         <img :src="state.images.screenshare_off" alt="화면공유">
       </button>
+      <button @click="onOpenChatDialog" class="groupcall-control-button groupcall-control-button-blue" v-if="!state.chatDialogOpen">
+        <span class="groupcall-control-button-info">채팅창 열기</span>
+        <img :src="state.images.chat_on" alt="채팅창 열기">
+      </button>
+      <button @click="onCloseChatDialog" class="groupcall-control-button groupcall-control-button-blue" v-else>
+        <span class="groupcall-control-button-info">채팅창 닫기</span>
+        <img :src="state.images.chat_off" alt="채팅창 닫기">
+      </button>
     </div>
     <ChromaDialog
     v-if="state.userId"
@@ -56,6 +64,12 @@
     :userId="state.userId"
     @changeChroma="onChangeChroma($event)"
     @closeChromaDialog="onCloseChromaDialog()"/>
+    <ChatDialog
+    v-if="state.userId"
+    :userId="state.userId"
+    :open="state.chatDialogOpen"
+    @sendChat="onSendChat($event)"
+    @closeChromaDialog="onCloseChatDialog()"/>
   </div>
 </template>
 
@@ -63,9 +77,10 @@
 import { reactive, onBeforeUnmount, onMounted, computed } from 'vue'
 import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
-import { onBeforeRouteLeave, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ChromaDialog from '@/components/dialog/chroma-dialog'
+import ChatDialog from '@/components/dialog/chat-dialog'
 import '@/api/screen.js'
 
 export default {
@@ -73,7 +88,8 @@ export default {
   props: {
   },
   components: {
-    ChromaDialog
+    ChromaDialog,
+    ChatDialog
   },
   // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
   setup() {
@@ -88,6 +104,8 @@ export default {
         videocam_off: require('@/assets/images/groupcall/videocam_off.png'),
         screenshare_on: require('@/assets/images/groupcall/screenshare_on.png'),
         screenshare_off: require('@/assets/images/groupcall/screenshare_off.png'),
+        chat_on: require('@/assets/images/groupcall/chat_on.png'),
+        chat_off: require('@/assets/images/groupcall/chat_off.png'),
         videocam_chroma: require('@/assets/images/groupcall/videocam_chroma.png'),
         chroma: '',
       },
@@ -102,6 +120,7 @@ export default {
         isSharing: false,
       },
       chromaDialogOpen: false,
+      chatDialogOpen: false,
     })
     state.ws = new WebSocket('wss://i5d106.p.ssafy.io:8080/groupcall')
 
@@ -131,6 +150,9 @@ export default {
           break
         case 'receiveVideoAnswer':
           receiveVideoResponse(parsedMessage)
+          break
+        case 'receiveChat':
+          onReceiveChat(parsedMessage)
           break
         case 'iceCandidate':
           state.participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
@@ -198,7 +220,6 @@ export default {
       var video = participant.getVideoElement()
 
       if (!participant.isSharing) {
-        console.log('화면공유 안하는중!')
         var options = {
           remoteVideo: video,
           mediaConstraints: constraints,
@@ -210,7 +231,6 @@ export default {
         })
         message.data.forEach(receiveVideo)
       } else {
-        console.log('화면공유 하는중')
         if (navigator.getDisplayMedia || navigator.mediaDevices.getDisplayMedia) {
           if (navigator.mediaDevices.getDisplayMedia) {
             navigator.mediaDevices.getDisplayMedia({video: true, audio: true}).then(stream => {
@@ -335,6 +355,21 @@ export default {
       sendMessage(message)
     }
 
+    const onSendChat = (chatStream) => {
+      const message = {
+        id : 'sendChat',
+        userId: state.userId,
+        name : state.name,
+        room : state.room,
+        chat : chatStream,
+      }
+      sendMessage(message)
+    }
+
+    const onReceiveChat = (chat) => {
+      store.commit('root/setReceivedChat', chat)
+    }
+
     const body = document.querySelector('body')
 
     const onOpenChromaDialog = () => {
@@ -346,9 +381,16 @@ export default {
       state.chromaDialogOpen = false
     }
 
+    const onOpenChatDialog = () => {
+      state.chatDialogOpen = true
+    }
+    const onCloseChatDialog = () => {
+      state.chatDialogOpen = false
+    }
+
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog, controlShare }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog, onOpenChatDialog, onCloseChatDialog, controlShare, onSendChat, onReceiveChat }
   }
 }
 </script>

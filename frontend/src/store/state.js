@@ -57,6 +57,8 @@ export default {
   userId: '',
   conferenceId: {},
   conferenceDetailData: null,
+  chromaList: [],
+  receivedChat: [],
   communityData: null,
   commentData: null,
   communityDetailData: null,

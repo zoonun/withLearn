@@ -25,7 +25,7 @@
         </div>
       </div>
       <router-link to="/community" class="btn nav-end-item">커뮤니티</router-link>
-      <a class="btn nav-end-item">위드런</a>
+      <!-- <a class="btn nav-end-item">위드런</a> -->
       <router-link to="/dashboard" class="btn nav-end-item">대시보드
       </router-link>
       <div v-if="!state.isLogin">
@@ -36,11 +36,11 @@
           회원가입
         </button>
       </div>
-      <div v-else>
+      <div class="nav-icons" v-else>
         <div class="nav-dropdown">
           <img class="nav-icon-dropbtn" :src="state.images.icon" alt="유저 아이콘">
           <div class="nav-dropdown-content-right">
-            <a>설정</a>
+            <!-- <a>설정</a> -->
             <a class="btn-icon" @click="clickLogout">
               로그아웃
               <i :class="['ic', 'el-icon-switch-button']"/>
@@ -50,7 +50,6 @@
       </div>
     </div>
   </nav>
-
 </template>
 <script>
 import { reactive, computed, onMounted } from 'vue'
@@ -67,7 +66,7 @@ export default {
     const state = reactive({
       images: {
         logo: require('@/assets/images/logo.png'),
-        icon: require('@/assets/images/user_icon.png')
+        icon: require('@/assets/images/user_icon.png'),
       },
       isLogin: computed(() => store.getters['root/getIsLoggedIn']),
       searchValue:null,
@@ -141,7 +140,6 @@ export default {
       })
       .finally(store.commit('root/setSpinnerEnd'))
     }
-
 
     return { state, clickLogin, clickSignup, clickProfile, clickConference, clickLogout, clickSearch, clickConferenceList }
   }

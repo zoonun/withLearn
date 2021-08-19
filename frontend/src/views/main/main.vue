@@ -40,10 +40,11 @@
   @import '../../assets/css/detail.css';
   @import '../../assets/css/groupcall.css';
   @import '../../assets/css/card.css';
+  @import '../../assets/css/chat.css';
 </style>
+
 <script>
 import MainHeader from './components/main-header'
-import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import LoginDialog from '@/components/dialog/login-dialog'
 import SignupDialog from '@/components/dialog/signup-dialog'
@@ -58,7 +59,6 @@ export default {
   name: 'Main',
   components: {
     MainHeader,
-    MainSidebar,
     MainFooter,
     LoginDialog,
     SignupDialog,
@@ -115,8 +115,14 @@ export default {
     const onCloseProfileDialog = () => {
       state.profileDialogOpen = false
     }
+    const onOpenChatDialog = () => {
+      state.chatDialogOpen = true
+    }
+    const onCloseChatDialog = () => {
+      state.chatDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog, onOpenChatDialog, onCloseChatDialog }
   }
 }
 </script>

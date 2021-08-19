@@ -80,3 +80,7 @@ export function getCommentList (state) {
 export function getChromaList (state) {
   return state.chromaList
 }
+
+export function getReceivedChat (state) {
+  return state.receivedChat
+}
