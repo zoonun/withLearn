@@ -66,14 +66,6 @@ export default {
 
 
     onMounted(() => {
-      const payload = {
-        title: null,
-        sort: null,
-        page: null,
-        size: 20,
-        conference_category: state.conference_category,
-      }
-      store.dispatch('root/requestSearchTitle', payload)
     })
 
     const load = function () {
