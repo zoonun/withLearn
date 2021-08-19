@@ -181,6 +181,7 @@ export default {
       }
       var participant = new Participant(state.name, sendMessage)
       state.participants[state.name] = participant
+      participant.isSharing = state.control.isSharing
       var video = participant.getVideoElement()
 
       if (!participant.isSharing) {
@@ -292,12 +293,6 @@ export default {
       for (let key in state.participants) {
         state.participants[key].dispose()
       }
-
-      const participant = state.participants[state.name];
-
-      const value = participant.isSharing ? false : true
-      participant.changeSharingStatus(value)
-      console.log(participant.isSharing)
       state.control.isSharing = state.control.isSharing ? false : true
 
       const message = {

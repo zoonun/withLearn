@@ -39,7 +39,7 @@ function Participant(name, sendMessage) {
   var video = document.createElement('video');
   // eslint-disable-next-line no-unused-vars
   var rtcPeer;
-  var isSharing = false;
+  var isSharing;
 
   container.appendChild(video);
   container.appendChild(span);
