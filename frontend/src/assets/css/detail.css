@@ -16,6 +16,7 @@
   justify-content: center;
   object-fit: cover;
   overflow: hidden;
+  text-align: center;
 }
 
 .detail-body {

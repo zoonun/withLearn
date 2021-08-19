@@ -6,7 +6,7 @@
   </div>
   <div class="detail-wrap">
     <div class="detail-banner">
-      <img :src="state.images" alt="banner_image">
+      <img :src="'https://i5d106.p.ssafy.io/' + state.conferenceDetail.thumbnail_url" alt="banner_image">
     </div>
     <div class="detail-control" v-if="state.conferenceDetail.owner.userId === state.userId">
       <div>
@@ -20,9 +20,7 @@
     <div class="detail-body">
       <!-- 클래스 생성자만 조작 가능 -->
       <div class="detail-description">
-        입문자를 위한
-        <br>
-        보컬 트레이닝 클래스입니다.
+        {{ state.conferenceDetail.description }}
       </div>
       <div class="detail-description-live" v-if="state.conferenceDetail._active">
         현재 라이브 중이에요! 😁
@@ -72,8 +70,8 @@
     <div class="detail-bottom">
       이전 라이브 영상
       <ul class="detail-list">
-        <li class="detail-bottom-button" v-for="(idx) in 8" :key="idx">
-          소주한잔 {{ idx }}키 올려 부르는 법
+        <li class="detail-bottom-button" v-for="(idx) in 5" :key="idx">
+          다시보기 영상 {{ idx }}번
         </li>
       </ul>
     </div>
@@ -123,7 +121,7 @@ export default {
     })
     // 페이지 진입시 불리는 훅
     onMounted(() => {
-
+      console.log(state.conferenceDetail)
     })
 
     // 페이지 이탈시 불리는 훅
