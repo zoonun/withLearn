@@ -2,7 +2,7 @@
   <div class="modal-mask" v-if="state.dialogVisible">
     <div class="modal-container" @keyup.esc="handleClose" style="width: 960px">
       <div class="modal-header">
-        강의 개설하기
+        클래스 개설하기
         <svg
           class="btn-modal-close"
           fill="none"
@@ -29,12 +29,17 @@
         <TextInput
           name="title"
           type="text"
-          placeholder="강의 제목"
+          placeholder="클래스 제목"
         />
         <TextInput
           name="description"
           type="text"
-          placeholder="강의 설명"
+          placeholder="클래스 설명"
+        />
+        <TextInput
+          name="price"
+          type="text"
+          placeholder="클래스 가격"
         />
         <div class="modal-group">
           <label for="input-thumbnail" class="label-modal-thumbnail">
@@ -108,6 +113,11 @@ export default {
       description: Yup
         .string()
         .required('필수 입력 항목입니다.'),
+      price: Yup
+        .number('숫자를 입력해 주세요.')
+        .typeError('숫자를 입력해 주세요')
+        .moreThan(-1, '0 이상의 수만 입력이 가능합니다.')
+        .integer('너무 큰 수는 입력이 불가능합니다.')
     })
     const thumbnailRegExp = /.*\.(jpg|jpeg|png|gif)$/
     const maxSize = 5 * 1024 * 1024
@@ -141,6 +151,7 @@ export default {
         store.commit('root/setSpinnerStart')
         const formData = new FormData()
         formData.append('title', value.title)
+        formData.append('price', value.price)
         formData.append('conferenceCategoryId', state.form.conferenceCategoryId)
         formData.append('description', value.description)
         formData.append('thumbnail', state.form.thumbnail)

@@ -51,7 +51,7 @@ import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import ChromaDialog from './components/chroma-dialog'
+import ChromaDialog from '@/components/dialog/chroma-dialog'
 
 export default {
   name: 'groupcall',

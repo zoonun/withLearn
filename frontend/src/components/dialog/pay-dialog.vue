@@ -1,8 +1,8 @@
 <template>
   <div class="modal-mask" v-if="state.dialogVisible">
-    <div class="modal-container" @keyup.esc="handleClose" style="width: 600px; height: 600px;">
+    <div class="modal-container" @keyup.esc="handleClose" style="width: 400px; height: 400px;">
       <div class="modal-header">
-        가상배경 변경
+        결제하기
         <svg
           class="btn-modal-close"
           fill="none"
@@ -19,7 +19,7 @@
           ></path>
         </svg>
       </div>
-        <form @submit="addChroma" class="modal-body">
+      <form @submit="onPayClass" class="modal-body">
         <div class="chroma-list container" v-if="state.chromaList">
           <div class="chroma-list-item col-2">
             <button @click="selectChroma('')">가상배경 없애기</button>
@@ -31,26 +31,25 @@
             </div>
           </div>
         </div>
-          <div class="modal-group">
-            <label for="input-chroma" class="label-modal-thumbnail">
-              가상 배경 이미지 선택
-            </label>
-            <input
-            type="file"
-            id="input-chroma"
-            style="display:none"
-            @change="fileSelect"/>
-            <button class="btn btn-submit" type="submit" style="width: 100px">제출</button>
-          </div>
-          <p class="modal-thumbnail-selected-title" v-if="state.chroma.newImage">
-            파일명: {{ state.chroma.newImage.name }}
-          </p>
-          <p class="modal-thumbnail-selected-title" v-else>
-            가상 배경을 위한 사진 파일을 선택해 주세요.
-          </p>
-        </form>
-      </div>
-    <!-- </div> -->
+        <div class="modal-group">
+          <label for="input-chroma" class="label-modal-thumbnail">
+            가상 배경 이미지 선택
+          </label>
+          <input
+          type="file"
+          id="input-chroma"
+          style="display:none"
+          @change="fileSelect"/>
+          <button class="btn btn-submit" type="submit" style="width: 100px">제출</button>
+        </div>
+        <p class="modal-thumbnail-selected-title" v-if="state.chroma.newImage">
+          파일명: {{ state.chroma.newImage.name }}
+        </p>
+        <p class="modal-thumbnail-selected-title" v-else>
+          가상 배경을 위한 사진 파일을 선택해 주세요.
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -59,54 +58,48 @@ import { reactive, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  name: 'chroma-dialog',
+  name: 'pay-dialog',
   props: {
     open: {
       type: Boolean,
       default: false
     },
-    userId: {
-      type: String,
-      default: ''
+    price: {
+      type: Number
     }
   },
   setup(props, {emit}) {
     const store = useStore()
     const state = reactive({
       dialogVisible: computed(() => props.open),
-      chromaList: computed(() => store.getters['root/getChromaList']),
-      chroma: {
-        newImage: null
-      }
     })
 
     onMounted(() => {
-      store.dispatch('root/requestChromaList', props.userId)
     })
 
     const handleClose = function () {
-      emit('closeChromaDialog')
+      emit('closePayDialog')
     }
 
     const fileSelect = function (event) {
       state.chroma.newImage = event.target.files[0]
     }
 
-    const addChroma = function () {
+    const onAddChroma = function () {
       const fd = new FormData()
       fd.append('image', state.chroma.newImage)
       fd.append('userId', props.userId)
       store.dispatch('root/requestAddChromaImage', fd)
-      .then((res) => console.log(res))
+      .then()
       .catch((err) => console.log(err))
     }
 
     const selectChroma = function (imagePath) {
       emit('changeChroma', `${imagePath}`)
-      emit('closeChromaDialog')
+      emit('closePayDialog')
     }
 
-    return { state, handleClose, addChroma, fileSelect, selectChroma }
+    return { state, handleClose, onAddChroma, fileSelect, selectChroma }
   }
 }
 </script>
