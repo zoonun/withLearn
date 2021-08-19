@@ -1,4 +1,5 @@
 <template>
+<div class="post">
   <div class="small-banner">
     <p class="small-banner-text">
       커뮤니티
@@ -43,6 +44,7 @@
       <button class="post-update-btn">수정</button>
       <button class="post-delete-btn">삭제</button>
     </div>
+  </div>
   </div>
 </template>
 <style>
@@ -111,7 +113,9 @@
 .post-bottom {
   margin-top:1rem;
 }
-
+.post {
+  background-color: white;
+}
 </style>
 
 <script>

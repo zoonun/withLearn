@@ -1,4 +1,6 @@
 <template>
+<div class="community">
+
   <div class="small-banner">
     <p class="small-banner-text">
       커뮤니티
@@ -30,9 +32,13 @@
   <PostDialog
     :open="state.postDialogOpen"
     @closePostDialog="onClosePostDialog()"/>
+</div>
 </template>
 <style>
-
+.community {
+  background-color: white;
+  height:100%;
+}
 </style>
 
 <script>
