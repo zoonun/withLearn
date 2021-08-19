@@ -21,7 +21,7 @@
   display: flex;
   flex-flow: row nowrap;
   position: fixed;
-  width: 200px;
+  width: 250px;
   bottom: 20px;
   align-items: center;
   justify-content: space-between;

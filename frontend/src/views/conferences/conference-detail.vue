@@ -6,7 +6,7 @@
   </div>
   <div class="detail-wrap">
     <div class="detail-banner">
-      <img :src="state.images.detail_banner" alt="banner_image">
+      <img :src="state.images" alt="banner_image">
     </div>
     <div class="detail-control" v-if="state.conferenceDetail.owner.userId === state.userId">
       <div>

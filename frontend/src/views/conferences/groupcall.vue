@@ -35,6 +35,9 @@
       <button @click="onOpenChromaDialog" style="background-color: green;">
         <img :src="state.images.videocam_chroma" alt="크로마 설정">
       </button>
+      <button @click="controlShare" style="background-color: green;">
+        <img :src="state.images.videocam_chroma" alt="화면공유">
+      </button>
     </div>
     <ChromaDialog
     v-if="state.userId"
@@ -52,6 +55,7 @@ import kurentoUtils from 'kurento-utils'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import ChromaDialog from '@/components/dialog/chroma-dialog'
+import '@/api/screen.js'
 
 export default {
   name: 'groupcall',
@@ -81,7 +85,8 @@ export default {
       ws: {},
       control: {
         mic: true,
-        video: true
+        video: true,
+        isSharing: false,
       },
       chromaDialogOpen: false,
     })
@@ -178,7 +183,8 @@ export default {
       state.participants[state.name] = participant
       var video = participant.getVideoElement()
 
-      if(){
+      if (!participant.isSharing) {
+        console.log('화면공유 안하는중')
         var options = {
           remoteVideo: video,
           mediaConstraints: constraints,
@@ -189,34 +195,28 @@ export default {
           this.generateOffer(participant.offerToReceiveVideo.bind(participant))
         })
         message.data.forEach(receiveVideo)
-      }
-      else{ ///////////////////////////////////////////////////////////////////////////////////////////////
+      } else {
+        console.log('화면공유 하는중')
         if (navigator.getDisplayMedia || navigator.mediaDevices.getDisplayMedia) {
-        function onGettingSteam(stream) {
-            video.srcObject = stream;
-        }
-
-        if (navigator.mediaDevices.getDisplayMedia) {
+          if (navigator.mediaDevices.getDisplayMedia) {
             navigator.mediaDevices.getDisplayMedia({video: true, audio: true}).then(stream => {
-                onGettingSteam(stream);
-                var options = {
-                    videoStream : stream,
-                    mediaConstraints: constraints,
-                    sendSource: 'screen',
-                    onicecandidate: participant.onIceCandidate.bind(participant)
-                }
-                participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
-                    function (error) {
-                        if (error) return console.error(error);
-                        this.generateOffer(participant.offerToReceiveVideo.bind(participant));
-                    });
-                msg.data.forEach(receiveVideo);
+              video.srcObject = stream;
+
+              var options = {
+                videoStream : stream,
+                mediaConstraints: constraints,
+                sendSource: 'screen',
+                onicecandidate: participant.onIceCandidate.bind(participant)
+              }
+              participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options, function (error) {
+                if (error) return console.error(error);
+                this.generateOffer(participant.offerToReceiveVideo.bind(participant));
+              });
+              message.data.forEach(receiveVideo);
             });
+          }
         }
-    }
       }
-      
-      
     }
 
     const readyWsConnection = function () {
@@ -285,6 +285,48 @@ export default {
       state.control.video = state.control.video ? false : true
     }
 
+    const controlShare = function () {
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
+
+      const participant = state.participants[state.name];
+
+      const value = participant.isSharing ? false : true
+      participant.changeSharingStatus(value)
+      console.log(participant.isSharing)
+      state.control.isSharing = state.control.isSharing ? false : true
+
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: state.images.chroma
+      }
+      sendMessage(message)
+    }
+
+    const onChangeChroma = (imagePath) => {
+      sendMessage({
+        id: 'leaveRoom'
+      })
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
+      state.images.chroma = imagePath
+
+      const message = {
+        id : 'joinRoom',
+        name : state.name,
+        room : state.room,
+        image: state.images.chroma
+      }
+      sendMessage(message)
+    }
+
     const body = document.querySelector('body')
 
     const onOpenChromaDialog = () => {
@@ -296,26 +338,9 @@ export default {
       state.chromaDialogOpen = false
     }
 
-    const onChangeChroma = (imagePath) => {
-      sendMessage({
-        id: 'leaveRoom'
-      })
-      for (let key in state.participants) {
-        state.participants[key].dispose()
-      }
-
-      const message = {
-        id : 'joinRoom',
-        name : state.name,
-        room : state.room,
-        image: imagePath
-      }
-      sendMessage(message)
-    }
-
     return { state,
     // conferenceroom
-    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog }
+    onNewParticipant, enterRoom, receiveVideoResponse, callResponse, onExistingParticipants, leaveRoom, receiveVideo, onParticipantLeft, sendMessage, readyWsConnection, checkState, controlMic, controlVideo, onChangeChroma, onOpenChromaDialog, onCloseChromaDialog, controlShare }
   }
 }
 </script>

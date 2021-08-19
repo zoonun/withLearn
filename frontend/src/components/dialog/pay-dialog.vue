@@ -84,7 +84,6 @@ export default {
     }
 
     const onClickPay = function () {
-      console.log(props.conferenceId)
       BootPay.request({
       // price: props.price.toString(),
       price: props.price,
