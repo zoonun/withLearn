@@ -22,7 +22,7 @@ import java.util.Optional;
 /**
  * 리뷰 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
-@Api(value = "리뷰 API", tags = {"Review"})
+@Api(value = "커뮤니티 API", tags = {"Community"})
 @Controller
 @RequestMapping("/api/v1/")
 public class CommunityController {
@@ -65,7 +65,7 @@ public class CommunityController {
             @ApiResponse(code = 201, message = "성공"),
     })
     public ResponseEntity<? extends BaseResponseBody> creatCommunityPost(
-            @RequestParam("descript") String descript, @RequestParam("commentId") Long communityId, @ApiIgnore Authentication authentication) {
+            @RequestParam("descript") String descript, @RequestParam("communityId") Long communityId, @ApiIgnore Authentication authentication) {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         String userId = userDetails.getUsername();
 

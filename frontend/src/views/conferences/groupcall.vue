@@ -51,22 +51,17 @@ import { Participant } from '@/api/participant'
 import kurentoUtils from 'kurento-utils'
 import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import ChromaDialog from './components/chroma-dialog'
+import ChromaDialog from '@/components/dialog/chroma-dialog'
 
 export default {
   name: 'groupcall',
-  emits: {
-    imagePath: {
-      type: String
-    }
-  },
   props: {
   },
   components: {
     ChromaDialog
   },
   // TODO: 강의를 신청한 사용자가 아니라면 redirect해서 이전 페이지로 보내가
-  setup(emits) {
+  setup() {
     const route = useRoute()
     const store = useStore()
     const state = reactive({

@@ -144,9 +144,10 @@ export function requestChromaList({commit}, user_id) {
   })
 }
 
-export function requestAddChromaImage({}, payload) {
+export function requestAddChromaImage({commit}, payload) {
   const url = '/kurentos'
   let body = payload
+  console.log(payload)
   let config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }

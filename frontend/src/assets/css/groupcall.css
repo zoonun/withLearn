@@ -71,6 +71,7 @@
   color: white;
   background-color: black;
   opacity: 75%;
+  z-index: 1;
 }
 
 .participant.participant-main {
