@@ -21,8 +21,11 @@
       </div>
         <form @submit="addChroma" class="modal-body">
         <div class="chroma-list container" v-if="state.chromaList">
+          <div class="chroma-list-item col-2">
+            <button @click="selectChroma('')">가상배경 없애기</button>
+          </div>
           <div class="row" v-for="(item, idx) in state.chromaList" :key="idx">
-            <div class="chroma-list-item col-md-2" @click="selectChroma(item.imagePath)">
+            <div class="chroma-list-item col-2" @click="selectChroma(item.imagePath)">
               <img :src="`https://i5d106.p.ssafy.io/${item.imagePath}`" alt="chroma">
               <span class="chroma-list-text">{{ item.imageName }}</span>
             </div>
@@ -99,7 +102,7 @@ export default {
     }
 
     const selectChroma = function (imagePath) {
-      emit('changeChroma', `https://i5d106.p.ssafy.io/${imagePath}`)
+      emit('changeChroma', `${imagePath}`)
       emit('closeChromaDialog')
     }
 

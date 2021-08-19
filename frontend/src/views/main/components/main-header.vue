@@ -101,7 +101,6 @@ export default {
         size: 20,
         conference_category: null,
       }
-      console.log(payload)
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({
@@ -120,7 +119,6 @@ export default {
 
     const clickConferenceList = async function () {
       store.commit('root/setSpinnerStart')
-      console.log('clickSearch')
       const payload = {
         title: null,
         sort:null,
@@ -129,7 +127,6 @@ export default {
         size: 20,
         conference_category: null,
       }
-      console.log(payload)
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({
