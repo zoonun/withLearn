@@ -2,7 +2,7 @@
   <div class="modal-mask" v-if="state.dialogVisible">
     <div class="modal-container" @keyup.esc="handleClose" style="width: 960px">
       <div class="modal-header">
-        강의 개설하기
+        글쓰기
         <svg
           class="btn-modal-close"
           fill="none"
@@ -132,7 +132,7 @@ export default {
     }
 
     const handleClose = function () {
-      emit('closeConferenceDialog')
+      emit('closePostDialog')
     }
 
     return { conferenceForm, state, clickConference, handleClose, schema }
