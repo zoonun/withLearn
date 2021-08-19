@@ -1,12 +1,11 @@
 package com.ssafy.kurento;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.kurento.client.IceCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -51,6 +50,9 @@ public class CallHandler extends TextWebSocketHandler {
             case "leaveRoom":
                 leaveRoom(user);
                 break;
+            case "sendChat":
+                sendChat(jsonMessage);
+                break;
             case "onIceCandidate":
                 JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
@@ -62,6 +64,25 @@ public class CallHandler extends TextWebSocketHandler {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void sendChat(JsonObject params) throws IOException {
+        final String roomName = params.get("room").getAsString();
+        final String name = params.get("name").getAsString();
+        final String chatting = params.get("chat").getAsString();;
+
+        Room room = roomManager.getRoom(roomName);
+        for (final UserSession participant : room.getParticipants()) {
+
+            final JsonElement chat = new JsonPrimitive(chatting);
+            final JsonElement sendName = new JsonPrimitive(name);
+
+            final JsonObject existingParticipantsMsg = new JsonObject();
+            existingParticipantsMsg.addProperty("id", "receiveChat");
+            existingParticipantsMsg.add("chat", chat);
+            existingParticipantsMsg.add("name", sendName);
+            participant.sendMessage(existingParticipantsMsg);
         }
     }
 
