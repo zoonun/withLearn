@@ -62,7 +62,10 @@ export default {
       type: Boolean,
       default: false
     },
-    userId: String
+    userId: {
+      type: String,
+      default: ''
+    }
   },
   setup(props, {emit}) {
     const store = useStore()
@@ -89,7 +92,7 @@ export default {
     const addChroma = function () {
       const fd = new FormData()
       fd.append('image', state.chroma.newImage)
-      fd.append('userId', state.userId)
+      fd.append('userId', props.userId)
       store.dispatch('root/requestAddChromaImage', fd)
       .then((res) => console.log(res))
       .catch((err) => console.log(err))

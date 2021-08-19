@@ -146,7 +146,6 @@ export default {
         formData.append('thumbnail', state.form.thumbnail)
         store.dispatch('root/requestConferenceCreate', formData)
         .then(function (res) {
-          console.log('컨퍼런스 생성 결과 : ', res)
             Swal.fire({
             icon: 'success',
             html: '컨퍼런스가 생성되었습니다.',
