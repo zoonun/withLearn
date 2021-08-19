@@ -185,7 +185,7 @@ export default {
       var video = participant.getVideoElement()
 
       if (!participant.isSharing) {
-        console.log('화면공유 안하는중')
+        console.log('화면공유 안하는중!')
         var options = {
           remoteVideo: video,
           mediaConstraints: constraints,
