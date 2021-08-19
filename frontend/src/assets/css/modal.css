@@ -78,3 +78,23 @@ form select {
   background-color 0.3s ease-in-out;
 }
 
+.chroma-list {
+  min-height: 400px;
+}
+
+.chroma-list-item {
+  cursor: pointer;
+}
+
+.chroma-list-item img {
+  width: 50px;
+}
+
+.chroma-list-text {
+  position: relative;
+  bottom: 10px;
+  background-color: black;
+  color: white;
+  width: 50px;
+  text-align: center;
+}

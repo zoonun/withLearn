@@ -133,3 +133,22 @@ export function requestConferenceOnBoarding({}, conference_id) {
     conferenceId: conference_id
   }})
 }
+
+export function requestChromaList({commit}, user_id) {
+  const url = '/kurentos'
+  return $axios.get(url, { params: {
+    userId: user_id
+  }})
+  .then((res) => {
+    commit('setChromaList', res.data.kurento)
+  })
+}
+
+export function requestAddChromaImage({}, payload) {
+  const url = '/kurentos'
+  let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
+}
