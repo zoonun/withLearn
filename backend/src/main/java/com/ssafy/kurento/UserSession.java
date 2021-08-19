@@ -106,7 +106,7 @@ public class UserSession implements Closeable {
         chromaFilter.setBackground(appServerUrl + sender.getImage());
         if (sender.getName().equals(name)) {
             log.debug("PARTICIPANT {}: configuring loopback", this.name);
-            if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(outgoingMedia);
+            if (sender.getImage().equals("")) sender.getOutgoingWebRtcPeer().connect(outgoingMedia);
             else {
                 outgoingMedia.connect(chromaFilter);
                 chromaFilter.connect(outgoingMedia);
@@ -144,7 +144,7 @@ public class UserSession implements Closeable {
         }
 
         log.debug("PARTICIPANT {}: obtained endpoint for {}", this.name, sender.getName());
-        if (this.image.equals("")) sender.getOutgoingWebRtcPeer().connect(incoming);
+        if (sender.getImage().equals("")) sender.getOutgoingWebRtcPeer().connect(incoming);
         else {
             incoming.connect(chromaFilter);
             chromaFilter.connect(incoming);
