@@ -35,7 +35,7 @@
         <p class="content-small">강사와 참여자 모두에게 배웁니다.</p>
       </div>
     </div>
-    <!-- 문서 링크 -->
+    <!-- 문서 링크 notion -->
     <div class="content" data-aos="zoom-in-down" data-aos-duration="1300">
       <img id="content-image-1" :src="state.images.home_2" alt="content_image">
       <div class="content-text">

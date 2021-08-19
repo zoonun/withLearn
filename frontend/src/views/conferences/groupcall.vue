@@ -17,26 +17,37 @@
       </div>
     </div>
     <div class="groupcall-control-bar">
-      <button @click="leaveRoom" style="background-color: red;">
+      <button @click="leaveRoom" class="groupcall-control-button groupcall-control-button-red">
+        <span class="groupcall-control-button-info">나가기</span>
         <img :src="state.images.close" alt="나가기">
       </button>
-      <button @click="controlMic" style="background-color: green;" v-if="state.control.mic">
+      <button @click="controlMic" class="groupcall-control-button groupcall-control-button-green" v-if="state.control.mic">
+        <p class="groupcall-control-button-info">마이크 끄기</p>
         <img :src="state.images.mic_on" alt="마이크 끄기">
       </button>
-      <button @click="controlMic" style="background-color: red;" v-else>
+      <button @click="controlMic" class="groupcall-control-button groupcall-control-button-red" v-else>
+        <p class="groupcall-control-button-info">마이크 켜기</p>
         <img :src="state.images.mic_off" alt="마이크 켜기">
       </button>
-      <button @click="controlVideo" style="background-color: green;" v-if="state.control.video">
+      <button @click="controlVideo" class="groupcall-control-button groupcall-control-button-green" v-if="state.control.video">
+        <p class="groupcall-control-button-info">비디오 끄기</p>
         <img :src="state.images.videocam_on" alt="비디오 끄기">
       </button>
-      <button @click="controlVideo" style="background-color: red;" v-else>
+      <button @click="controlVideo" class="groupcall-control-button groupcall-control-button-red" v-else>
+        <p class="groupcall-control-button-info">비디오 켜기</p>
         <img :src="state.images.videocam_off" alt="비디오 켜기">
       </button>
-      <button @click="onOpenChromaDialog" style="background-color: green;">
+      <button @click="onOpenChromaDialog" class="groupcall-control-button groupcall-control-button-green">
+        <p class="groupcall-control-button-info">크로마 설정</p>
         <img :src="state.images.videocam_chroma" alt="크로마 설정">
       </button>
-      <button @click="controlShare" style="background-color: green;">
-        <img :src="state.images.videocam_chroma" alt="화면공유">
+      <button @click="controlShare" class="groupcall-control-button groupcall-control-button-green" v-if="!state.control.isSharing">
+        <span class="groupcall-control-button-info">화면 공유하기</span>
+        <img :src="state.images.screenshare_on" alt="화면공유">
+      </button>
+      <button @click="controlShare" class="groupcall-control-button groupcall-control-button-red" v-else>
+        <span class="groupcall-control-button-info">화면공유 종료</span>
+        <img :src="state.images.screenshare_off" alt="화면공유">
       </button>
     </div>
     <ChromaDialog
@@ -75,6 +86,8 @@ export default {
         mic_off: require('@/assets/images/groupcall/mic_off.png'),
         videocam_on: require('@/assets/images/groupcall/videocam_on.png'),
         videocam_off: require('@/assets/images/groupcall/videocam_off.png'),
+        screenshare_on: require('@/assets/images/groupcall/screenshare_on.png'),
+        screenshare_off: require('@/assets/images/groupcall/screenshare_off.png'),
         videocam_chroma: require('@/assets/images/groupcall/videocam_chroma.png'),
         chroma: '',
       },
