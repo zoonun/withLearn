@@ -59,4 +59,7 @@ export default {
   conferenceDetailData: null,
   chromaList: [],
   receivedChat: [],
+  communityData: null,
+  commentData: null,
+  communityDetailData: null,
 }

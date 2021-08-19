@@ -24,7 +24,7 @@
           <!-- <a @click="clickConference">클래스 참여하기</a> -->
         </div>
       </div>
-      <a class="btn nav-end-item">커뮤니티</a>
+      <router-link to="/community" class="btn nav-end-item">커뮤니티</router-link>
       <!-- <a class="btn nav-end-item">위드런</a> -->
       <router-link to="/dashboard" class="btn nav-end-item">대시보드
       </router-link>
@@ -100,6 +100,7 @@ export default {
         size: 20,
         conference_category: null,
       }
+      sessionStorage.setItem('recentSearch', state.searchValue)
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({
@@ -126,6 +127,8 @@ export default {
         size: 20,
         conference_category: null,
       }
+      sessionStorage.clear()
+      state.searchValue=null
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {
         router.push({

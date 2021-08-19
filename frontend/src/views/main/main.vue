@@ -36,6 +36,7 @@
   @import '../../assets/css/font.css';
   @import '../../assets/css/modal.css';
   @import '../../assets/css/search.css';
+  @import '../../assets/css/community.css';
   @import '../../assets/css/detail.css';
   @import '../../assets/css/groupcall.css';
   @import '../../assets/css/card.css';

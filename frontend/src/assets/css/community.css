@@ -1,0 +1,37 @@
+.community-container {
+  margin:5rem;
+  margin-left:20%;
+  margin-right:20%;
+}
+.community-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.community-body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 1.8rem;
+}
+.community-descript {
+  margin-top:1rem;
+  margin-bottom:2rem;
+  -webkit-line-clamp: 2;
+}
+.community-title {
+  font-weight: bold;
+  font-size:2rem;
+}
+.community-information {
+  font-size:1.5rem;
+  color:#858a8d;
+}
+.community-item {
+  background-color: white;
+  border:0;
+  text-align: start;
+}
+.community-item:hover {
+  background-color: #e5e7eb;
+}

@@ -49,6 +49,10 @@ export function getConferenceDetail (state) {
   return state.conferenceDetailData
 }
 
+export function getCommunityData (state) {
+  return state.communityData
+}
+
 export function getConferenceInfos (state) {
   return state.conferenceDetailInfos
 }
@@ -59,6 +63,18 @@ export function getUserName (state) {
 
 export function getUserId (state) {
   return state.userId
+}
+
+export function getCommunityList (state) {
+  return state.communityData
+}
+
+export function getCommunityDetail (state) {
+  return state.communityDetailData
+}
+
+export function getCommentList (state) {
+  return state.commentData
 }
 
 export function getChromaList (state) {
