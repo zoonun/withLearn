@@ -6,7 +6,7 @@
   </div>
   <div class="detail-wrap">
     <div class="detail-banner">
-      <img :src="state.images" alt="banner_image">
+      <img :src="'https://i5d106.p.ssafy.io/' + state.conferenceDetail.thumbnail_url" alt="banner_image">
     </div>
     <div class="detail-control" v-if="state.conferenceDetail.owner.userId === state.userId">
       <div>
@@ -118,7 +118,7 @@ export default {
     })
     // 페이지 진입시 불리는 훅
     onMounted(() => {
-
+      console.log(state.conferenceDetail)
     })
 
     // 페이지 이탈시 불리는 훅
