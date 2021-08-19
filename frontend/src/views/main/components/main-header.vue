@@ -128,7 +128,7 @@ export default {
         size: 20,
         conference_category: null,
       }
-      sessionStorage.removeItem('recentSearch')
+      sessionStorage.clear()
       state.searchValue=null
       await store.dispatch('root/requestSearchTitle', payload)
       .then(() => {

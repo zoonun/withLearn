@@ -50,7 +50,6 @@ export default {
 
     const state = reactive({
       conferences: computed(() =>store.getters['root/getConference']),
-      // recentSearchValue: computed(() => store.getters['root/getSearchValue']),
       recentSearchValue:computed(() => sessionStorage.getItem('recentSearch')),
       sortActiveOrderIndex: computed(() => store.getters['root/getSortIndex']),
       sortOrderIconItems: ['el-icon-sort-up', 'el-icon-sort-down'],

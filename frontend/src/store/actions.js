@@ -52,6 +52,7 @@ export function requestAvailableId({ commit }, id) {
 export function requestSearchTitle({ commit }, payload) {
   const url = '/conferences'
   const body = payload
+  console.log(body)
   commit('setSearchValue', body.title)
   return $axios.get(url, { params: {
     title: body.title,
