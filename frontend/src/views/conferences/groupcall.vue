@@ -269,7 +269,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
-        image: state.image.chroma
+        image: state.images.chroma
       }
       sendMessage(message)
     }
@@ -278,10 +278,9 @@ export default {
       sendMessage({
         id: 'leaveRoom'
       })
-      // for (let key in state.participants) {
-      //   state.participants[key].dispose()
-      // }
-      // state.ws.close();
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
       window.location = `/conferences/${state.room}`
     }
 
@@ -328,13 +327,7 @@ export default {
       }
       state.control.isSharing = state.control.isSharing ? false : true
 
-      const message = {
-        id : 'joinRoom',
-        name : state.name,
-        room : state.room,
-        image: state.images.chroma
-      }
-      sendMessage(message)
+      enterRoom()
     }
 
     const onChangeChroma = (imagePath) => {
@@ -343,7 +336,6 @@ export default {
       })
       const participant = state.participants[state.name];
       participant.dispose();
-
       state.images.chroma = imagePath
 
       enterRoom()
