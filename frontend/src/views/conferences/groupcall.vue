@@ -334,8 +334,10 @@ export default {
       sendMessage({
         id: 'leaveRoom'
       })
-      const participant = state.participants[state.name];
-      participant.dispose();
+
+      for (let key in state.participants) {
+        state.participants[key].dispose()
+      }
       state.images.chroma = imagePath
 
       enterRoom()
