@@ -1,0 +1,3 @@
+bootpay 회원 가입후 key값 발급
+
+frontend\src\components\dialog\pay-dialog.vue 파일에 application_id 값을 bootpay에서 발급받은 WEB Application ID를 사용합니다
