@@ -1,0 +1,17 @@
+- FE
+    - Vue.js ^3.1.5
+    - HTML
+    - CSS
+    - JavaScript (ES6)
+- BE
+    - Spring 2.4.5
+    - java 1.8 openJDK
+- DevOps
+    - AWS 20.0.4 LTS
+    - Docker 20.10.7
+    - nginx 1.18.0 (Ubuntu)
+    - Jenkins 2.306
+    - MySql 5.7
+- IDE
+    - visual studio code
+    - IntelliJ IDEA

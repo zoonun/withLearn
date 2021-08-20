@@ -1,0 +1,2 @@
+gradle 6.7.0 버전을 사용합니다.
+backend 디렉토리에서 gradle build를 이용합니다.
