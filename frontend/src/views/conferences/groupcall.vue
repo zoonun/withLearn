@@ -269,7 +269,7 @@ export default {
         id : 'joinRoom',
         name : state.name,
         room : state.room,
-        image: ''
+        image: state.image.chroma
       }
       sendMessage(message)
     }
@@ -278,9 +278,9 @@ export default {
       sendMessage({
         id: 'leaveRoom'
       })
-      for (let key in state.participants) {
-        state.participants[key].dispose()
-      }
+      // for (let key in state.participants) {
+      //   state.participants[key].dispose()
+      // }
       // state.ws.close();
       window.location = `/conferences/${state.room}`
     }
@@ -341,18 +341,12 @@ export default {
       sendMessage({
         id: 'leaveRoom'
       })
-      for (let key in state.participants) {
-        state.participants[key].dispose()
-      }
+      const participant = state.participants[state.name];
+      participant.dispose();
+
       state.images.chroma = imagePath
 
-      const message = {
-        id : 'joinRoom',
-        name : state.name,
-        room : state.room,
-        image: state.images.chroma
-      }
-      sendMessage(message)
+      enterRoom()
     }
 
     const onSendChat = (chatStream) => {
