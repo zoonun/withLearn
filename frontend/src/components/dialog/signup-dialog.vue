@@ -1,6 +1,6 @@
 <template>
   <div class="modal-mask" v-if="state.dialogVisible">
-    <div class="modal-container" @keyup.esc="handleClose">
+    <div class="modal-container" @keyup.esc="handleClose" style="width: 500px">
       <div class="modal-header">
         회원가입
         <svg
