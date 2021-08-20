@@ -120,7 +120,7 @@ export default {
       price: Yup
         .number('숫자를 입력해 주세요.')
         .typeError('숫자를 입력해 주세요')
-        .moreThan(-1, '0 이상의 수만 입력이 가능합니다.')
+        .moreThan(99, '100 이상의 수만 입력이 가능합니다.')
         .integer('너무 큰 수는 입력이 불가능합니다.')
     })
     const thumbnailRegExp = /.*\.(jpg|jpeg|png|gif|jfif)$/
