@@ -1,0 +1,171 @@
+/* conference card */
+.conference-card-list {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 80%;
+}
+
+.conference-card {
+  display: flex;
+  flex-flow: column wrap;
+  cursor: pointer;
+  font-size: 1.8rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 320px;
+  transition: transform 500ms;
+}
+
+.conference-card-list .conference-card:focus,
+.conference-card-list .conference-card:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.conference-card-list:focus-within ~ .conference-card,
+.conference-card-list:hover ~ .conference-card {
+  transform: translateX(-25%);
+}
+
+.conference-card:focus .conference-card,
+.conference-card:hover .conference-card {
+  transform: translateX(25%);
+}
+
+.conference-card-header {
+  width: 100%;
+  height: 50%;
+  border-bottom: 0.5px solid #bbb;
+}
+
+.conference-card-body {
+  width: 100%;
+  height: 40%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.conference-card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.conference-card-description {
+  font-size: 1.4rem;
+}
+
+
+.conference-card-footer {
+  display: flex;
+  flex-direction: row;
+  height: 10%;
+  justify-content: space-between;
+}
+
+.conference-card-price {
+  margin-right: 10px;
+}
+
+.conference-card-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.conference-card-badge-algo {
+  font-size:70%;
+  background-color: rgb(80, 197, 243);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 3px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-health {
+  font-size:70%;
+  background-color: rgb(252, 54, 136);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-music {
+  font-size:70%;
+  background-color: rgb(255, 164, 46);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-cook {
+  font-size:70%;
+  background-color: rgb(25, 180, 154);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-art {
+  font-size:70%;
+  background-color: rgb(240, 125, 48);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-game {
+  font-size:70%;
+  background-color: rgb(150, 22, 255);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-magic {
+  font-size:70%;
+  background-color: rgb(206, 15, 165);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.conference-card-badge-instrument {
+  font-size:70%;
+  background-color: rgb(14, 80, 201);
+  padding:.5em;
+  border-radius: 5px;
+  margin: 2px 10px;
+  color:white;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}

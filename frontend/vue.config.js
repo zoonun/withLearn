@@ -1,12 +1,12 @@
 // Vue3 관련 설정 파일
 module.exports = {
   devServer: {
-    https: false,
-    port: 8083,
+    https: true,
+    port: 80,
     open: true,
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:8080/'
+        target: 'https://i5d106.p.ssafy.io/'
       }
     },
     historyApiFallback: true,
@@ -16,8 +16,7 @@ module.exports = {
     requireModuleExtension: false // import 시에 경로에 .module 포함 안해도 됨.
   },
   transpileDependencies: [
-    'element-plus'
   ],
   lintOnSave: false,
-  outputDir: '../backend/src/main/resources/dist'
+  outputDir: '../frontend/homepage/dist'
 }

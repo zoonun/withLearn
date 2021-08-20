@@ -1,64 +1,64 @@
 <template>
-  <el-container class="main-wrapper">
-    <main-header
-      :height="`70px`"
+  <div class="main-wrapper">
+    <MainHeader
       @openSearchDialog="onOpenSearchDialog()"
       @openLoginDialog="onOpenLoginDialog()"
       @openSignupDialog="onOpenSignupDialog()"
       @openConferenceDialog="onOpenConferenceDialog()"
       @openProfileDialog="onOpenProflieDialog()"/>
-    <el-container class="main-container">
-      <el-aside class="hide-on-small" width="240px">
-        <main-sidebar
-          :width="`240px`"/>
-      </el-aside>
-      <el-main>
-        <router-view></router-view>
-        <Spinner :loading="state.isSpinning"/>
-      </el-main>
-    </el-container>
-    <main-footer :height="`110px`"/>
-  </el-container>
-  <login-dialog
+    <div class="main-container">
+      <router-view></router-view>
+      <Spinner :loading="state.isSpinning"/>
+    </div>
+    <MainFooter/>
+  </div>
+  <LoginDialog
     :open="state.loginDialogOpen"
     @closeLoginDialog="onCloseLoginDialog()"/>
-  <signup-dialog
+  <SignupDialog
     :open="state.signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog()"/>
-  <search-dialog
+  <SearchDialog
     :open="state.searchDialogOpen"
     @closeSearchDialog="onCloseSearchDialog()"/>
-  <conference-dialog
+  <ConferenceDialog
     :open="state.conferenceDialogOpen"
     @closeConferenceDialog="onCloseConferenceDialog()"/>
-  <profile-dialog
+  <ProfileDialog
     :open="state.profileDialogOpen"
     @closeProfileDialog="onCloseProfileDialog()"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
-  @import '../../assets/css/main.css';
   @import '../../assets/css/common.css';
-  @import '../../assets/css/element-plus.css';
+  @import '../../assets/css/button.css';
+  @import '../../assets/css/effect.css';
+  @import '../../assets/css/font.css';
+  @import '../../assets/css/modal.css';
+  @import '../../assets/css/search.css';
+  @import '../../assets/css/community.css';
+  @import '../../assets/css/detail.css';
+  @import '../../assets/css/groupcall.css';
+  @import '../../assets/css/card.css';
+  @import '../../assets/css/chat.css';
 </style>
+
 <script>
-import LoginDialog from './components/login-dialog'
-import SignupDialog from './components/signup-dialog'
-import ConferenceDialog from './components/conference-dialog'
 import MainHeader from './components/main-header'
-import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
+import LoginDialog from '@/components/dialog/login-dialog'
+import SignupDialog from '@/components/dialog/signup-dialog'
+import SearchDialog from '@/components/dialog/search-dialog'
+import ConferenceDialog from '@/components/dialog/conference-dialog'
+import ProfileDialog from '@/components/dialog/profile-dialog'
 import Spinner from './components/spinner'
-import SearchDialog from './components/search-dialog'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
-import ProfileDialog from './components/profile-dialog'
 
 export default {
   name: 'Main',
   components: {
     MainHeader,
-    MainSidebar,
     MainFooter,
     LoginDialog,
     SignupDialog,
@@ -79,16 +79,22 @@ export default {
       isSpinning: computed(() => store.getters['root/getIsSpinning'])
     })
 
+    const body = document.querySelector('body')
+
     const onOpenLoginDialog = () => {
+      body.style.overflow = 'hidden'
       state.loginDialogOpen = true
     }
     const onCloseLoginDialog = () => {
+      body.style.overflow = 'auto'
       state.loginDialogOpen = false
     }
     const onOpenSignupDialog = () => {
+      body.style.overflow = 'hidden'
       state.signupDialogOpen = true
     }
     const onCloseSignupDialog = () => {
+      body.style.overflow = 'auto'
       state.signupDialogOpen = false
     }
     const onOpenSearchDialog = () => {
@@ -109,8 +115,14 @@ export default {
     const onCloseProfileDialog = () => {
       state.profileDialogOpen = false
     }
+    const onOpenChatDialog = () => {
+      state.chatDialogOpen = true
+    }
+    const onCloseChatDialog = () => {
+      state.chatDialogOpen = false
+    }
 
-    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog}
+    return { state, onOpenLoginDialog, onCloseLoginDialog, onOpenSignupDialog, onCloseSignupDialog, onOpenProflieDialog, onCloseProfileDialog, onOpenSearchDialog, onCloseSearchDialog, onOpenConferenceDialog, onCloseConferenceDialog, onOpenChatDialog, onCloseChatDialog }
   }
 }
 </script>

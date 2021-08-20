@@ -1,30 +1,34 @@
 // API
 import $axios from 'axios'
+import Swal from 'sweetalert2'
 
-export function requestLogin ({ state }, payload) {
-  console.log('requestLogin', state, payload)
+export function requestLogin ({}, payload) {
   const url = '/auth/login'
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestSignup ({ state }, payload) {
-  console.log('requestSignup', state, payload)
+export function requestSignup ({}, payload) {
   const url = '/users'
   let body = payload
   return $axios.post(url, body)
 }
 
 export function requestLogout ({ commit }) {
-  console.log('requestLogout')
   localStorage.removeItem('user')
-  alert('로그아웃 되었습니다.')
-  document.location.reload()
+  Swal.fire({
+    icon:'warning',
+    html: '로그아웃 되었습니다.',
+    showConfirmButton: false,
+    timer:1000,
+  })
+  setTimeout(function(){
+    document.location.reload();
+  }, 1000);
   return commit('setLogout')
 }
 
-export function requestSaveJWT({ state }, user) {
-  console.log('requestSaveJWT', state, user)
+export function requestSaveJWT({}, user) {
   return localStorage.setItem('user', JSON.stringify(user))
 }
 
@@ -36,6 +40,12 @@ export function requestAvailableId({ commit }, id) {
   })
   .catch(() => {
     commit('setIsUnavailableId')
+    Swal.fire({
+      icon: 'warning',
+      html: '이미 사용 중인 아이디입니다.',
+      showConfirmButton: false,
+      timer: 1000
+    })
   })
 }
 
@@ -43,15 +53,18 @@ export function requestSearchTitle({ commit }, payload) {
   const url = '/conferences'
   const body = payload
   commit('setSearchValue', body.title)
-  return $axios.get(url, body)
+  return $axios.get(url, { params: {
+    title: body.title,
+    sort: body.sort,
+    conferenceCategory: body.conference_category
+  }})
   .then((res) => {
-    console.log(res.data.content)
-    console.log('request setConferenceData')
-    commit('setConferenceData', res.data.content)
+    commit('setConferenceData', res.data.conferenceList)
   })
 }
+
 // 컨퍼런스 액션
-export function requestConferenceCreate({ state }, payload) {
+export function requestConferenceCreate({}, payload) {
   const url = '/conferences'
   let body = payload
   let config = {
@@ -69,25 +82,22 @@ export function requestConferenceId({ commit }) {
   .catch(err => console.log(err))
 }
 
-export function requestConferenceIdCreate({ state }, payload) {
+export function requestConferenceIdCreate({}, payload) {
   const url = '/conference-categories'
   let body = payload
   return $axios.post(url, body)
 }
 
-export function requestConferenceIdDelete({ state }, payload) {
+export function requestConferenceIdDelete({}, payload) {
   const url = '/conference-categories'
   let body = payload
-  console.log(body)
   return $axios.delete(url, {data: body})
 }
 
 export function requestProfile( { commit }) {
-  console.log('requestProfile')
   const url = '/users/me'
   return $axios.get(url)
   .then((res) => {
-    console.log('requestProfile', res.data)
     commit('setProfile', res.data)
   })
 }
@@ -96,10 +106,106 @@ export function requestUpdate({ commit }, payload) {
   const id = payload.id
   const url = `/users/${id}`
   let body = payload
-  console.log('requestUpdate')
   return $axios.patch(url, body)
-  .then((res) =>{
-    console.log('requestUpdate', res.status)
+  .then(() =>{
     commit('setUpdate', body)
   })
+}
+
+export function requestConferenceDetail({ commit }, conference_id) {
+  const url = `/conferences/${conference_id}`
+  return $axios.get(url)
+  .then((res) => {
+    commit('setConferenceDetail', res.data)
+  })
+}
+
+export function requestCommunity({ commit }) {
+  const url = '/community'
+  return $axios.get(url)
+  .then((res) => {
+    commit('setCommunityData', res.data.communityList)
+  })
+}
+
+export function requestCommunityCreate({}, payload) {
+  const url = '/community'
+  let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
+}
+
+export function requestCommunityDetail({ commit }, communityId) {
+  const url = 'community/detail'
+  return $axios.get(url, {params: {
+    communutyId: communityId
+  }})
+  .then((res) => {
+    commit('setCommunityDetail', res.data.communitydetail)
+  })
+}
+
+
+export function requestCommentCreate({}, payload) {
+  const url = '/comment'
+  return $axios.post(url, null,{params:{
+    descript:payload.descript,
+    communityId: payload.communityId
+  }})
+}
+
+export function requestCommentList({ commit }, postId) {
+  const url = '/comment'
+  return $axios.get(url, {params:{
+    communityId: postId
+  }})
+  .then((res) => {
+    commit('setCommentList', res.data.commentList)
+  })
+}
+
+export function requestCommentDelete({}, commentId) {
+  const url = `/comment/${commentId}`
+  return $axios.delete(url)
+}
+
+export function requestConferenceJoin({}, conference_id) {
+  const url = '/conferences/join'
+  return $axios.post(url, null, { params: {
+    conferenceId: conference_id
+  }})
+}
+
+export function requestConferenceOnBoarding({}, conference_id) {
+  const url = '/conferences/onBoarding'
+  return $axios.patch(url, null, { params: {
+    conferenceId: conference_id
+  }})
+}
+
+export function requestChromaList({commit}, user_id) {
+  const url = '/kurentos'
+  return $axios.get(url, { params: {
+    userId: user_id
+  }})
+  .then((res) => {
+    commit('setChromaList', res.data.kurento)
+  })
+}
+
+export function requestAddChromaImage({commit}, payload) {
+  const url = '/kurentos'
+  let body = payload
+  let config = {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  return $axios.post(url, body, config)
+}
+
+// 결제
+export function requestCreatePay() {
+  const url = '/pay'
+  return $axios.get(url)
 }

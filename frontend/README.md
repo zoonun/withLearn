@@ -27,6 +27,5 @@
 - state 값의 변화만 담당해야 한다.
 
 ### Getters
-
 - get으로 시작한다. ex) getActiveMenuIndex
 - state의 값을 리턴한다.

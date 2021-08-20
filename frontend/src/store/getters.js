@@ -30,7 +30,6 @@ export function getConferenceId (state) {
 }
 
 export function getSortIndex (state) {
-  console.log('getSortIndex')
   return state.SortIndex
 }
 
@@ -44,4 +43,44 @@ export function getSearchValue (state) {
 
 export function getProfile (state) {
   return state.profile
+}
+
+export function getConferenceDetail (state) {
+  return state.conferenceDetailData
+}
+
+export function getCommunityData (state) {
+  return state.communityData
+}
+
+export function getConferenceInfos (state) {
+  return state.conferenceDetailInfos
+}
+
+export function getUserName (state) {
+  return state.userName
+}
+
+export function getUserId (state) {
+  return state.userId
+}
+
+export function getCommunityList (state) {
+  return state.communityData
+}
+
+export function getCommunityDetail (state) {
+  return state.communityDetailData
+}
+
+export function getCommentList (state) {
+  return state.commentData
+}
+
+export function getChromaList (state) {
+  return state.chromaList
+}
+
+export function getReceivedChat (state) {
+  return state.receivedChat
 }

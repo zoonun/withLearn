@@ -1,0 +1,222 @@
+.groupcall-wrap {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  background-color: rgb(27, 27, 27);
+}
+
+.groupcall-body {
+  margin: 0;
+}
+
+.groupcall-content {
+  width: 100%;
+  height: auto;
+  justify-content: space-between;
+}
+
+.groupcall-control-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  position: fixed;
+  width: 350px;
+  bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.groupcall-control-bar button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+}
+
+.groupcall-control-button:hover .groupcall-control-button-info {
+  display: block;
+}
+
+.groupcall-control-button-info {
+  position: absolute;
+  display: none;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(41, 41, 41);
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+  width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  height: 20px;
+  top: -20px;
+  font-size: 15px;
+  z-index: 1;
+}
+
+.groupcall-control-button-red {
+  background-color: rgb(228, 68, 68);
+}
+
+.groupcall-control-button-green {
+  background-color: rgb(35, 207, 58);
+}
+
+.groupcall-control-button-blue {
+  background-color: rgb(20, 120, 250);
+}
+
+.participant {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+  width: 480px;
+  height: 360px;
+  margin: 5px;
+	border-radius: 5px;
+  /*Transition*/
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.participant:before {
+	content: '';
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	bottom: -8px;
+	left: -8px;
+	z-index: -1;
+	background: rgba(0, 0, 0, 0.08);
+	border-radius: 4px;
+}
+
+.participant-name {
+  width: auto;
+  min-width: 50px;
+  text-align: center;
+  position: absolute;
+  top: 5px;
+  color: white;
+  background-color: black;
+  opacity: 75%;
+  z-index: 1;
+}
+
+.participant.participant-main {
+  position: absolute;
+  margin: 10% 5% 5% 5%;
+  top: 1%;
+  left: 20%;
+	width: 50%;
+}
+
+@media screen and (max-width: 2100px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 5%;
+    left: 16%;
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 5%;
+    left: 16%;
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 8%;
+    left: 12.5%;
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .participant.participant-main {
+    position: absolute;
+    margin: 10% 5% 5% 5%;
+    top: 15%;
+    left: 2%;
+    width: 85%;
+  }
+}
+
+.participant.participant-panel {
+  width: 10%;
+}
+
+.participant.participant-panel span {
+  display: none;
+}
+
+.participant video, .participant.participant-main video, .participant.participant-panel video {
+	height: auto !important;
+  width: 100% !important;
+}
+
+.participant.participant-main video {
+	height: auto;
+}
+
+.participant.participant-panel video {
+	height: auto;
+}
+
+.animate {
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-duration: 0.5s;
+  -moz-animation-fill-mode: both;
+  -o-animation-duration: 0.5s;
+  -o-animation-fill-mode: both;
+  -ms-animation-duration: 0.5s;
+  -ms-animation-fill-mode: both;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.removed {
+  -webkit-animation: disapear 1s;
+  -webkit-animation-fill-mode: forwards;
+  animation: disapear 1s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes disapear {
+  50%
+  {
+    -webkit-transform: translateX(-5%);
+    transform: translateX(-5%);
+  }
+  100%
+  {
+  -webkit-transform:translateX(200%);
+  transform:translateX(200%);
+  }
+}
+
+@keyframes disapear {
+  50%
+  {
+  -webkit-transform: translateX(-5%);
+  transform: translateX(-5%);
+  }
+  100%
+  {
+  -webkit-transform:translateX(200%);
+  transform:translateX(200%);
+  }
+}

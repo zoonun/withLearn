@@ -53,5 +53,13 @@ export default {
   conferenceData: null,
   recentSearchValue:null,
   profile: null,
+  userName: '',
+  userId: '',
   conferenceId: {},
+  conferenceDetailData: null,
+  chromaList: [],
+  receivedChat: [],
+  communityData: null,
+  commentData: null,
+  communityDetailData: null,
 }

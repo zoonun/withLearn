@@ -27,7 +27,7 @@ public class ConferenceDetailRes {
 	long id;
 	String conference_category;
 	int joinUsersNum; //
-	String owner;
+	User owner;
 	String thumbnail_url;
 	String title;
 	String description;
@@ -35,8 +35,6 @@ public class ConferenceDetailRes {
 	boolean is_free;
 	String conference_day;
 	Date conference_time;
-	Date apply_end_time;
-	Date apply_start_time;
 	Integer price;
 	List<DetailUser> users = new ArrayList<>();
 	
@@ -46,13 +44,11 @@ public class ConferenceDetailRes {
 		res.set_active(conference.getIs_active());
 		res.setDescription(conference.getDescription());
 		res.setId(conference.getId());
+		res.setOwner(conference.getUser());
 		res.setConference_category(conference.getConferenceCategory().getName());
 		res.setThumbnail_url(conference.getThumbnail());
 		res.setTitle(conference.getTitle());
-		res.set_free(conference.getIs_free());
 		res.setConference_day(conference.getConference_day());
-		res.setApply_end_time(conference.getApply_end_time());
-		res.setApply_start_time(conference.getApply_start_time());
 		res.setPrice(conference.getPrice());
 		res.setUsers(userDetail);
 		return res;
@@ -63,7 +59,7 @@ public class ConferenceDetailRes {
 
 		for(int i=0; i<userConference.get().size(); i++){
 			DetailUser user = new DetailUser();
-			user.setUserId(userConference.get().get(i).getUser().getId());
+			user.setUserId(userConference.get().get(i).getUser().getUserId());
 			user.setUserName(userConference.get().get(i).getUser().getName());
 			users.add(user);
 		}
@@ -74,6 +70,6 @@ public class ConferenceDetailRes {
 @Getter
 @Setter
 class DetailUser{
-	Long userId;
+	String userId;
 	String userName;
 }

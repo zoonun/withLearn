@@ -31,17 +31,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	User user = new User();
-
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
+		User user = new User();
 		user.setUserId(userRegisterInfo.getId());
-		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
-		user.setEmail(userRegisterInfo.getEmail());
 		user.setName(userRegisterInfo.getName());
-		user.setPhonenumber(userRegisterInfo.getPhonenumber());
-		//
 		return userRepository.save(user);
 	}
 
@@ -49,9 +44,7 @@ public class UserServiceImpl implements UserService {
 	public void patchUser(UserRegisterPostReq userRegisterInfo, String userId) {
 		try {
 			Optional<User> user = userRepository.findById(userRepositorySupport.findUserByUserId(userId).get().getId());
-			user.get().setEmail(userRegisterInfo.getEmail());
 			user.get().setName(userRegisterInfo.getName());
-			user.get().setPhonenumber(userRegisterInfo.getPhonenumber());
 			userRepository.save(user.get());
 		}catch (NoSuchElementException e){
 

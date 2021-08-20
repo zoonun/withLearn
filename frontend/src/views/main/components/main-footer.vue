@@ -1,34 +1,20 @@
 <template>
-  <el-row
-    class="main-footer"
-    :gutter="10">
-    <div class="contents">
-      Copyright © SAMSUNG All Rights Reserved.
+  <footer>
+    <img class="footer-logo" :src="state.images.logo" alt="위드런 로고">
+    <div class="footer-header">
+      서로에게 배웁니다, 위드런
     </div>
-  </el-row>
+    <br>
+    <div class="footer-body">
+      전화: 070-1234-5678
+      <br>
+      이메일: test@gmail.com
+      <br>
+      카카오톡 ID: test
+    </div>
+  </footer>
 </template>
 <style>
-@media (max-width: 700px) {
-  .main-footer {
-    height: 190px;
-  }
-  .main-footer .contents {
-    line-height: 190px;
-    text-align: center;
-    margin: 0 auto;
-  }
-}
-
-@media (min-width: 701px) {
-  .main-footer {
-    height: 110px;
-  }
-  .main-footer .contents {
-    line-height: 110px;
-    text-align: center;
-    margin: 0 auto;
-  }
-}
 </style>
 <script>
 import { reactive } from 'vue'
@@ -44,7 +30,11 @@ export default {
   },
 
   setup() {
-    const state = reactive({})
+    const state = reactive({
+      images: {
+        logo: require('@/assets/images/logo_white.png'),
+      },
+    })
 
     return { state }
   }
