@@ -53,7 +53,7 @@ WebRTC, Kurento Media Server를 활용한 화상 채팅을 기반으로, 양방�
 
 한 사람을 클릭하면 다른 사람의 `video`는 축소되고, 클릭한 `video`가 메인으로 나옵니다.
 
-![chrome_6twqOD0cPK](../Project_review_src/2108_withLearn/chrome_6twqOD0cPK.jpg)
+![chrome_6twqOD0cPK](README.assets/chrome_6twqOD0cPK-16388595048421.jpg)
 
 ![chrome_SBrrvpTtPe](README.assets/chrome_SBrrvpTtPe.png)
 
